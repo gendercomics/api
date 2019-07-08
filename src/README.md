@@ -1,3 +1,4 @@
 # gendercomics-api
 
-[![buddy pipeline](https://app.buddy.works/sundancekid73/gendercomics/pipelines/pipeline/196304/badge.svg?token=9dcfd83b85aa6399aa2b23508c0c2ca5a451dbbbe8883a68142e97eacdb3be25 "buddy pipeline")](https://app.buddy.works/sundancekid73/gendercomics/pipelines/pipeline/196304)
+[![buddy pipeline](https://app.buddy.works/gendercomics/gendercomics/pipelines/pipeline/196304/badge.svg?token=f5be3e276e24015f943b5928b000920de91df4031fcda51dbe08828eb8aa7b28 "buddy pipeline")](https://app.buddy.works/gendercomics/gendercomics/pipelines/pipeline/196304)
+![GitHub issues](https://img.shields.io/github/issues/gendercomics/api.svg)
