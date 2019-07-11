@@ -1,24 +1,27 @@
 language: java
 install: true
-jdk:
-- oraclejdk8
+
+env:
+  DOCKER_USERNAME:
+    secure: k2emOUnhDoWU82ph93IPQWSEboKeY8ggBoaejCtmMOl+146s2noiMT1nZGCEZHPI+ILCgTI1zSURgIrhEvYT46shv1BIFvRWSnIya/i1YVK3Gj3llEjB/a4jIxfA1GQI8xEKqg9aNdmQAK6A8+RCt4kQlhwrZyAXCBAE+Q433munD9EfOePTJD4EPfG/YyZ+u+GOQo7aI2NnpHH00Lx0D8fxOTX69Nkdc4qCzmQXdKrxRvY9n+2ebSz39LVBORbRyMKYK181v1VMjYa4WS04l0hY6216YkXtKurexVznFcHE4XfsqLqUqhy3TgSoTf9H789eN1hDBHhS4XZ+CpHvxUYo2rtLVvJJdMxz++jF9q3T1g9FVmvlAGYpi8RmodhWKBwBAClxV6YnYPdTY8EwBF4BH5zsRRQJW9oufOVP3/RXQLPCilDNXjTzgk1eISCzfUqUrkchTOukkK+iIQ5/O3BLWY2raLtXzM5PCyMm3XZRxWmjcXPLQjtBungDExExM2EGqAKt6RBgAxzzdFA7S6moz4ljvZGBLdGnvC8Scff9FWRNobtZdX2V94ohtNEC4g9FafW+jLhtKt7Ucl2DzmOVaHefgQ2VKCEHmD3Fv3uT1EJz3rmqXxAttvoSSEIyO6EV8L8L1g6ter/JR7ijziGvkmRHQCOTec6cwCHUC80=
+  DOCKER_PASSWORD:
+    secure: a64RSLMJAs+7wk9m4smunJ9lI+TbRkZYvVY3EPa/0VyfLAbIMLOZetWtiyCZUmvxUAroF1x2LKWJLcr0rZtVsq+rcyGwGx7LvAjt028voLLj9clVt1gUa8FOvvEElbGoeKNLYaCepvFNj3GNc8Ea/2HHOrLlzkGJNMylz3KOkkeeNExYuubW2ci46Ua5hJoc6EO9bjshbaYjgutWKUkzPesuiwTGzcKqwqTVvslhDyVSbwLa3daLML6Lc8fYz3qUNtf7yyQzmC0A5ajvEmguzT29DuQW9sU9/IYf4uDO2ET32ABDRyIE9FAlbSECr15JytICOhlMIl3Fta3F/aTDeecD77HzYRdz7jkkubR01qHJDV/zfajoLz6NERW5qQ7NtweGhoXExK6abcZ0cQOAw0TAbqHopU/C5ByPdOy07qPTl8tkrh+lmABiwt8km5cgnOnDh0G1QwPIUpOR23CQNz18DRb0hoDLF/34CtVMtSbc3qXrSyEU+YZiw4pRe3Z40dcFCIeeM39kYvfu9V/Towb5xr/STRV7BbGeVNEUupnm7hFfNi2TCWul0H+g51ppPIBIgJ4j0qTsE3QfHowHHWWTqCzc0QIQHDWndI6AfG7DBTKK4lVGzaWEGiEYzyWm1QmIEpd9tWbmVUCjBjOdQVB0vKO2K5aLJiE4AjggTpg=
+
 jobs:
   include:
-  - stage: build docker image
-    script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker build -t gendercomics/api .
-    - docker images
-    - docker tag gendercomics/api $DOCKER_USERNAME/gendercomics-api
-    - docker push $DOCKER_USERNAME/gendercomics-api
+    - stage: build docker image
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build -t gendercomics/api .
+        - docker images
+        - docker tag gendercomics/api $DOCKER_USERNAME/gendercomics-api
+        - docker push $DOCKER_USERNAME/gendercomics-api
+
 before_cache:
-- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
-  - "$HOME/.gradle/caches/"
-  - "$HOME/.gradle/wrapper/"
-env:
-  global:
-  - secure: RPjRpqON9DXw/jAvL+dO4X/QBlcZnZ5i2foyBAt+RTT9NU/uqYyZ98b9C0U7SfpT1F8F7lRyHcH6zSALPrQvBZRwa78FVBqC2wXx1GKH12jR6wbBmO7H6CAEIARy4WzRr8r7wfkrdxz0yYKp9xy7jWoaqIGpWUb3F6NhkVoQtpmWRRxci83VSuyc0xa2N89LyAE7qWaGEYk1jdCcJh9icR3tyOfVOmS7w2v4QMYNguoa7cBkYl5EBfXSxD7k6F6BpTd28aeAKq3gOhdRQ0Z9OxlGmc0kYDkFe73vYzahP2EoXMseDwGKDS/p/+SlEe2xl5pOOaI/1Id6A+AAQIy/rhPXCEEhOTYbBHTdSHnVWwNUZ7ez8+KjXKVpAet5dzzccjh0Nn3bD+g8PV+hnPpxJ1rUZET8IKJ12hInMLA9EN+vywOqK4YR7F/KNjrBai8nWTjUZxMQSzglvylTk3paPbcAvXPcWyRhqiMCXCVrYcAILZWch9HkCHSv7ZG4jGURtTYtMHfHLwVm6GyGvz2M0NjBwWbG9IZjAyoRxCdFbpxNK/Hddlpg0o4xSmalU0sYvwzNyJuHcmXTALlDA0bBZ9aH6SDcthlrakFYHLxJOEWbwXaiTWedWdLjEflU8U7lpFO4jK9FIb3Muh55GIm6GpLO9gAZB1AKi8FXd5HFqUU=
-  - secure: BrDd780mwzzWd3eeVKq7lpp+TxJASN0bV2QCcx4Iggv78ANhuyXhOBur6TRP3FWR7MSC7kevGs+vqlDNyoIEqFBrLL3R8mTIGa8osdhs0JkcZPK4k+P6utL4iaJ68aYD7239sERwS11+wMbbWNVyVpZkb5D7rpv82QVxxGCZ3VQbVmwmGc9dL7f7IF6Hs/8POIOeS8hprmG6ZRMglNwYlA6TP0h+jKXavaUDVzx6CycONqBVz6MxNP9IE7i0mp+4KDDX6GyhlrI7wvU84pMfgi3GWSxJ/7KhnC1tODFT62I1U60qC7UtD3ztBMi2e4XzAQFp4C44sbTOF6nPu6tNCDb9+YxRYK3Dgej7QcY/3hT6PErFdBEl+krjbAQM6IFmBQOwrSFob3basuhtWYRt2u0X+HjDHRUcuqZBnKjRf/6y8hM6m09zK9z7tv9OVtg6PchFKxM8n6A5BV2xeJQT6AF0ex0l7YM5XmI28CI5Y0E3T8UpvbIaQeNcFVLVeX9oax0+dbRQNtGU+ZVxc4j68ccmKTNEkgURZ9jkTN4BWAnxmy0o7gRxA+VG+BuRFnw1bSecBJgoooqWphHMZrWIlxnQ/byAEjgz9xcFQ5ra00lEwOWJfKQWgbG8/06hHcyy1BxE4s+8B9yRmO4uvv74LB/0G1csxw3rWz/0yGIn/BA=
+    - "$HOME/.gradle/caches/"
+    - "$HOME/.gradle/wrapper/"
