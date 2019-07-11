@@ -14,8 +14,8 @@ jobs:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker build -t gendercomics/api .
     - docker images
-    - docker tag gendercomics/api $DOCKER_USERNAME/gendercomics-api
-    - docker push $DOCKER_USERNAME/gendercomics-api
+    - docker tag gendercomics/api:latest $DOCKER_USERNAME/gendercomics/api:latest
+    - docker push $DOCKER_USERNAME/gendercomics/api:latest
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
