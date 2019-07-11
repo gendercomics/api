@@ -3,25 +3,25 @@ install: true
 
 env:
   DOCKER_USERNAME:
-    secure: k2emOUnhDoWU82ph93IPQWSEboKeY8ggBoaejCtmMOl+146s2noiMT1nZGCEZHPI+ILCgTI1zSURgIrhEvYT46shv1BIFvRWSnIya/i1YVK3Gj3llEjB/a4jIxfA1GQI8xEKqg9aNdmQAK6A8+RCt4kQlhwrZyAXCBAE+Q433munD9EfOePTJD4EPfG/YyZ+u+GOQo7aI2NnpHH00Lx0D8fxOTX69Nkdc4qCzmQXdKrxRvY9n+2ebSz39LVBORbRyMKYK181v1VMjYa4WS04l0hY6216YkXtKurexVznFcHE4XfsqLqUqhy3TgSoTf9H789eN1hDBHhS4XZ+CpHvxUYo2rtLVvJJdMxz++jF9q3T1g9FVmvlAGYpi8RmodhWKBwBAClxV6YnYPdTY8EwBF4BH5zsRRQJW9oufOVP3/RXQLPCilDNXjTzgk1eISCzfUqUrkchTOukkK+iIQ5/O3BLWY2raLtXzM5PCyMm3XZRxWmjcXPLQjtBungDExExM2EGqAKt6RBgAxzzdFA7S6moz4ljvZGBLdGnvC8Scff9FWRNobtZdX2V94ohtNEC4g9FafW+jLhtKt7Ucl2DzmOVaHefgQ2VKCEHmD3Fv3uT1EJz3rmqXxAttvoSSEIyO6EV8L8L1g6ter/JR7ijziGvkmRHQCOTec6cwCHUC80=
+    secure: lWrILIgavyiAWmv7l5KNPW/GWODhxjn0+gCRRA3iU7+ZdW0y/tG3+96Lb9qPsbnie7ZJlj2i4dHUuWPRdHAKYMnWYLNaIaL9/UtrkwEUUPb+EXn21bx27hY3BZ1U6UdhO8PTp6q0Z4YOUPP86PH7esGkR8839jrkgkNZCF4tgSzoxXuLzTBMykks8CPJtDXDrYH/P6u+Kt9OREgyAGfVeUhptziHZAXVicNVRGopuZbSB2Rp016RSa0Pd69uOsCOPhJfuVfvYfdj/mnVN97eFpDCRK5FRiocS8uZ4+B8IVrzRjhmMzb4cINnd8UgBbTBMWNwApRzwYhRgoFo8kWhhjU2XIogPVo+H9I5UVJZqDJvHvfeQ0A+KbvFDvkjrnoGa/k6vtUWySRzGMUac4K9mzko1QqMYAbXEbRMJ4IJAm5SkeCupGND+GC6iXc22k/dJWGdWOohDE/s3Xx/B1rd6wSgHOeElS+Lr5770nQWBLkj4sdMYTtrkFOGOQNygF4nOz65rxAh4LLq7M8LtD5dsG9PDhpXWbFtnDOVclpOVr/OCQ5fZPf2Kvb9h2TQTj3WTP8B78bYfJnf2KqYl1HNQ5n+CHlvtexExOvxy7LoQSpK9OY0coJqmIHx6iXjptjCLWDvmPgA/p4tXdWqXMbp/sBgTykAO/G3MnI4Gu2nL+8=
   DOCKER_PASSWORD:
-    secure: a64RSLMJAs+7wk9m4smunJ9lI+TbRkZYvVY3EPa/0VyfLAbIMLOZetWtiyCZUmvxUAroF1x2LKWJLcr0rZtVsq+rcyGwGx7LvAjt028voLLj9clVt1gUa8FOvvEElbGoeKNLYaCepvFNj3GNc8Ea/2HHOrLlzkGJNMylz3KOkkeeNExYuubW2ci46Ua5hJoc6EO9bjshbaYjgutWKUkzPesuiwTGzcKqwqTVvslhDyVSbwLa3daLML6Lc8fYz3qUNtf7yyQzmC0A5ajvEmguzT29DuQW9sU9/IYf4uDO2ET32ABDRyIE9FAlbSECr15JytICOhlMIl3Fta3F/aTDeecD77HzYRdz7jkkubR01qHJDV/zfajoLz6NERW5qQ7NtweGhoXExK6abcZ0cQOAw0TAbqHopU/C5ByPdOy07qPTl8tkrh+lmABiwt8km5cgnOnDh0G1QwPIUpOR23CQNz18DRb0hoDLF/34CtVMtSbc3qXrSyEU+YZiw4pRe3Z40dcFCIeeM39kYvfu9V/Towb5xr/STRV7BbGeVNEUupnm7hFfNi2TCWul0H+g51ppPIBIgJ4j0qTsE3QfHowHHWWTqCzc0QIQHDWndI6AfG7DBTKK4lVGzaWEGiEYzyWm1QmIEpd9tWbmVUCjBjOdQVB0vKO2K5aLJiE4AjggTpg=
+    secure: jcAFDmgmCXPt9fSJG/qXkY6TqS7AUxjeVRNSv1/Ydz0LVdnY3PNNV4+DgQ9b+s7tTB97vogWBmbiU2Hy+arAxIbwZ595jU/zHzn2AUl85LsZ13fb+emJ0OICxJoQ46F3W1XkZNSRw9Q9sBm1540U7y/hAN8c7trf41NZRsvmFBBr8XSf582P/SR3bYu50u/o+HTRcLVBKoOQLxr98UEuYNvkf1mxgXom+EUOOIM8tBh42l1J/KNDp16M3AorpZbN4zEipoHVUcMxNR+SzXNTjWdH5CGSDw96wklgW6X2M16T/U+KNVD2BkEss/ftVioNIbFqdm6HUqrzgiAZma8GbzBJfJycuUSsBbKUlfcPJ0Clg/tC12wleqYaCzr99+pXYnJi9UATz0ymacySTSJIRh60+x1g2Y7+cC+w/5OB9iLxTLsCqxWSLcTEKnHh0ZiwPSfFEOw7ipY8Q492HvwO2eUKl2r90v/qfiPntTPjUH3RP+fbCE2Sv58LnRMFPRXpgUq9nMebQunU4zst3TOISUxdw3eerwoCp9z13sBIZLxUbIvMXqbXKYs7m6ubVFAEwr4Kp7dcwNFyUh4AaoMiLmNlf20cpvbc65IIPhOei1B7g9zoviHqfPVTyi7lngXTMf1Vuq6du9OdyBgQeqltvPR0GrbxFXoZbIWRHGNWG/I=
 
 jobs:
   include:
-    - stage: build docker image
-      script:
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker build -t gendercomics/api .
-        - docker images
-        - docker tag gendercomics/api $DOCKER_USERNAME/gendercomics-api
-        - docker push $DOCKER_USERNAME/gendercomics-api
+  - stage: build docker image
+    script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t gendercomics/api .
+    - docker images
+    - docker tag gendercomics/api $DOCKER_USERNAME/gendercomics-api
+    - docker push $DOCKER_USERNAME/gendercomics-api
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
-    - "$HOME/.gradle/caches/"
-    - "$HOME/.gradle/wrapper/"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
