@@ -8,19 +8,19 @@ env:
 
 jobs:
   include:
-  - stage: build docker image
-    script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker build -t gendercomics/api .
-    - docker images
-    - docker tag gendercomics/api:latest $DOCKER_USERNAME/gendercomics/api:latest
-    - docker push $DOCKER_USERNAME/gendercomics/api:latest
+    - stage: build docker image
+      script:
+        - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        - docker build -t gendercomics/api .
+        - docker images
+        - docker tag gendercomics/api:latest $DOCKER_USERNAME/gendercomics/api:latest
+        - docker push $DOCKER_USERNAME/gendercomics/api:latest
 
 before_cache:
-- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
-  - "$HOME/.gradle/caches/"
-  - "$HOME/.gradle/wrapper/"
+    - "$HOME/.gradle/caches/"
+    - "$HOME/.gradle/wrapper/"
