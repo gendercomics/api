@@ -1,32 +1,24 @@
 language: java
 install: true
-
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 jobs:
   include:
-    - stage: build docker image
-      script:
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker build -t gendercomics/api .
-        - docker images
-        - docker tag gendercomics/api $DOCKER_USERNAME/gendercomics/api
-        - docker push $DOCKER_USERNAME/gendercomics/api
-
+  - stage: build docker image
+    script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t gendercomics/api .
+    - docker images
+    - docker tag gendercomics/api $DOCKER_USERNAME/gendercomics-api
+    - docker push $DOCKER_USERNAME/gendercomics-api
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
-#
-#deploy:
-#  provider: script
-#  script: bash scripts/deploy.sh
-#  on:
-#    tags: true
-#    all_branches: true
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+env:
+  global:
+  - secure: RPjRpqON9DXw/jAvL+dO4X/QBlcZnZ5i2foyBAt+RTT9NU/uqYyZ98b9C0U7SfpT1F8F7lRyHcH6zSALPrQvBZRwa78FVBqC2wXx1GKH12jR6wbBmO7H6CAEIARy4WzRr8r7wfkrdxz0yYKp9xy7jWoaqIGpWUb3F6NhkVoQtpmWRRxci83VSuyc0xa2N89LyAE7qWaGEYk1jdCcJh9icR3tyOfVOmS7w2v4QMYNguoa7cBkYl5EBfXSxD7k6F6BpTd28aeAKq3gOhdRQ0Z9OxlGmc0kYDkFe73vYzahP2EoXMseDwGKDS/p/+SlEe2xl5pOOaI/1Id6A+AAQIy/rhPXCEEhOTYbBHTdSHnVWwNUZ7ez8+KjXKVpAet5dzzccjh0Nn3bD+g8PV+hnPpxJ1rUZET8IKJ12hInMLA9EN+vywOqK4YR7F/KNjrBai8nWTjUZxMQSzglvylTk3paPbcAvXPcWyRhqiMCXCVrYcAILZWch9HkCHSv7ZG4jGURtTYtMHfHLwVm6GyGvz2M0NjBwWbG9IZjAyoRxCdFbpxNK/Hddlpg0o4xSmalU0sYvwzNyJuHcmXTALlDA0bBZ9aH6SDcthlrakFYHLxJOEWbwXaiTWedWdLjEflU8U7lpFO4jK9FIb3Muh55GIm6GpLO9gAZB1AKi8FXd5HFqUU=
+  - secure: BrDd780mwzzWd3eeVKq7lpp+TxJASN0bV2QCcx4Iggv78ANhuyXhOBur6TRP3FWR7MSC7kevGs+vqlDNyoIEqFBrLL3R8mTIGa8osdhs0JkcZPK4k+P6utL4iaJ68aYD7239sERwS11+wMbbWNVyVpZkb5D7rpv82QVxxGCZ3VQbVmwmGc9dL7f7IF6Hs/8POIOeS8hprmG6ZRMglNwYlA6TP0h+jKXavaUDVzx6CycONqBVz6MxNP9IE7i0mp+4KDDX6GyhlrI7wvU84pMfgi3GWSxJ/7KhnC1tODFT62I1U60qC7UtD3ztBMi2e4XzAQFp4C44sbTOF6nPu6tNCDb9+YxRYK3Dgej7QcY/3hT6PErFdBEl+krjbAQM6IFmBQOwrSFob3basuhtWYRt2u0X+HjDHRUcuqZBnKjRf/6y8hM6m09zK9z7tv9OVtg6PchFKxM8n6A5BV2xeJQT6AF0ex0l7YM5XmI28CI5Y0E3T8UpvbIaQeNcFVLVeX9oax0+dbRQNtGU+ZVxc4j68ccmKTNEkgURZ9jkTN4BWAnxmy0o7gRxA+VG+BuRFnw1bSecBJgoooqWphHMZrWIlxnQ/byAEjgz9xcFQ5ra00lEwOWJfKQWgbG8/06hHcyy1BxE4s+8B9yRmO4uvv74LB/0G1csxw3rWz/0yGIn/BA=
