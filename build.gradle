@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'com.palantir.docker' version '0.22.1'
+    id 'com.gradle.build-scan' version '2.1'
     id 'java'
 }
 
@@ -45,8 +46,14 @@ task unpack(type: Copy) {
     from(zipTree(tasks.bootJar.outputs.files.singleFile))
     into("build/dependency")
 }
+
 docker {
     name "${project.group}/${bootJar.baseName}"
     copySpec.from(tasks.unpack.outputs).into("dependency")
     buildArgs(['DEPENDENCY': "dependency"])
+}
+
+buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
 }
