@@ -2,7 +2,7 @@ language: java
 install: true
 
 script:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t gendercomics/api .
   - docker tag gendercomics/api:latest gendercomics/api:latest
   - docker images
