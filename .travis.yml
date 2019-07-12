@@ -13,8 +13,8 @@ jobs:
         - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         - docker build -t gendercomics/api .
         - docker images
-        - docker tag gendercomics/api:latest $DOCKER_USERNAME/gendercomics/api:latest
-        - docker push $DOCKER_USERNAME/gendercomics/api:latest
+        - docker tag gendercomics/api:latest gendercomics/api:latest
+        - docker push gendercomics/api:latest
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
