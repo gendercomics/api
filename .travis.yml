@@ -1,6 +1,9 @@
 language: java
 install: true
 
+addons:
+  ssh_known_hosts: gendercomics.net
+
 # Set Docker username & password
 #  travis env set DOCKER_USERNAME
 #  travis env set DOCKER_PASSWORD
