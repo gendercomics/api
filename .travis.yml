@@ -1,20 +1,12 @@
 language: java
 install: true
 
-env:
-  DOCKER_USERNAME: sundancekid73
-  DOCKER_PASSWORD:
-    secure: jcAFDmgmCXPt9fSJG/qXkY6TqS7AUxjeVRNSv1/Ydz0LVdnY3PNNV4+DgQ9b+s7tTB97vogWBmbiU2Hy+arAxIbwZ595jU/zHzn2AUl85LsZ13fb+emJ0OICxJoQ46F3W1XkZNSRw9Q9sBm1540U7y/hAN8c7trf41NZRsvmFBBr8XSf582P/SR3bYu50u/o+HTRcLVBKoOQLxr98UEuYNvkf1mxgXom+EUOOIM8tBh42l1J/KNDp16M3AorpZbN4zEipoHVUcMxNR+SzXNTjWdH5CGSDw96wklgW6X2M16T/U+KNVD2BkEss/ftVioNIbFqdm6HUqrzgiAZma8GbzBJfJycuUSsBbKUlfcPJ0Clg/tC12wleqYaCzr99+pXYnJi9UATz0ymacySTSJIRh60+x1g2Y7+cC+w/5OB9iLxTLsCqxWSLcTEKnHh0ZiwPSfFEOw7ipY8Q492HvwO2eUKl2r90v/qfiPntTPjUH3RP+fbCE2Sv58LnRMFPRXpgUq9nMebQunU4zst3TOISUxdw3eerwoCp9z13sBIZLxUbIvMXqbXKYs7m6ubVFAEwr4Kp7dcwNFyUh4AaoMiLmNlf20cpvbc65IIPhOei1B7g9zoviHqfPVTyi7lngXTMf1Vuq6du9OdyBgQeqltvPR0GrbxFXoZbIWRHGNWG/I=
-
-jobs:
-  include:
-    - stage: build docker image
-      script:
-        - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        - docker build -t gendercomics/api .
-        - docker images
-        - docker tag gendercomics/api:latest gendercomics/api:latest
-        - docker push gendercomics/api:latest
+script:
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker build -t gendercomics/api .
+  - docker tag gendercomics/api:latest gendercomics/api:latest
+  - docker images
+  - docker push gendercomics/api:latest
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
