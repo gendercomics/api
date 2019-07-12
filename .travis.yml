@@ -10,6 +10,7 @@ addons:
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_65c1486ae971_key -iv $encrypted_65c1486ae971_iv -in deploy-key.enc -out ~/.ssh/deploy-key -d
+  - ssh-add ~/.ssh/deploy-key
 
 script:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -27,8 +28,6 @@ cache:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
 
-deploy:
-  provider: script
-  script: bash scripts/deploy.sh
-  on:
-    all_branches: true
+after_success:
+  - eval "$(ssh-agent -s)"
+  - ssh deploy@gendercomics.net 'docker pull gendercomics/api:latest'
