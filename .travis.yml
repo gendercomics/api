@@ -1,6 +1,10 @@
 language: java
 install: true
 
+# Set Docker username & password
+#  travis env set DOCKER_USERNAME
+#  travis env set DOCKER_PASSWORD
+
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t gendercomics/api .
@@ -21,7 +25,6 @@ deploy:
   provider: script
   script: bash scripts/deploy.sh
   on:
-    tags: true
     all_branches: true
 
 
