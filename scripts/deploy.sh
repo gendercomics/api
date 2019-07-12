@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-ssh root@gendercomics.net 'docker pull gendercomics/api:latest && docker-compose up -f /root/gendercomics/docker-gendercomics/docker-compose.yml -d'
+ssh deploy@gendercomics.net 'docker pull gendercomics/api:latest | cd /var/gendercomics/docker | docker-compose up -d'

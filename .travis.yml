@@ -1,33 +1,35 @@
 language: java
 install: true
 
+env:
+  global:
+    secure: dJBKpFTzWBWDncWeEXJi3KLrJ7bEs6Jciu+ALLmJX4rnBAP6+RTFP3kiZzWJjCU24FkijFawbR/GCMuUZDoQUl2M+8LWHKgqqmdTDHdQqZndmyhKqzz3q+tvsNsHl3P4JKbDDZFzT3y5oz0x3IfclW+spGvBS3kdKuKFGkFe8O9aHZf7CMe6zOaihsRwjpz8gurysvQeH33TjIkI8BujBmxOWr+JnwvGEOpjX+XysEev6GWmlLLe3XZgRdLSilg/lRvB//FWv6WUsXOHV8cs2lC86sKzDQBiQTn5RWWp/1+IBvaMhPCGpIbLzsUvVCZsJZmORbIi3Ly5EY6e+jlOewCveisXNORik/MIXirqPbHmzbLCqAm/H/+gDq1l59xCBvqRGiTkg1UDRJhLTgszgjxiSYlLZ2ioDs97Uh7JyEM4aq0/XZQ+Wpoy4K6mx+31mPfG52X+pQdvnaYaExteguEUda8wisK40N3oamEp0kWOuV5sPyD3iTtmgpaiZ4+4Z6/tLLPl2gYUes3pesLnavFCYrzIG85c1H5Y0cCv73GaLEYHOosF7p31rRMKVjuZiUUDYTklLH7iSSWI7UllzNxALywWw7jXXhJNxrxyji291/fHOrte3s3k60Fo2gpGcNmgwGspdjvDORyIcKyHvghM0RSuTO8LEKWFojnPT3s=
+
 addons:
   ssh_known_hosts: gendercomics.net
 
-# Set Docker username & password
-#  travis env set DOCKER_USERNAME
-#  travis env set DOCKER_PASSWORD
+before_install:
+  - openssl aes-256-cbc -K $encrypted_65c1486ae971_key -iv $encrypted_65c1486ae971_iv
+    -in deploy-key.enc -out deploy-key -d
 
 script:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t gendercomics/api .
-  - docker tag gendercomics/api:latest gendercomics/api:latest
-  - docker images
-  - docker push gendercomics/api:latest
-
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker build -t gendercomics/api .
+- docker tag gendercomics/api:latest gendercomics/api:latest
+- docker images
+- docker push gendercomics/api:latest
+-
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
-    - "$HOME/.gradle/caches/"
-    - "$HOME/.gradle/wrapper/"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 
 deploy:
   provider: script
   script: bash scripts/deploy.sh
   on:
     all_branches: true
-
-
