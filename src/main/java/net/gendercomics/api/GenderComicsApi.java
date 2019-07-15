@@ -44,7 +44,7 @@ public class GenderComicsApi {
                         "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum " +
                         "passages, and more recently with desktop publishing software like Aldus PageMaker including " +
                         "versions of Lorem Ipsum.")
-                .termsOfServiceUrl("http://springfox.io")
+                .termsOfServiceUrl("http://gendercomics.net")
                 .contact(new Contact("Michael Litschauer", "", "michael.litschauer@gmail.com"))
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
