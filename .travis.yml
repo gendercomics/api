@@ -17,7 +17,7 @@ script:
 - docker tag gendercomics/api:latest gendercomics/api:latest
 - docker images
 - docker push gendercomics/api:latest
--
+
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/

@@ -32,7 +32,7 @@ public class CommonControllerTest {
         _mockMvc.perform(get("/info"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.applicationName", is("gendercomics-api")))
-                .andExpect(jsonPath("$.buildVersion", is("1")));
+                .andExpect(jsonPath("$.version", is("1")));
     }
 
     @TestConfiguration

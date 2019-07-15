@@ -9,9 +9,8 @@ public class ApiInfo {
     @Value("${applicationName}")
     private String applicationName;
 
-    @Value("${buildVersion}")
-    private String buildVersion;
-
+    @Value("${version}")
+    private String _version;
 
     public String getApplicationName() {
         return applicationName;
@@ -21,12 +20,12 @@ public class ApiInfo {
         this.applicationName = applicationName;
     }
 
-    public String getBuildVersion() {
-        return buildVersion;
+    public String getVersion() {
+        return _version;
     }
 
-    public void setBuildVersion(String buildVersion) {
-        this.buildVersion = buildVersion;
+    public void setVersion(String version) {
+        _version = version;
     }
 
 }
