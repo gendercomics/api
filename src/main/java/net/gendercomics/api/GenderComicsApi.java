@@ -1,5 +1,6 @@
 package net.gendercomics.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 public class GenderComicsApi {
+
+    @Autowired
+    private net.gendercomics.api.model.ApiInfo _apiInfo;
 
     public static void main(String[] args) {
         SpringApplication.run(GenderComicsApi.class, args);
@@ -41,7 +45,7 @@ public class GenderComicsApi {
                 .contact(new Contact("Michael Litschauer", "", "michael.litschauer@gmail.com"))
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://gendercomics.net/LICENSE")
-                .version("0.0.2-SNAPSHOT")
+                .version(_apiInfo.getVersion())
                 .build();
     }
 
