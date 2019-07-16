@@ -1,7 +1,5 @@
 package net.gendercomics.api;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -36,18 +34,13 @@ public class GenderComicsApi {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("gendercomics API")
-                .description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum " +
-                        "has been the industry's standard dummy text ever since the 1500s, when an unknown printer "
-                        + "took a " +
-                        "galley of type and scrambled it to make a type specimen book. It has survived not only five " +
-                        "centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                        "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum " +
-                        "passages, and more recently with desktop publishing software like Aldus PageMaker including " +
-                        "versions of Lorem Ipsum.")
+                .description("The gendercomics.net API provides access to the gendercomics database." +
+                        "The database stores the results (comics, authors, artists, publishers, articles, bolg post, etc.) " +
+                        "of the research project 'Visualities of Gender in German-language Comics'")
                 .termsOfServiceUrl("http://gendercomics.net")
                 .contact(new Contact("Michael Litschauer", "", "michael.litschauer@gmail.com"))
                 .license("Apache License Version 2.0")
-                .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
+                .licenseUrl("https://gendercomics.net/LICENSE")
                 .version("0.0.2-SNAPSHOT")
                 .build();
     }
