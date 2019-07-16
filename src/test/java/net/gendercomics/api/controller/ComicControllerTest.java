@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.model.ApiInfo;
 import net.gendercomics.api.model.Comic;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,6 +58,11 @@ public class ComicControllerTest {
         @Bean
         public ComicService comicService() {
             return mock(ComicService.class);
+        }
+
+        @Bean
+        public ApiInfo apiInfo() {
+            return mock(ApiInfo.class);
         }
     }
 }
