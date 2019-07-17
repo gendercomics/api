@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.model.Comic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class ComicController {
     private final ComicService _comicService;
 
     @ApiOperation("get all comics")
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Comic> getAllComics() {
         return _comicService.findAll();
     }
@@ -38,7 +39,7 @@ public class ComicController {
     }
 
     @ApiOperation("get a comic in XML format")
-    @GetMapping(path = "/{id}/xml")
+    @GetMapping(path = "/{id}/xml", produces = MediaType.APPLICATION_XML_VALUE)
     public String getComicAsXml(@ApiParam @PathVariable("id") String id) throws JsonProcessingException {
         return _comicService.getComicAsXml(id);
     }
