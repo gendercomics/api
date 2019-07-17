@@ -48,8 +48,8 @@ public class ComicControllerTest {
 
         _mockMvc.perform(get("/comics"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].comic.title", is("Wonderwoman")))
-                .andExpect(jsonPath("$.[1].comic.title", is("Gift")));
+                .andExpect(jsonPath("$.[0].title", is("Wonderwoman")))
+                .andExpect(jsonPath("$.[1].title", is("Gift")));
     }
 
     @TestConfiguration
