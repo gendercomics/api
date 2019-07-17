@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -44,6 +45,16 @@ public class ComicServiceTest {
         assertEquals(1, result.size());
         assertEquals("id", result.get(0).getId());
         assertEquals("title", result.get(0).getTitle());
+    }
+
+    @Test
+    public void insertComic() {
+        Comic comic = new Comic();
+        comic.setTitle("title");
+
+        _comicService.insert(comic);
+
+        verify(_comicRepository).insert(comic);
     }
 
     @TestConfiguration
