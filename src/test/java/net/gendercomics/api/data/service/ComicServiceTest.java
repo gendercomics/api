@@ -57,6 +57,26 @@ public class ComicServiceTest {
         verify(_comicRepository).insert(comic);
     }
 
+    @Test
+    public void findByTitle() {
+        // TODO
+    }
+
+    @Test
+    public void titleExists() {
+        // TODO
+    }
+
+    @Test
+    public void getComicAsXml() {
+        // TODO
+    }
+
+    @Test
+    public void getComic() {
+        // TODO
+    }
+
     @TestConfiguration
     static class TestContextConfiguration {
 

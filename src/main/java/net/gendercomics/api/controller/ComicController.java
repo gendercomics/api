@@ -38,6 +38,12 @@ public class ComicController {
         return _comicService.insert(comic);
     }
 
+    @ApiOperation("get a comic")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Comic getComic(@ApiParam @PathVariable("id") String id) {
+        return _comicService.getComic(id);
+    }
+
     @ApiOperation("get a comic in XML format")
     @GetMapping(path = "/{id}/xml", produces = MediaType.APPLICATION_XML_VALUE)
     public String getComicAsXml(@ApiParam @PathVariable("id") String id) throws JsonProcessingException {

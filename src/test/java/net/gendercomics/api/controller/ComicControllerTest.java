@@ -52,6 +52,30 @@ public class ComicControllerTest {
                 .andExpect(jsonPath("$.[1].title", is("Gift")));
     }
 
+    @Test
+    public void getComic() throws Exception {
+        Comic comic = new Comic();
+        comic.setId("4711");
+        comic.setTitle("testComic");
+
+        when(_comicService.getComic("4711")).thenReturn(comic);
+
+        _mockMvc.perform(get("/comics/4711"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is("4711")))
+                .andExpect(jsonPath("$.title", is("testComic")));
+    }
+
+    @Test
+    public void getComicAsXml() {
+        // TODO
+    }
+
+    @Test
+    public void insertComic() {
+        // TODO
+    }
+
     @TestConfiguration
     static class TestContextConfiguration {
 

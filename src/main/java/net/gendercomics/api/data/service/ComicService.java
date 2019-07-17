@@ -1,7 +1,6 @@
 package net.gendercomics.api.data.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -51,4 +50,7 @@ public class ComicService {
         return null;
     }
 
+    public Comic getComic(String id) {
+        return _comicRepository.findById(id).orElse(null);
+    }
 }
