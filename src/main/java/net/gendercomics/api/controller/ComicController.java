@@ -32,11 +32,13 @@ public class ComicController {
         return _comicService.findAll();
     }
 
+    /*
     @ApiOperation("insert a comic")
     @PostMapping
     public Comic insertComic(@ApiParam(required = true) @RequestBody Comic comic) {
         return _comicService.insert(comic);
     }
+    */
 
     @ApiOperation("get a comic")
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
