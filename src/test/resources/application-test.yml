@@ -1,0 +1,7 @@
+server:
+  port: 8001
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://gendercomics_api:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1

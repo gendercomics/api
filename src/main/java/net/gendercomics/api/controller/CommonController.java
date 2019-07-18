@@ -3,8 +3,8 @@ package net.gendercomics.api.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import net.gendercomics.api.model.ApiInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CommonController {
 
-    private final ApiInfo _apiInfo;
+    private final BuildProperties _buildProperties;
 
     @ApiOperation("retreive API information")
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ApiInfo getInfo() {
-        return _apiInfo;
+    public BuildProperties getInfo() {
+        return _buildProperties;
     }
 
 }

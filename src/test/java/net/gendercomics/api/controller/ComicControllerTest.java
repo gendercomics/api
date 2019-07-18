@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.gendercomics.api.data.service.ComicService;
-import net.gendercomics.api.model.ApiInfo;
+import net.gendercomics.api.data.service.ComicServiceTest;
+import net.gendercomics.api.model.BuildInfo;
 import net.gendercomics.api.model.Comic;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {ComicControllerTest.TestContextConfiguration.class})
 @WebMvcTest(ComicController.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
 public class ComicControllerTest {
 
     @Autowired
@@ -85,8 +88,8 @@ public class ComicControllerTest {
         }
 
         @Bean
-        public ApiInfo apiInfo() {
-            return mock(ApiInfo.class);
+        public BuildProperties buildProperties() {
+            return mock(BuildProperties.class);
         }
     }
 }

@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApiInfo {
+public class BuildInfo {
 
-    @Value("${applicationName}")
     private String applicationName;
 
-    @Value("${version}")
     private String _version;
 
     public String getApplicationName() {

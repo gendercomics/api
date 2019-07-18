@@ -21,7 +21,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
 @ContextConfiguration(classes = {ComicServiceTest.TestContextConfiguration.class, ComicService.class})
 public class ComicServiceTest {
 
