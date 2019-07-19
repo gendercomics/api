@@ -20,36 +20,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"comics"})
 @RestController
-@RequestMapping("/comics")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ComicController {
 
     private final ComicService _comicService;
 
+    /*** public endpoints ***/
+
     @ApiOperation("get all comics")
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/comics", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Comic> getAllComics() {
         return _comicService.findAll();
     }
 
-    /*
-    @ApiOperation("insert a comic")
-    @PostMapping
-    public Comic insertComic(@ApiParam(required = true) @RequestBody Comic comic) {
-        return _comicService.insert(comic);
-    }
-    */
-
     @ApiOperation("get a comic")
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/comics/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Comic getComic(@ApiParam @PathVariable("id") String id) {
         return _comicService.getComic(id);
     }
 
     @ApiOperation("get a comic in XML format")
-    @GetMapping(path = "/{id}/xml", produces = MediaType.APPLICATION_XML_VALUE)
+    @GetMapping(path = "/comics/{id}/xml", produces = MediaType.APPLICATION_XML_VALUE)
     public String getComicAsXml(@ApiParam @PathVariable("id") String id) throws JsonProcessingException {
         return _comicService.getComicAsXml(id);
     }
+
+    /*** admin endpoints - secured, only authorized access allowed ***/
+
+    /*
+    @ApiOperation("insert a comic")
+    @PostMapping(path = "/admin/comics")
+    public Comic insertComic(@ApiParam(required = true) @RequestBody Comic comic) {
+        return _comicService.insert(comic);
+    }
+    */
 
 }
