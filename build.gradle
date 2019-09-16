@@ -5,6 +5,7 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'net.gendercomics.api'
@@ -29,9 +30,22 @@ springBoot {
     buildInfo()
 }
 
-processResources {
-    filesMatching('application.properties') {
-        expand(project.properties)
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
     }
 }
 
