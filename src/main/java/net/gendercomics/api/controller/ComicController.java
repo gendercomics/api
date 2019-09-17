@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"comics"})
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ComicController {
 
