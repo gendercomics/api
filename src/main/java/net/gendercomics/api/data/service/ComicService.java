@@ -28,17 +28,8 @@ public class ComicService {
         return _comicRepository.findByTitle(title).orElse(null);
     }
 
-    public boolean titleExists(String title) {
-        return findByTitle(title) != null;
-    }
-
     public Comic insert(Comic comic) {
-        if (!titleExists(comic.getTitle())) {
-            return _comicRepository.insert(comic);
-        } else {
-            log.warn("comic with title={} already exists", comic.getTitle());
-        }
-        return null;
+        return _comicRepository.insert(comic);
     }
 
     public String getComicAsXml(String id) throws JsonProcessingException {

@@ -40,12 +40,14 @@ public class ComicControllerTest {
     @Test
     public void findAll() throws Exception {
         List<Comic> comicList = new ArrayList<>();
+
         comicList.add(new Comic());
         comicList.get(0).setId("id1");
-        comicList.get(0).setTitle("Wonderwoman");
+        //comicList.get(0).setTitle("Wonderwoman");
+
         comicList.add(new Comic());
         comicList.get(1).setId("id2");
-        comicList.get(1).setTitle("Gift");
+        //comicList.get(1).setTitle("Gift");
 
         when(_comicService.findAll()).thenReturn(comicList);
 
@@ -59,7 +61,7 @@ public class ComicControllerTest {
     public void getComic() throws Exception {
         Comic comic = new Comic();
         comic.setId("4711");
-        comic.setTitle("testComic");
+        //comic.setTitle("testComic");
 
         when(_comicService.getComic("4711")).thenReturn(comic);
 
