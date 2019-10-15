@@ -28,7 +28,9 @@ public class ComicService {
         return _comicRepository.findByTitle(title).orElse(null);
     }
 
-    public Comic insert(Comic comic) {
+    public Comic insert(Comic comic, String userName) {
+        log.debug("userName={} tries to insert comic", userName);
+        // TODO store username
         return _comicRepository.insert(comic);
     }
 

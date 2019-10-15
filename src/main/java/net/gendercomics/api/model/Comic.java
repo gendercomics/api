@@ -20,12 +20,12 @@ public class Comic {
     //@JsonIgnore
     private String id;
     @ApiModelProperty(value = "comic book title", required = true)
-    private Title title;
+    private String title;
     @ApiModelProperty(value = "comic book subtitle", required = true)
-    private Title subTitle;
-    @ApiModelProperty(value = "list of creators", required = true)
-    private List<Creator> creators;
-    @ApiModelProperty(value = "publisher", required = true)
-    private Publisher publisher;
+    private String subTitle;
+    //@ApiModelProperty(value = "list of creators", required = true)
+    //private List<Creator> creators;
+    //@ApiModelProperty(value = "publisher", required = true)
+    //private Publisher publisher;
 
 }
