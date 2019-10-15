@@ -31,4 +31,6 @@ after_success:
   - eval "$(ssh-agent -s)"
   - chmod 600 deploy-key
   - ssh-add deploy-key
-  - ssh deploy@gendercomics.net 'docker pull gendercomics/api:latest && cd /var/gendercomics/docker && docker-compose up -d'
+  - ssh deploy@gendercomics.net 'docker pull gendercomics/api:latest && cd /var/gendercomics/docker && docker-compose up -d
+  on:
+    branch: master
