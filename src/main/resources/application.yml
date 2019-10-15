@@ -8,17 +8,17 @@ spring:
 
 keycloak:
   realm: gendercomics
-  resource: gendercomics-api
+  resource: gendercomics-admin-app
   auth-server-url: http://localhost:9090/auth
   ssl-required: external
   public-client: true
-  security-constraints[0]:
-    authRoles:
-      - admin
-    securityCollections[0]:
-      name: admin resource
-      patterns:
-        - /comics
-      methods:
-        - POST
-        - PUT
+  security-constraints:
+    - authRoles:
+          - admin
+    - securityCollections:
+        - name: admin resource
+        - patterns:
+            - /admin
+        - methods:
+            - POST
+            - PUT
