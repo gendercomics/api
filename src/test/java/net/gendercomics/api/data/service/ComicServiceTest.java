@@ -5,9 +5,8 @@ import java.util.List;
 
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
-import net.gendercomics.api.model.Language;
-import net.gendercomics.api.model.Text;
 import net.gendercomics.api.model.Title;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +36,7 @@ public class ComicServiceTest {
         List<Comic> comicList = new ArrayList<>();
         comicList.add(new Comic());
         comicList.get(0).setId("comic_id");
-        comicList.get(0).setTitle(new Title());
-        comicList.get(0).setId("title_id");
+        comicList.get(0).setTitle("comic_title");
 
         when(_comicRepository.findAll()).thenReturn(comicList);
 
@@ -52,7 +50,7 @@ public class ComicServiceTest {
     public void insertComic() {
         Comic comic = new Comic();
 
-        _comicService.insert(comic);
+        _comicService.insert(comic, "test-user");
 
         verify(_comicRepository).insert(comic);
     }
