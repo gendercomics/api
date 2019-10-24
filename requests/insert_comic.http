@@ -1,0 +1,20 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+POST http://localhost:8001/admin/comics
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJTX2NHUlJfdmxGR3ZnTXZmeVc5RzZmcHFxbGphZDFKV1MtOXMtUzlKM21rIn0.eyJqdGkiOiI5ZGU2MzJhMC04OWE5LTQwNWItOThkYS03MTliYWIxZWNlMjAiLCJleHAiOjE1NzE5MTYyMjIsIm5iZiI6MCwiaWF0IjoxNTcxOTE1OTIyLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjkwOTAvYXV0aC9yZWFsbXMvZ2VuZGVyY29taWNzIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImUyNDM3NzRhLTNmZWMtNGQzMS05YzM1LTI4MzVhNjI4YTljNiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImdlbmRlcmNvbWljcy1hZG1pbiIsImF1dGhfdGltZSI6MCwic2Vzc2lvbl9zdGF0ZSI6ImM1YjI1ZmI2LThlZTctNDU4Yy1iOThlLWYwMWY1YjU2MDMyNiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiaHR0cDovL2xvY2FsaG9zdDo4MDAxIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiZ2VuZGVyY29taWNzLWFkbWluIjp7InJvbGVzIjpbImFkbWluIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJNaWNoYWVsIExpdHNjaGF1ZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtaWNoYWVsIiwiZ2l2ZW5fbmFtZSI6Ik1pY2hhZWwiLCJmYW1pbHlfbmFtZSI6IkxpdHNjaGF1ZXIiLCJlbWFpbCI6Im1pY2hhZWwubGl0c2NoYXVlckBnbWFpbC5jb20ifQ.eJXruQonkA24p5V_1Dxie0Oqep0UPjApby0rc8GcEcShBzGIjB0qmxo7KtU7UTNf3oKIbQUhVLC9U8nUYl2uvWQzblaG349lh0j2OerCrpk0T0AkLAPnELUli9hOFCLuThr1n7Fyz1ox9_1QVUrbdajT-XyHNMz0VWvcoMvwX0XpV5D79i9jrUdg9Xg-9Qr-PK7FePGwuHYaDJ1RgdqabfEbq2dzgarylcUQyLtAH01CJHpLWC_mNB9TJwkpvHBKpOEo10nYLRZisZEYxQDhEl2mcM41CTbSxX6nHWpltK8oLHuCNB_zqu-TtRHG5ZNuTurT_9ryFd4k6nuNHLfs-Q
+
+{
+  "Comic": {
+    "title": "Hello world. Again.",
+    "subTitle": "yes. a. subtle. subtitle."
+  }
+}
+
+###

@@ -1,6 +1,7 @@
 package net.gendercomics.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = {"comics"})
 @RestController
@@ -54,15 +56,11 @@ public class ComicController {
 
     @ApiOperation("insert a comic")
     @PostMapping(path = "/admin/comics")
-    public Comic insertComic(@ApiParam(required = true) @RequestBody Comic comic) {
-        return _comicService.insert(comic, getLoggedInUserName());
+    public Comic insertComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Comic comic) {
+        return _comicService.insert(comic, principal.getName());
     }
 
     /*** Keycloak access ***/
-
-    private String getLoggedInUserName() {
-        return getKeycloakSecurityContext().getIdToken().getName();
-    }
 
     private KeycloakSecurityContext getKeycloakSecurityContext() {
         return (KeycloakSecurityContext) _request.getAttribute(KeycloakSecurityContext.class.getName());
