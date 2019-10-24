@@ -1,7 +1,14 @@
+spring:
+  profiles:
+    active: dev
+
 server:
   port: 8001
 
+---
+
 spring:
+  profiles: dev
   data:
     mongodb:
       uri: mongodb://gendercomics_api:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
@@ -11,6 +18,27 @@ keycloak:
   resource: gendercomics-admin
   auth-server-url: http://localhost:9090/auth
   ssl-required: external
+  public-client: true
+  bearer-only: true
+  principal-attribute: preferred_username
+
+---
+
+spring:
+  profiles: production
+  main:
+    banner-mode: off
+  devtools:
+    add-properties: false
+  data:
+    mongodb:
+      uri: mongodb://{{mongodb_user}}:{{mongodb_password}}@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+
+keycloak:
+  realm: gendercomics
+  resource: gendercomics-admin
+  auth-server-url: https://sso.gendercomics.net/auth
+  ssl-required: true
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
