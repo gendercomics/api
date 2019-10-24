@@ -1,5 +1,7 @@
 package net.gendercomics.api.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,19 +11,24 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.model.Comic;
+import org.keycloak.KeycloakSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = {"comics"})
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ComicController {
+
+    private final HttpServletRequest _request;
 
     private final ComicService _comicService;
 
@@ -47,12 +54,16 @@ public class ComicController {
 
     /*** admin endpoints - secured, only authorized access allowed ***/
 
-    /*
     @ApiOperation("insert a comic")
     @PostMapping(path = "/admin/comics")
-    public Comic insertComic(@ApiParam(required = true) @RequestBody Comic comic) {
-        return _comicService.insert(comic);
+    public Comic insertComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Comic comic) {
+        return _comicService.insert(comic, principal.getName());
     }
-    */
+
+    /*** Keycloak access ***/
+
+    private KeycloakSecurityContext getKeycloakSecurityContext() {
+        return (KeycloakSecurityContext) _request.getAttribute(KeycloakSecurityContext.class.getName());
+    }
 
 }

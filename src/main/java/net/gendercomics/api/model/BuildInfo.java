@@ -1,21 +1,19 @@
 package net.gendercomics.api.model;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BuildInfo {
 
-    private String applicationName;
-
+    private String _applicationName;
     private String _version;
 
     public String getApplicationName() {
-        return applicationName;
+        return _applicationName;
     }
 
     public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
+        _applicationName = applicationName;
     }
 
     public String getVersion() {

@@ -4,5 +4,13 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://gendercomics_api:test123@mongodb:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+      uri: mongodb://gendercomics_api:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
 
+keycloak:
+  realm: gendercomics
+  resource: gendercomics-admin
+  auth-server-url: http://localhost:9090/auth
+  ssl-required: external
+  public-client: true
+  bearer-only: true
+  principal-attribute: preferred_username
