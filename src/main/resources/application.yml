@@ -32,7 +32,7 @@ spring:
     add-properties: false
   data:
     mongodb:
-      uri: mongodb://{{mongodb_user}}:{{mongodb_password}}@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+      uri: mongodb://${mongodb-user}:${mongodb-password}@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
 
 keycloak:
   realm: gendercomics
