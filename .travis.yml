@@ -14,7 +14,7 @@ before_install:
 script:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker build -t gendercomics/api .
-- docker tag gendercomics/api:latest gendercomics/api:latest
+- docker tag gendercomics/api gendercomics/api:latest
 - docker images
 - docker push gendercomics/api:latest
 
@@ -27,10 +27,22 @@ cache:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
 
-after_success:
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_ac25a508ad54_key -iv $encrypted_ac25a508ad54_iv -in deploy-key.enc -out deploy-key -d
   - eval "$(ssh-agent -s)"
   - chmod 600 deploy-key
   - ssh-add deploy-key
-  - ssh deploy@gendercomics.net 'docker pull gendercomics/api:latest && cd /var/gendercomics/docker && docker-compose up -d
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ssh deploy@gendercomics.net 'docker pull gendercomics/api:latest && cd /var/gendercomics/docker && docker-compose up -d
   on:
     branch: master
+
+#after_success:
+#  - eval "$(ssh-agent -s)"
+#  - chmod 600 deploy-key
+#  - ssh-add deploy-key
+#  - ssh deploy@gendercomics.net 'docker pull gendercomics/api:latest && cd /var/gendercomics/docker && docker-compose up -d
+
