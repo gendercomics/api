@@ -80,6 +80,15 @@ public class ComicControllerTest {
         // TODO
     }
 
+    @Test
+    public void getComicCount() throws Exception {
+        when(_comicService.getComicCount()).thenReturn(7l);
+
+        _mockMvc.perform(get("/comics/count"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("7")));
+    }
+
     @TestConfiguration
     static class TestContextConfiguration {
 

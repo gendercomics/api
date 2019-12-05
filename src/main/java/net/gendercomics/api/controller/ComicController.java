@@ -52,6 +52,12 @@ public class ComicController {
         return _comicService.getComicAsXml(id);
     }
 
+    @ApiOperation("get the number of comics in the database")
+    @GetMapping(path = "/comics/count", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public long getComicCount() throws JsonProcessingException {
+        return _comicService.getComicCount();
+    }
+
     /*** admin endpoints - secured, only authorized access allowed ***/
 
     @ApiOperation("insert a comic")

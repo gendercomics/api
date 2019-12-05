@@ -46,4 +46,8 @@ public class ComicService {
     public Comic getComic(String id) {
         return _comicRepository.findById(id).orElse(null);
     }
+
+    public long getComicCount() {
+        return _comicRepository.count();
+    }
 }
