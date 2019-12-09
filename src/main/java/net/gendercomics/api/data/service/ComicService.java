@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
+import net.gendercomics.api.model.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,9 @@ public class ComicService {
     }
 
     public Comic save(Comic comic, String userName) {
+        if (comic.getMetaData() == null) {
+            comic.setMetaData(new MetaData());
+        }
         comic.getMetaData().setChangedOn(new Date());
         comic.getMetaData().setChangedBy(userName);
         return _comicRepository.save(comic);
