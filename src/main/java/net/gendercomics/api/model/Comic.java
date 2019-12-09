@@ -27,5 +27,6 @@ public class Comic {
     //private List<Creator> creators;
     //@ApiModelProperty(value = "publisher", required = true)
     //private Publisher publisher;
-
+    @ApiModelProperty(value = "metadata", required = true)
+    private MetaData metaData;
 }

@@ -2,6 +2,7 @@ package net.gendercomics.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,11 +12,13 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.model.Comic;
+import net.gendercomics.api.model.MetaData;
 import org.keycloak.KeycloakSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,9 +64,15 @@ public class ComicController {
     /*** admin endpoints - secured, only authorized access allowed ***/
 
     @ApiOperation("insert a comic")
-    @PostMapping(path = "/admin/comics")
+    @PostMapping(path = "/comics")
     public Comic insertComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Comic comic) {
         return _comicService.insert(comic, principal.getName());
+    }
+
+    @ApiOperation("update a comic")
+    @PatchMapping(path = "/comics/{id}")
+    public Comic saveComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Comic comic) {
+        return _comicService.save(comic, principal.getName());
     }
 
     /*** Keycloak access ***/

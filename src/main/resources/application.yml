@@ -16,7 +16,7 @@ spring:
 keycloak:
   realm: gendercomics
   resource: gendercomics-admin
-  auth-server-url: http://localhost:9090/auth
+  auth-server-url: http://0.0.0.0:81/auth
   ssl-required: external
   public-client: true
   bearer-only: true

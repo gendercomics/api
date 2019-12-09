@@ -1,5 +1,6 @@
 package net.gendercomics.api.data.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +31,8 @@ public class ComicService {
 
     public Comic insert(Comic comic, String userName) {
         log.debug("userName={} tries to insert comic", userName);
-        // TODO store username
+        comic.getMetaData().setCreatedOn(new Date());
+        comic.getMetaData().setCreatedBy(userName);
         return _comicRepository.insert(comic);
     }
 
@@ -49,5 +51,11 @@ public class ComicService {
 
     public long getComicCount() {
         return _comicRepository.count();
+    }
+
+    public Comic save(Comic comic, String userName) {
+        comic.getMetaData().setChangedOn(new Date());
+        comic.getMetaData().setChangedBy(userName);
+        return _comicRepository.save(comic);
     }
 }
