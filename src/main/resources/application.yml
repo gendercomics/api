@@ -16,7 +16,24 @@ spring:
 keycloak:
   realm: gendercomics
   resource: gendercomics-admin
-  auth-server-url: http://0.0.0.0:81/auth
+  auth-server-url: http://localhost:81/auth
+  ssl-required: external
+  public-client: true
+  bearer-only: true
+  principal-attribute: preferred_username
+
+---
+
+spring:
+  profiles: stage
+  data:
+    mongodb:
+      uri: mongodb://gendercomics_api:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+
+keycloak:
+  realm: gendercomics-stage
+  resource: gendercomics-admin
+  auth-server-url: https://sso.gendercomics.net/auth/
   ssl-required: external
   public-client: true
   bearer-only: true
@@ -32,7 +49,7 @@ spring:
     add-properties: false
   data:
     mongodb:
-      uri: mongodb://${mongodb-user}:${mongodb-password}@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+      uri: mongodb://${mongodb-user}:${mongodb-password}@localhost:27017/gendercomics?authSource=admin&authMechanism=SCRAM-SHA-1
 
 keycloak:
   realm: gendercomics
