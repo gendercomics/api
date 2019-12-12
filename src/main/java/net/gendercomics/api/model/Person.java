@@ -1,9 +1,9 @@
 package net.gendercomics.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.util.StringUtils;
 
 @Getter
 @Setter
@@ -11,12 +11,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Person {
 
     private String id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
+    private String wikiData;
+    private MetaData metaData;
 
-    @JsonIgnore
-    public String getName() {
-        return getFirstname() + " " + getLastname();
+    @Override
+    public String toString() {
+        return StringUtils.trimWhitespace(firstName + " " + lastName);
     }
 
 }

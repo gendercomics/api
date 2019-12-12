@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ApiModel(description = "comic book model")
 public class Comic {
 
-    //@JsonIgnore
     private String id;
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;

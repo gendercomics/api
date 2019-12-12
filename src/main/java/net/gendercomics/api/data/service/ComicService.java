@@ -32,6 +32,7 @@ public class ComicService {
 
     public Comic insert(Comic comic, String userName) {
         log.debug("userName={} tries to insert comic", userName);
+        comic.setMetaData(new MetaData());
         comic.getMetaData().setCreatedOn(new Date());
         comic.getMetaData().setCreatedBy(userName);
         return _comicRepository.insert(comic);

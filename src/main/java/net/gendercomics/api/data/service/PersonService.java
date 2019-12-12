@@ -1,10 +1,13 @@
 package net.gendercomics.api.data.service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.gendercomics.api.data.repository.PersonRepository;
+import net.gendercomics.api.model.MetaData;
 import net.gendercomics.api.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
@@ -32,4 +35,24 @@ public class PersonService {
         return Collections.emptyList();
     }
 
+    public Person insert(Person person, String userName) {
+        log.debug("userName={} tries to insert person={}", userName, person.toString());
+
+        person.setMetaData(new MetaData());
+        person.getMetaData().setCreatedOn(new Date());
+        person.getMetaData().setCreatedBy(userName);
+
+        return _personRepository.insert(person);
+    }
+
+    public Person save(Person person, String userName) {
+        log.debug("userName={} tries to save person={}", userName, person.toString());
+        if (person.getMetaData() == null) {
+            person.setMetaData(new MetaData());
+        }
+        person.getMetaData().setChangedOn(new Date());
+        person.getMetaData().setCreatedBy(userName);
+
+        return _personRepository.insert(person);
+    }
 }
