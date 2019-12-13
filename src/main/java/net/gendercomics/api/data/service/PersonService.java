@@ -21,6 +21,13 @@ import org.springframework.stereotype.Service;
 public class PersonService {
 
     private final MongoDbService _mongoDbService;
+    private final PersonRepository _personRepository;
+
+    public List<Person> findAll() {
+        List<Person> persons = _personRepository.findAll();
+        log.debug("#persons={}", persons.size());
+        return persons;
+    }
 
     public List<Person> findByName(String name) {
 

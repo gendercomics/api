@@ -26,8 +26,8 @@ public class Comic {
     private String subTitle;
     @ApiModelProperty(value = "list of creators", required = false)
     private List<Creator> creators;
-    //@ApiModelProperty(value = "publisher", required = false)
-    //private Publisher publisher;
+    @ApiModelProperty(value = "publisher", required = false)
+    private Publisher publisher;
     @ApiModelProperty(value = "location of publication", required = false)
     private String location;
     @ApiModelProperty(value = "year of publication", required = false)
