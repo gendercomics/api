@@ -11,6 +11,7 @@ import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class ComicService {
     private final ComicRepository _comicRepository;
 
     public List<Comic> findAll() {
-        List<Comic> comics = _comicRepository.findAll();
+        List<Comic> comics = _comicRepository.findAll(new Sort(Sort.Direction.ASC, "title"));
         log.debug("#comics={}", comics.size());
         return comics;
     }
