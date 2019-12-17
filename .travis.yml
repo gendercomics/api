@@ -28,7 +28,7 @@ cache:
   - "$HOME/.gradle/wrapper/"
 
 before_deploy:
-  - openssl aes-256-cbc -K $encrypted_ac25a508ad54_key -iv $encrypted_ac25a508ad54_iv -in deploy-key.enc -out deploy-key -d
+  - openssl aes-256-cbc -K $encrypted_65c1486ae971_key -iv $encrypted_65c1486ae971_iv -in deploy-key.enc -out deploy-key -d
   - eval "$(ssh-agent -s)"
   - chmod 600 deploy-key
   - ssh-add deploy-key
