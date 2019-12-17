@@ -57,12 +57,12 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/comics").hasRole("crud_comics")
+                .antMatchers(HttpMethod.POST, "/comics*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.PUT, "/comics*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/persons").hasRole("crud_comics")
+                .antMatchers(HttpMethod.POST, "/persons*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.PUT, "/persons*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/publishers").hasRole("crud_comics")
+                .antMatchers(HttpMethod.POST, "/publishers*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
-                .anyRequest().denyAll();
+                .anyRequest().permitAll();
     }
 }
