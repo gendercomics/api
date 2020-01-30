@@ -12,11 +12,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,7 +40,7 @@ public class ComicServiceTest {
         comicList.get(0).setId("comic_id");
         comicList.get(0).setTitle("comic_title");
 
-        when(_comicRepository.findAll()).thenReturn(comicList);
+        when(_comicRepository.findAll((Sort) any())).thenReturn(comicList);
 
         List<Comic> result = _comicService.findAll();
         assertNotNull(result);
