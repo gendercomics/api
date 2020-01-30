@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -27,6 +28,7 @@ public class Comic {
     @ApiModelProperty(value = "list of creators", required = false)
     private List<Creator> creators;
     @ApiModelProperty(value = "publisher", required = false)
+    @DBRef
     private Publisher publisher;
     @ApiModelProperty(value = "location of publication", required = false)
     private String location;
