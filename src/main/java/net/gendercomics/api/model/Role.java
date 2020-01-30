@@ -1,11 +1,15 @@
 package net.gendercomics.api.model;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
+@Document(collection = "roles")
+@ApiModel(description = "roles involved in creating comics")
 public class Role {
 
     private String id;
