@@ -2,6 +2,7 @@ package net.gendercomics.api.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -9,11 +10,14 @@ import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @Getter
 @Setter
 @Document(collection = "comics")
 //@JsonTypeName("comic")
 //@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
+@JsonInclude(Include.NON_NULL)
 @ApiModel(description = "comic book model")
 public class Comic {
 
@@ -36,4 +40,8 @@ public class Comic {
     private Integer year;
     @ApiModelProperty(value = "edition", required = false)
     private String edition;
+    @ApiModelProperty(value = "link", required = false)
+    private String link;
+    @ApiModelProperty(value = "isbn", required = false)
+    private String isbn;
 }
