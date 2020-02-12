@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
 
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Document("persons")
 public class Person {
 

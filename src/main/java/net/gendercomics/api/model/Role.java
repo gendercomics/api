@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = "roles")
 @ApiModel(description = "roles involved in creating comics")
 public class Role {

@@ -17,7 +17,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Document(collection = "comics")
 //@JsonTypeName("comic")
 //@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
-@JsonInclude(Include.NON_NULL)
+//@JsonInclude(Include.NON_NULL)
 @ApiModel(description = "comic book model")
 public class Comic {
 

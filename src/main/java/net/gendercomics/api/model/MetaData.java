@@ -8,7 +8,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel(description = "meta data")
 public class MetaData {
 
     private Date createdOn;
