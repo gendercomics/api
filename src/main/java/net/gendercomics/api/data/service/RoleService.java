@@ -1,10 +1,12 @@
 package net.gendercomics.api.data.service;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.RoleRepository;
+import net.gendercomics.api.model.MetaData;
 import net.gendercomics.api.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -23,4 +25,20 @@ public class RoleService {
         return roles;
     }
 
+    public Role insert(Role role, String userName) {
+        log.debug("userName={} tries to insert role", userName);
+        role.setMetaData(new MetaData());
+        role.getMetaData().setCreatedOn(new Date());
+        role.getMetaData().setCreatedBy(userName);
+        return _roleRepository.insert(role);
+    }
+
+    public Role save(Role role, String userName) {
+        if (role.getMetaData() == null) {
+            role.setMetaData(new MetaData());
+        }
+        role.getMetaData().setChangedOn(new Date());
+        role.getMetaData().setChangedBy(userName);
+        return _roleRepository.save(role);
+    }
 }

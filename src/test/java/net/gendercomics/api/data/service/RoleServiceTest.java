@@ -1,9 +1,11 @@
 package net.gendercomics.api.data.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import net.gendercomics.api.data.repository.RoleRepository;
+import net.gendercomics.api.model.MetaData;
 import net.gendercomics.api.model.Role;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +44,32 @@ public class RoleServiceTest {
         List<Role> roles = _roleService.findAll();
         assertNotNull(roles);
         assertEquals("id", roles.get(0).getId());
+    }
+
+    @Test
+    public void insert() {
+        Role role = new Role();
+        role.setName("role");
+        role.setMetaData(new MetaData());
+        role.getMetaData().setCreatedOn(new Date());
+
+        when(_roleRepository.insert((Role) any())).thenReturn(role);
+
+        Role roleInserted = _roleService.insert(role, "user");
+        assertEquals("role", role.getName());
+        assertEquals("user", roleInserted.getMetaData().getCreatedBy());
+    }
+
+    @Test
+    public void save() {
+        Role role = new Role();
+        role.setName("role");
+
+        when(_roleRepository.save(any())).thenReturn(role);
+
+        Role roleSaved = _roleService.save(role, "user");
+        assertNotNull(roleSaved.getMetaData());
+        assertEquals("user", roleSaved.getMetaData().getChangedBy());
     }
 
     @TestConfiguration
