@@ -34,8 +34,14 @@ public class PersonController {
         return _personService.findAll();
     }
 
+    @ApiOperation("get person by id")
+    @GetMapping(path = "/persons/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Person getPerson(@ApiParam @PathVariable("id") String id) {
+        return _personService.getPerson(id);
+    }
+
     @ApiOperation("get person by name")
-    @GetMapping(path = "/persons/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/persons/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Person> getPersonBySearchTerm(@ApiParam @PathVariable("name") String name) {
         return _personService.findByName(name);
     }
