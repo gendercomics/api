@@ -1,10 +1,11 @@
 package net.gendercomics.api.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -14,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Role {
 
     private String id;
+    @Indexed(name = "role_name_index", unique = true, direction = IndexDirection.ASCENDING)
     @ApiModelProperty(value = "role name (artist, letterer, inker, etc.)", required = true)
     private String name;
     @ApiModelProperty(value = "detailed description of the role", required = true)
