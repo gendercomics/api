@@ -8,12 +8,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.RoleService;
-import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +32,12 @@ public class RoleController {
     @GetMapping(path = "/roles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Role> getAllRoles() {
         return _roleService.findAll();
+    }
+
+    @ApiOperation("get a role")
+    @GetMapping(path = "/roles/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Role getRole(@ApiParam @PathVariable("id") String id) {
+        return _roleService.getRole(id);
     }
 
     /*** admin endpoints - secured, only authorized access allowed ***/

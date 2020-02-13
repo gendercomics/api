@@ -25,6 +25,10 @@ public class RoleService {
         return roles;
     }
 
+    public Role getRole(String id) {
+        return _roleRepository.findById(id).orElse(null);
+    }
+
     public Role insert(Role role, String userName) {
         log.debug("userName={} tries to insert role", userName);
         role.setMetaData(new MetaData());
