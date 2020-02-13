@@ -59,7 +59,7 @@ public class PersonService {
             person.setMetaData(new MetaData());
         }
         person.getMetaData().setChangedOn(new Date());
-        person.getMetaData().setCreatedBy(userName);
+        person.getMetaData().setChangedBy(userName);
 
         return _personRepository.save(person);
     }
