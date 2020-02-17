@@ -31,7 +31,7 @@ spring:
       uri: mongodb://gendercomics_api:douSPPFk7GrLPr@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
 
 keycloak:
-  realm: gendercomics-stage
+  realm: gendercomics
   resource: gendercomics-admin
   auth-server-url: https://sso.gendercomics.net/auth/
   ssl-required: external
