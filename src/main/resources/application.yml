@@ -28,7 +28,7 @@ spring:
   profiles: stage
   data:
     mongodb:
-      uri: mongodb://gendercomics_api:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+      uri: mongodb://gendercomics_api:douSPPFk7GrLPr@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
 
 keycloak:
   realm: gendercomics-stage
