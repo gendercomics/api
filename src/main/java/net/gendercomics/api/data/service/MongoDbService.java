@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class MongoDbService {
-
+/*
     @Value("${spring.data.mongodb.uri}")
     private String _mongoURI;
 
@@ -25,5 +25,5 @@ public class MongoDbService {
 
         return new MongoTemplate(mongoClient, "gendercomics-dev");
     }
-
+*/
 }

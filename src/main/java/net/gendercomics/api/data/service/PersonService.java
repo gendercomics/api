@@ -30,6 +30,7 @@ public class PersonService {
         return persons;
     }
 
+    /*
     public List<Person> findByName(String name) {
 
         TextCriteria criteria = TextCriteria.forLanguage("de").matching(name);
@@ -42,7 +43,7 @@ public class PersonService {
 
         return Collections.emptyList();
     }
-
+*/
     public Person insert(Person person, String userName) {
         log.debug("userName={} tries to insert person={}", userName, person.toString());
 

@@ -40,11 +40,13 @@ public class PersonController {
         return _personService.getPerson(id);
     }
 
+    /*
     @ApiOperation("get person by name")
     @GetMapping(path = "/persons/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Person> getPersonBySearchTerm(@ApiParam @PathVariable("name") String name) {
         return _personService.findByName(name);
     }
+     */
 
     /*** admin endpoints - secured, only authorized access allowed ***/
 
