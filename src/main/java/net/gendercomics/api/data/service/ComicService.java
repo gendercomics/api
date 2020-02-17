@@ -22,7 +22,7 @@ public class ComicService {
     private final ComicRepository _comicRepository;
 
     public List<Comic> findAll() {
-        List<Comic> comics = _comicRepository.findAll(new Sort(Sort.Direction.ASC, "title"));
+        List<Comic> comics = _comicRepository.findAll(Sort.by(Sort.Direction.ASC, "title"));
         log.debug("#comics={}", comics.size());
         return comics;
     }
