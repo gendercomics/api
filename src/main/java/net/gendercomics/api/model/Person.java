@@ -1,6 +1,5 @@
 package net.gendercomics.api.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import org.springframework.util.StringUtils;
 @Setter
 @Document("persons")
 @ApiModel(description = "persons involved in the process of creating comics")
-public class Person {
+public class Person implements Comparable<Person> {
 
     private String id;
     @ApiModelProperty(value = "first name", required = true)
@@ -29,4 +28,9 @@ public class Person {
         return StringUtils.trimWhitespace(firstName + " " + lastName);
     }
 
+    @Override
+    public int compareTo(Person o) {
+        int last = this.lastName.compareToIgnoreCase(o.lastName);
+        return last == 0 ? this.firstName.compareToIgnoreCase(o.firstName) : last;
+    }
 }

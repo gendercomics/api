@@ -1,5 +1,6 @@
 package net.gendercomics.api.data.service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +21,9 @@ public class PublisherService {
     private final PublisherRepository _publisherRepository;
 
     public List<Publisher> findAll() {
-        List<Publisher> publishers = _publisherRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        List<Publisher> publishers = _publisherRepository.findAll();
         log.debug("#publisher={}", publishers.size());
+        Collections.sort(publishers);
         return publishers;
     }
 

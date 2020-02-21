@@ -38,7 +38,7 @@ public class ComicServiceTest {
         comicList.get(0).setId("comic_id");
         comicList.get(0).setTitle("comic_title");
 
-        when(_comicRepository.findAll((Sort) any())).thenReturn(comicList);
+        when(_comicRepository.findAll()).thenReturn(comicList);
 
         List<Comic> result = _comicService.findAll();
         assertNotNull(result);

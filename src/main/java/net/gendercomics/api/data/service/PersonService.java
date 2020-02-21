@@ -10,10 +10,6 @@ import net.gendercomics.api.data.repository.PersonRepository;
 import net.gendercomics.api.model.MetaData;
 import net.gendercomics.api.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.TextCriteria;
-import org.springframework.data.mongodb.core.query.TextQuery;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,8 +21,9 @@ public class PersonService {
     private final PersonRepository _personRepository;
 
     public List<Person> findAll() {
-        List<Person> persons = _personRepository.findAll(Sort.by(Sort.Direction.ASC, "lastName"));
+        List<Person> persons = _personRepository.findAll();
         log.debug("#persons={}", persons.size());
+        Collections.sort(persons);
         return persons;
     }
 

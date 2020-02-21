@@ -36,7 +36,7 @@ public class PublisherServiceTest {
         publishers.add(new Publisher());
         publishers.get(0).setName("publisher");
 
-        when(_publisherRepository.findAll((Sort) any())).thenReturn(publishers);
+        when(_publisherRepository.findAll()).thenReturn(publishers);
 
         List<Publisher> publisherList = _publisherService.findAll();
         assertNotNull(publisherList);

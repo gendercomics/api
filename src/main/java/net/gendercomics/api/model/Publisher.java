@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Document("publishers")
 @ApiModel(description = "comic book publisher")
-public class Publisher {
+public class Publisher implements Comparable<Publisher> {
 
     private String id;
     @Indexed(unique = true, direction = IndexDirection.ASCENDING)
@@ -22,4 +22,11 @@ public class Publisher {
     private String url;
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
+
+    @Override
+    public int compareTo(Publisher o) {
+        return this.name.compareToIgnoreCase(o.name);
+    }
+
+
 }
