@@ -24,21 +24,29 @@ public class Comic implements Comparable<Comic> {
 
     @ApiModelProperty(value = "comic book title", required = true)
     private String title;
+
     @ApiModelProperty(value = "comic book subtitle", required = false)
     private String subTitle;
+
     @ApiModelProperty(value = "list of creators", required = false)
     private List<Creator> creators;
+
     @ApiModelProperty(value = "publisher", required = false)
     @DBRef
     private Publisher publisher;
+
     @ApiModelProperty(value = "location of publication", required = false)
     private String location;
+
     @ApiModelProperty(value = "year of publication", required = false)
     private Integer year;
+
     @ApiModelProperty(value = "edition", required = false)
     private String edition;
+
     @ApiModelProperty(value = "link", required = false)
     private String link;
+
     @ApiModelProperty(value = "isbn", required = false)
     private String isbn;
 
