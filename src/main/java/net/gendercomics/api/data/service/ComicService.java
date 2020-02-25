@@ -14,7 +14,6 @@ import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
 import net.gendercomics.api.model.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service

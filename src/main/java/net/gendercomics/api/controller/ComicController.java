@@ -2,7 +2,6 @@ package net.gendercomics.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,13 +11,12 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.model.Comic;
-import net.gendercomics.api.model.MetaData;
+import net.gendercomics.api.model.ComicType;
 import org.keycloak.KeycloakSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
