@@ -45,4 +45,8 @@ public class RoleService {
         role.getMetaData().setChangedBy(userName);
         return _roleRepository.save(role);
     }
+
+    public long getRoleCount() {
+        return _roleRepository.count();
+    }
 }

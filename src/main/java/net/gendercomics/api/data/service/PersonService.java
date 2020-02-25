@@ -65,4 +65,8 @@ public class PersonService {
     public Person getPerson(String id) {
         return _personRepository.findById(id).orElse(null);
     }
+
+    public long getPersonCount() {
+        return _personRepository.count();
+    }
 }

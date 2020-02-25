@@ -48,4 +48,8 @@ public class PublisherService {
         return _publisherRepository.save(publisher);
     }
 
+    public long getPublisherCount() {
+        return _publisherRepository.count();
+    }
+
 }
