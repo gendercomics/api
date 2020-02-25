@@ -28,6 +28,9 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "comic book subtitle")
     private String subTitle;
 
+    @ApiModelProperty(value = "magazine issue")
+    private String issue;
+
     @ApiModelProperty(value = "comic book type (comic, magazine, anthology, webcomic, series)", required = true)
     private ComicType type;
 
