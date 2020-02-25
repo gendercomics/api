@@ -44,6 +44,12 @@ public class ComicController {
         return _comicService.findAll();
     }
 
+    @ApiOperation("get all comic parents (anthologies, magazines")
+    @GetMapping(path = "/comics/parents", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Comic> getAllParents() {
+        return _comicService.findByTypes(ComicType.anthology, ComicType.magazine);
+    }
+
     @ApiOperation("get a comic")
     @GetMapping(path = "/comics/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Comic getComic(@ApiParam @PathVariable("id") String id) {

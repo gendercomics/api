@@ -25,30 +25,36 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "comic book title", required = true)
     private String title;
 
-    @ApiModelProperty(value = "comic book subtitle", required = false)
+    @ApiModelProperty(value = "comic book subtitle")
     private String subTitle;
 
-    @ApiModelProperty(value = "list of creators", required = false)
+    @ApiModelProperty(value = "comic book type (comic, magazine, anthology, webcomic, series)", required = true)
+    private ComicType type;
+
+    @ApiModelProperty(value = "list of creators")
     private List<Creator> creators;
 
-    @ApiModelProperty(value = "publisher", required = false)
+    @ApiModelProperty(value = "publisher")
     @DBRef
     private Publisher publisher;
 
-    @ApiModelProperty(value = "location of publication", required = false)
+    @ApiModelProperty(value = "location of publication")
     private String location;
 
-    @ApiModelProperty(value = "year of publication", required = false)
+    @ApiModelProperty(value = "year of publication")
     private Integer year;
 
-    @ApiModelProperty(value = "edition", required = false)
+    @ApiModelProperty(value = "edition")
     private String edition;
 
-    @ApiModelProperty(value = "link", required = false)
+    @ApiModelProperty(value = "link")
     private String link;
 
-    @ApiModelProperty(value = "isbn", required = false)
+    @ApiModelProperty(value = "isbn")
     private String isbn;
+
+    @ApiModelProperty(value = "part of publication (comic)")
+    private PartOf partOf;
 
     @Override
     public int compareTo(Comic o) {
