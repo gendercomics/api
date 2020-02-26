@@ -55,7 +55,7 @@ keycloak:
   realm: gendercomics
   resource: gendercomics-admin
   auth-server-url: https://sso.gendercomics.net/auth
-  ssl-required: true
+  ssl-required: external
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
