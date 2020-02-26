@@ -44,7 +44,7 @@ keycloak:
 spring:
   profiles: production
   main:
-    banner-mode: off
+    banner-mode: "off"
   devtools:
     add-properties: false
   data:
