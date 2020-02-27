@@ -43,8 +43,6 @@ keycloak:
 
 spring:
   profiles: production
-  main:
-    banner-mode: "off"
   devtools:
     add-properties: false
   data:
@@ -54,7 +52,7 @@ spring:
 keycloak:
   realm: gendercomics
   resource: gendercomics-admin
-  auth-server-url: https://sso.gendercomics.net/auth
+  auth-server-url: https://sso.gendercomics.net/auth/
   ssl-required: external
   public-client: true
   bearer-only: true
