@@ -16,8 +16,10 @@ public class Publisher implements Comparable<Publisher> {
 
     private String id;
     @Indexed(unique = true, direction = IndexDirection.ASCENDING)
-    @ApiModelProperty(value = "URL to publisher website", required = true)
+    @ApiModelProperty(value = "publisher name", required = true)
     private String name;
+    @ApiModelProperty(value = "publisher location", required = true)
+    private String location;
     @ApiModelProperty(value = "URL to publisher website")
     private String url;
     @ApiModelProperty(value = "metadata", required = true)
