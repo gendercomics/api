@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+
+  mongodb:
+    image: mongo:4.2.1
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_DATA_DB: ${MONGO_DATA_DB}
+      MONGO_DATA_CONFIGDB: ${MONGO_DATA_CONFIGDB}
+    volumes:
+      - ${MONGO_DATA_DB}:/data/db
+      - ${MONGO_DATA_CONFIGDB}:/data/configdb
+    networks:
+      - proxy
+      - database
+    ports:
+      - 27017:27017
+    labels:
+      - traefik.enable=false
+
+  gendercomics-api-stage:
+    image: gendercomics/api:latest
+    container_name: gendercomics-api-stage
+    environment:
+      - HOST
+      - SPRING_PROFILES_ACTIVE=stage
+      - MONGO_USERNAME=${MONGO_USERNAME_STAGE}
+      - MONGO_PASSWORD=${MONGO_PASSWORD_STAGE}
+    networks:
+      - proxy
+      - database
+    depends_on:
+      - mongodb
+    ports:
+      - 8001:8001
+    labels:
+      - traefik.frontend.rule=Host:api-stage.${HOST}
+      - traefik.port=8001
+
+  gendercomics-api:
+    image: gendercomics/api:latest
+    container_name: gendercomics-api
+    environment:
+      - HOST
+      - SPRING_PROFILES_ACTIVE=production
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+    networks:
+      - proxy
+      - database
+    depends_on:
+      - mongodb
+    ports:
+      - 8001:8001
+    labels:
+      - traefik.frontend.rule=Host:api.${HOST}
+      - traefik.port=8001
+
+networks:
+  database:
+  proxy:
+    external: true
