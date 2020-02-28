@@ -30,3 +30,5 @@ out/
 
 ### VS Code ###
 .vscode/
+deploy-key
+/requests/http-client.private.env.json
