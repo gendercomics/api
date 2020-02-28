@@ -14,4 +14,5 @@ public class MetaData {
     private String createdBy;
     private Date changedOn;
     private String changedBy;
+    private Status status;
 }
