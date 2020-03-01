@@ -51,3 +51,14 @@ deploy:
     script: ssh deploy@gendercomics.net 'docker pull gendercomics/api:1.0.1 && cd /var/gendercomics/api && docker-compose up -d gendercomics-api'
     on:
       branches: master
+
+notifications:
+  slack:
+    rooms:
+      - visualitiesofgender:3zAI6z6JJXLeEIaBU49O0Wkr#builds
+    on_success: change
+  email:
+    recipients:
+      - michael.litschauer@gmail.com
+    on_success: always
+    on_failure: always
