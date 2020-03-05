@@ -16,7 +16,6 @@ services:
       - ${MONGO_DATA_CONFIGDB}:/data/configdb
     networks:
       - proxy
-      - database
     ports:
       - 27017:27017
     labels:
@@ -32,11 +31,8 @@ services:
       - MONGO_PASSWORD=${MONGO_PASSWORD_STAGE}
     networks:
       - proxy
-      - database
     depends_on:
       - mongodb
-    ports:
-      - 8001:8001
     labels:
       - traefik.frontend.rule=Host:api-stage.${HOST}
       - traefik.port=8001
@@ -51,16 +47,12 @@ services:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
     networks:
       - proxy
-      - database
     depends_on:
       - mongodb
-    ports:
-      - 8001:8001
     labels:
       - traefik.frontend.rule=Host:api.${HOST}
       - traefik.port=8001
 
 networks:
-  database:
   proxy:
     external: true
