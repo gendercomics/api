@@ -20,6 +20,7 @@ services:
       - 27017:27017
     labels:
       - traefik.enable=false
+      - traefik.docker.network=proxy
 
   gendercomics-api-stage:
     image: gendercomics/api:latest
@@ -36,9 +37,10 @@ services:
     labels:
       - traefik.frontend.rule=Host:api-stage.${HOST}
       - traefik.port=8001
+      - traefik.docker.network=proxy
 
   gendercomics-api:
-    image: gendercomics/api:1.0.1
+    image: gendercomics/api:1.0.3
     container_name: gendercomics-api
     environment:
       - HOST
@@ -52,6 +54,7 @@ services:
     labels:
       - traefik.frontend.rule=Host:api.${HOST}
       - traefik.port=8001
+      - traefik.docker.network=proxy
 
 networks:
   proxy:
