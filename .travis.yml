@@ -48,7 +48,7 @@ deploy:
 
   - provider: script
     skip_cleanup: true
-    script: ssh deploy@gendercomics.net 'docker pull gendercomics/api:1.0.1 && cd /var/gendercomics/api && docker-compose up -d gendercomics-api'
+    script: ssh deploy@gendercomics.net 'docker pull gendercomics/api:1.0.3 && cd /var/gendercomics/api && docker-compose up -d gendercomics-api'
     on:
       branches: master
 
