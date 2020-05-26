@@ -9,11 +9,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
-import org.keycloak.KeycloakSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = {"comics"})
@@ -69,7 +73,11 @@ public class ComicController {
     @ApiOperation("get a comic by title")
     @GetMapping(path = "/comics/title/{title}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Comic getComicByTitle(@ApiParam @PathVariable("title") String title) throws JsonProcessingException {
-        return _comicService.findByTitle(title);
+        try {
+            return _comicService.findByTitle(title);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     /*** admin endpoints - secured, only authorized access allowed ***/
