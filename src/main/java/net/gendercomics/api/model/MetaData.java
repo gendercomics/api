@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Builder;
 
 @Getter
 @Setter
@@ -21,7 +20,6 @@ public class MetaData {
     private Date changedOn;
     @ApiModelProperty(value = "User who modified the entry")
     private String changedBy;
-    @Builder.Default
     @ApiModelProperty(value = "Status of entry: DRAFT|REVIEW|FINAL, default value = DRAFT")
     private Status status = Status.DRAFT;
 }
