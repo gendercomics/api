@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
@@ -38,8 +39,8 @@ public class ComicService {
         return comics;
     }
 
-    public Comic findByTitle(String title) {
-        return _comicRepository.findByTitle(title).orElse(null);
+    public Comic findByTitle(String title) throws NotFoundException {
+        return _comicRepository.findByTitle(title).orElseThrow(NotFoundException::new);
     }
 
     public Comic insert(Comic comic, String userName) {

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,6 +24,7 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
 
+    @Indexed(name = "comic_book_title_index", direction = IndexDirection.ASCENDING, unique = true)
     @ApiModelProperty(value = "comic book title", required = true)
     private String title;
 
