@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 @Setter
 @Document("persons")
 @CompoundIndexes(value = {
-        @CompoundIndex(name = "fullname_index", def = "{'lastName':1, 'firstName':1}", unique = true)
+        @CompoundIndex(name = "person_fullname_index", def = "{'lastName':1, 'firstName':1}", unique = true)
 })
 @ApiModel(description = "persons involved in the process of creating comics")
 public class Person implements Comparable<Person> {
