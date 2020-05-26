@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Publisher implements Comparable<Publisher> {
 
     private String id;
-    @Indexed(unique = true, direction = IndexDirection.ASCENDING)
+    @Indexed(name = "publisher_name_index", unique = true, direction = IndexDirection.ASCENDING)
     @ApiModelProperty(value = "publisher name", required = true)
     private String name;
     @ApiModelProperty(value = "publisher location", required = true)
