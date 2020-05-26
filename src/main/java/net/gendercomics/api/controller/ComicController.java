@@ -66,6 +66,12 @@ public class ComicController {
         return _comicService.getComicCount();
     }
 
+    @ApiOperation("get a comic by title")
+    @GetMapping(path = "/comics/title/{title}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Comic getComicByTitle(@ApiParam @PathVariable("title") String title) throws JsonProcessingException {
+        return _comicService.findByTitle(title);
+    }
+
     /*** admin endpoints - secured, only authorized access allowed ***/
 
     @ApiOperation("insert a comic")
@@ -78,12 +84,6 @@ public class ComicController {
     @PutMapping(path = "/comics/{id}")
     public Comic saveComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Comic comic) {
         return _comicService.save(comic, principal.getName());
-    }
-
-    /*** Keycloak access ***/
-
-    private KeycloakSecurityContext getKeycloakSecurityContext() {
-        return (KeycloakSecurityContext) _request.getAttribute(KeycloakSecurityContext.class.getName());
     }
 
 }
