@@ -1,40 +1,90 @@
 package net.gendercomics.api.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.repository.*;
+import net.gendercomics.api.data.service.*;
 import net.gendercomics.api.model.Comic;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.info.BuildProperties;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Ignore("FIXME keycloak?")
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ComicControllerTest.TestContextConfiguration.class})
-@WebMvcTest(ComicController.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureWebMvc
 public class ComicControllerTest {
 
     @Autowired
+    private WebApplicationContext _context;
+
     private MockMvc _mockMvc;
 
-    @Autowired
+    @MockBean
     private ComicService _comicService;
+
+    @MockBean
+    private CommonController _commonController;
+
+    @MockBean
+    private PersonService _personService;
+
+    @MockBean
+    private KeywordService _keywordService;
+
+    @MockBean
+    private PublisherService _publisherService;
+
+    @MockBean
+    private RoleService _roleService;
+
+    @MockBean
+    private MongoTemplate _mongoTemplate;
+
+    @MockBean
+    private RoleRepository _roleRepository;
+
+    @MockBean
+    private PersonRepository _personRepository;
+
+    @MockBean
+    private KeywordRepository _keywordRepository;
+
+    @MockBean
+    private ComicRepository _comicRepository;
+
+    @MockBean
+    private PublisherRepository _publisherRepository;
+
+    @MockBean
+    private GridFsTemplate _gridFsTemplate;
+
+    @Before
+    public void setup() {
+        _mockMvc = MockMvcBuilders
+                .webAppContextSetup(_context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @Test
     public void findAll() throws Exception {
@@ -50,10 +100,12 @@ public class ComicControllerTest {
 
         when(_comicService.findAll()).thenReturn(comicList);
 
-        _mockMvc.perform(get("/comics"))
+        _mockMvc.perform(get("/comics")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].Comic.title", is("Wonderwoman")))
-                .andExpect(jsonPath("$.[1].Comic.title", is("Gift")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$.[0].title", is("Wonderwoman")))
+                .andExpect(jsonPath("$.[1].title", is("Gift")));
     }
 
     @Test
@@ -66,18 +118,18 @@ public class ComicControllerTest {
 
         _mockMvc.perform(get("/comics/4711"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.Comic.id", is("4711")))
-                .andExpect(jsonPath("$.Comic.title", is("testComic")));
+                .andExpect(jsonPath("$.id", is("4711")))
+                .andExpect(jsonPath("$.title", is("testComic")));
     }
 
     @Test
     public void getComicAsXml() {
-        // TODO
+        // TODO implement test
     }
 
     @Test
     public void insertComic() {
-        // TODO
+        // TODO implement test
     }
 
     @Test
@@ -86,20 +138,27 @@ public class ComicControllerTest {
 
         _mockMvc.perform(get("/comics/count"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is("7")));
+                .andExpect(jsonPath("$", is("<7>s")));
     }
 
-    @TestConfiguration
-    static class TestContextConfiguration {
-
-        @Bean
-        public ComicService comicService() {
-            return mock(ComicService.class);
-        }
-
-        @Bean
-        public BuildProperties buildProperties() {
-            return mock(BuildProperties.class);
-        }
+    @Test
+    public void getAllComics() {
+        // TODO implement test
     }
+
+    @Test
+    public void getAllParents() {
+        // TODO implement test
+    }
+
+    @Test
+    public void getComicByTitle() {
+        // TODO implement test
+    }
+
+    @Test
+    public void saveComic() {
+        // TODO implement test
+    }
+
 }
