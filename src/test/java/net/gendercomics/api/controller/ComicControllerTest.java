@@ -1,9 +1,26 @@
 package net.gendercomics.api.controller;
 
-import net.gendercomics.api.data.repository.*;
-import net.gendercomics.api.data.service.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.gendercomics.api.data.NotFoundException;
+import net.gendercomics.api.data.repository.ComicRepository;
+import net.gendercomics.api.data.repository.KeywordRepository;
+import net.gendercomics.api.data.repository.PersonRepository;
+import net.gendercomics.api.data.repository.PublisherRepository;
+import net.gendercomics.api.data.repository.RoleRepository;
+import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.KeywordService;
+import net.gendercomics.api.data.service.PersonService;
+import net.gendercomics.api.data.service.PublisherService;
+import net.gendercomics.api.data.service.RoleService;
 import net.gendercomics.api.model.Comic;
+import net.gendercomics.api.model.ComicType;
+import net.gendercomics.api.model.MetaData;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +30,22 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,9 +78,6 @@ public class ComicControllerTest {
     private RoleService _roleService;
 
     @MockBean
-    private MongoTemplate _mongoTemplate;
-
-    @MockBean
     private RoleRepository _roleRepository;
 
     @MockBean
@@ -75,8 +92,16 @@ public class ComicControllerTest {
     @MockBean
     private PublisherRepository _publisherRepository;
 
+    /**
+     * MongoDB mocks
+     **/
+    @MockBean
+    private MongoTemplate _mongoTemplate;
+
     @MockBean
     private GridFsTemplate _gridFsTemplate;
+
+    private ObjectMapper _objectMapper;
 
     @Before
     public void setup() {
@@ -84,10 +109,11 @@ public class ComicControllerTest {
                 .webAppContextSetup(_context)
                 .apply(springSecurity())
                 .build();
+        _objectMapper = new ObjectMapper();
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void whenGetAllComics_thenOk() throws Exception {
         List<Comic> comicList = new ArrayList<>();
 
         comicList.add(new Comic());
@@ -109,7 +135,7 @@ public class ComicControllerTest {
     }
 
     @Test
-    public void getComic() throws Exception {
+    public void whenGetComic_thenOk() throws Exception {
         Comic comic = new Comic();
         comic.setId("4711");
         comic.setTitle("testComic");
@@ -123,42 +149,122 @@ public class ComicControllerTest {
     }
 
     @Test
-    public void getComicAsXml() {
-        // TODO implement test
+    public void whenGetComicAsXml_thenOk() throws Exception {
+        Comic comic = new Comic();
+        comic.setId("4711");
+        comic.setTitle("testComic");
+
+        when(_comicService.getComic("4711")).thenReturn(comic);
+
+        _mockMvc.perform(get("/comics/4711/xml"))
+                .andExpect(status().isOk());
+        //.andExpect(xpath("/Comic/id", "%s").string(containsString("4711")));
     }
 
     @Test
-    public void insertComic() {
-        // TODO implement test
+    @WithMockUser(username = "mock_user", roles = {"crud_comics"})
+    public void givenAuthorizedUser_whenInsertComic_thenOk() throws Exception {
+        Comic comic = new Comic();
+        comic.setTitle("testComic");
+
+        Comic insertedComic = new Comic();
+        insertedComic.setId("4711");
+        insertedComic.setTitle("testComic");
+
+        when(_comicService.insert(any(), any())).thenReturn(insertedComic);
+
+        _mockMvc.perform(post("/comics/")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(_objectMapper.writeValueAsString(comic)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is("4711")))
+                .andExpect(jsonPath("$.title", is("testComic")));
+    }
+
+    @Ignore("check security config")
+    @Test
+    @WithAnonymousUser
+    public void givenAnonymousUser_whenInsertComic_thenForbidden() throws Exception {
+        Comic comic = new Comic();
+        comic.setTitle("testComic");
+
+        _mockMvc.perform(post("/comics/")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(_objectMapper.writeValueAsString(comic)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
     }
 
     @Test
-    public void getComicCount() throws Exception {
+    @WithMockUser(username = "mock_user", roles = {"crud_comics"})
+    public void givenAuthorizedUser_whenSaveComic_thenOk() throws Exception {
+        Comic comic = new Comic();
+        comic.setId("4711");
+        comic.setTitle("testComic");
+
+        Comic savedComic = new Comic();
+        savedComic.setId("4711");
+        savedComic.setTitle("testComic");
+        savedComic.setMetaData(new MetaData());
+        savedComic.getMetaData().setChangedOn(new Date());
+
+        when(_comicService.save(any(), any())).thenReturn(savedComic);
+
+        _mockMvc.perform(put("/comics/4711")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(_objectMapper.writeValueAsString(comic)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is("4711")))
+                .andExpect(jsonPath("$.title", is("testComic")))
+                .andExpect(jsonPath("$.metaData.changedOn").isNotEmpty());
+    }
+
+    @Test
+    public void whenGetComicCount_thenOk() throws Exception {
         when(_comicService.getComicCount()).thenReturn(7l);
 
         _mockMvc.perform(get("/comics/count"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is("<7>s")));
+                .andExpect(jsonPath("$", is(7)));
     }
 
     @Test
-    public void getAllComics() {
-        // TODO implement test
+    public void whenGetAllParents_thenOk() throws Exception {
+        List<Comic> comicList = new ArrayList<>();
+
+        comicList.add(new Comic());
+        comicList.get(0).setId("id");
+        comicList.get(0).setTitle("test_anthology");
+        comicList.get(0).setType(ComicType.anthology);
+
+        when(_comicService.findByTypes(ComicType.anthology, ComicType.magazine)).thenReturn(comicList);
+
+        _mockMvc.perform(get("/comics/parents")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$.[0].type", is(ComicType.anthology.name())));
     }
 
     @Test
-    public void getAllParents() {
-        // TODO implement test
-    }
+    public void whenGetComicByTitle_thenOk() throws NotFoundException, Exception {
+        String title = "my_title";
 
-    @Test
-    public void getComicByTitle() {
-        // TODO implement test
-    }
+        Comic comic = new Comic();
+        comic.setId("id");
+        comic.setTitle(title);
 
-    @Test
-    public void saveComic() {
-        // TODO implement test
+        when(_comicService.findByTitle(title)).thenReturn(comic);
+
+        _mockMvc.perform(get("/comics/title/" + title)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is(title)));
     }
 
 }
