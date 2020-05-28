@@ -96,7 +96,7 @@ public class RoleControllerTest {
     }
 
     @Test
-    public void getAllRoles() throws Exception {
+    public void whenGetAllRoles_thenOK() throws Exception {
         List<Role> roles = new ArrayList<>();
         roles.add(new Role());
         roles.get(0).setId("role_id");
@@ -110,10 +110,16 @@ public class RoleControllerTest {
     }
 
     @Test
-    public void insertRole() {
+    public void whenGetRole_thenOK() {
     }
 
+
     @Test
-    public void saveComic() {
+    public void whenInsertRole_thenOk() {
+    }
+
+
+    @Test
+    public void whenSaveRole_thenOk() {
     }
 }
