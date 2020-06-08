@@ -15,6 +15,7 @@ import net.gendercomics.api.data.service.PublisherService;
 import net.gendercomics.api.data.service.RoleService;
 import net.gendercomics.api.model.Role;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -96,7 +98,7 @@ public class RoleControllerTest {
     }
 
     @Test
-    public void getAllRoles() throws Exception {
+    public void whenGetAllRoles_thenOK() throws Exception {
         List<Role> roles = new ArrayList<>();
         roles.add(new Role());
         roles.get(0).setId("role_id");
@@ -109,11 +111,22 @@ public class RoleControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Ignore("incomplete")
     @Test
-    public void insertRole() {
+    public void whenGetRole_thenOK() throws Exception {
+        String id = "role_id";
+
+        _mockMvc.perform(get("/roles/" + id)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void saveComic() {
+    public void whenInsertRole_thenOk() {
+    }
+
+
+    @Test
+    public void whenSaveRole_thenOk() {
     }
 }
