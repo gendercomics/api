@@ -26,9 +26,7 @@ public class KeywordService {
     }
 
     public Keyword getKeyword(String id) {
-        // TODO implement method
-        log.warn("not implemented yet");
-        return null;
+        return _keywordRepository.findById(id).orElse(null);
     }
 
     public Keyword insert(Keyword keyword, String userName) {
@@ -39,8 +37,15 @@ public class KeywordService {
     }
 
     public Keyword save(Keyword keyword, String userName) {
-        // TODO implement method
-        log.warn("not implemented yet");
-        return null;
+        if (keyword.getMetaData() == null) {
+            keyword.setMetaData(new MetaData());
+        }
+        keyword.getMetaData().setChangedOn(new Date());
+        keyword.getMetaData().setChangedBy(userName);
+        return _keywordRepository.save(keyword);
+    }
+
+    public long getKeywordCount() {
+        return _keywordRepository.count();
     }
 }
