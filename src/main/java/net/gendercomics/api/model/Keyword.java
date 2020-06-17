@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -17,7 +19,8 @@ public class Keyword implements Comparable<Keyword> {
     @ApiModelProperty(value = "metadata")
     private MetaData metaData;
 
-    @ApiModelProperty(value = "keyword", required = true)
+    @ApiModelProperty(value = "keyword name", required = true)
+    @Indexed(name = "keyword_name_index", direction = IndexDirection.ASCENDING, unique = true)
     private String name;
 
     @ApiModelProperty(value = "keyword type (content)", required = true)

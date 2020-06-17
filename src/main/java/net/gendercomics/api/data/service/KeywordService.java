@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.KeywordRepository;
 import net.gendercomics.api.model.Keyword;
+import net.gendercomics.api.model.KeywordType;
 import net.gendercomics.api.model.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,12 @@ public class KeywordService {
 
     public List<Keyword> findAll() {
         List<Keyword> keywordList = _keywordRepository.findAll();
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+    public List<Keyword> findByType(String type) {
+        List<Keyword> keywordList = _keywordRepository.findByType(KeywordType.valueOf(type));
         Collections.sort(keywordList);
         return keywordList;
     }
