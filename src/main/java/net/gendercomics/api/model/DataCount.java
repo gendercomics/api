@@ -11,5 +11,6 @@ public class DataCount {
     private long persons;
     private long publishers;
     private long roles;
+    private long keywords;
 
 }

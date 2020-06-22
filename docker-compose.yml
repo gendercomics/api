@@ -40,7 +40,7 @@ services:
       - traefik.docker.network=proxy
 
   gendercomics-api:
-    image: gendercomics/api:1.1.1
+    image: gendercomics/api:1.2.0
     container_name: gendercomics-api
     environment:
       - HOST

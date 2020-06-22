@@ -2,6 +2,7 @@ package net.gendercomics.api.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -30,8 +32,8 @@ public class KeywordController {
 
     @ApiOperation("get all keywords")
     @GetMapping(path = "/keywords", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Keyword> getAllKeywords() {
-        return _keywordService.findAll();
+    public List<Keyword> getKeywords(@RequestParam Optional<String> type) {
+        return type.map(_keywordService::findByType).orElseGet(_keywordService::findAll);
     }
 
     @ApiOperation("get a keyword")

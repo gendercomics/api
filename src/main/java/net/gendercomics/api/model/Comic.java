@@ -59,6 +59,10 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "part of publication (comic)")
     private PartOf partOf;
 
+    @ApiModelProperty(value = "list of keywords")
+    @DBRef
+    private List<Keyword> keywords;
+
     @Override
     public int compareTo(Comic o) {
         return this.title.compareToIgnoreCase(o.title);

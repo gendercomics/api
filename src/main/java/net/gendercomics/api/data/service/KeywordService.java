@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.KeywordRepository;
 import net.gendercomics.api.model.Keyword;
+import net.gendercomics.api.model.KeywordType;
 import net.gendercomics.api.model.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,10 +26,14 @@ public class KeywordService {
         return keywordList;
     }
 
+    public List<Keyword> findByType(String type) {
+        List<Keyword> keywordList = _keywordRepository.findByType(KeywordType.valueOf(type));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
     public Keyword getKeyword(String id) {
-        // TODO implement method
-        log.warn("not implemented yet");
-        return null;
+        return _keywordRepository.findById(id).orElse(null);
     }
 
     public Keyword insert(Keyword keyword, String userName) {
@@ -39,8 +44,15 @@ public class KeywordService {
     }
 
     public Keyword save(Keyword keyword, String userName) {
-        // TODO implement method
-        log.warn("not implemented yet");
-        return null;
+        if (keyword.getMetaData() == null) {
+            keyword.setMetaData(new MetaData());
+        }
+        keyword.getMetaData().setChangedOn(new Date());
+        keyword.getMetaData().setChangedBy(userName);
+        return _keywordRepository.save(keyword);
+    }
+
+    public long getKeywordCount() {
+        return _keywordRepository.count();
     }
 }

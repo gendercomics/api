@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.KeywordService;
 import net.gendercomics.api.data.service.PersonService;
 import net.gendercomics.api.data.service.PublisherService;
 import net.gendercomics.api.data.service.RoleService;
@@ -26,6 +27,7 @@ public class CommonController {
     private final PersonService _personService;
     private final PublisherService _publisherService;
     private final RoleService _roleService;
+    private final KeywordService _keywordService;
 
     @ApiOperation("retreive API information")
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -41,6 +43,7 @@ public class CommonController {
         dataCount.setPersons(_personService.getPersonCount());
         dataCount.setPublishers(_publisherService.getPublisherCount());
         dataCount.setRoles(_roleService.getRoleCount());
+        dataCount.setKeywords(_keywordService.getKeywordCount());
         return dataCount;
     }
 
