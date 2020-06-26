@@ -22,13 +22,11 @@ public class KeywordService {
 
     public List<Keyword> findAll() {
         List<Keyword> keywordList = _keywordRepository.findAll();
-        Collections.sort(keywordList);
         return keywordList;
     }
 
     public List<Keyword> findByType(String type) {
         List<Keyword> keywordList = _keywordRepository.findByType(KeywordType.valueOf(type));
-        Collections.sort(keywordList);
         return keywordList;
     }
 
