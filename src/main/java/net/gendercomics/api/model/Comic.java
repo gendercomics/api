@@ -62,7 +62,6 @@ public class Comic implements Comparable<Comic> {
 
     @ApiModelProperty(value = "list of genres (keywords)")
     @DBRef
-    @JsonInclude(JsonInclude.Include.ALWAYS)
     private List<Keyword> genres;
 
     @ApiModelProperty(value = "list of keywords")
