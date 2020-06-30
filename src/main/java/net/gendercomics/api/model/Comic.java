@@ -2,6 +2,7 @@ package net.gendercomics.api.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -58,6 +59,10 @@ public class Comic implements Comparable<Comic> {
 
     @ApiModelProperty(value = "part of publication (comic)")
     private PartOf partOf;
+
+    @ApiModelProperty(value = "list of genres (keywords)")
+    @DBRef
+    private List<Keyword> genres;
 
     @ApiModelProperty(value = "list of keywords")
     @DBRef
