@@ -1,13 +1,16 @@
 package net.gendercomics.api.model;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.util.StringUtils;
 
 @Getter
 @Setter
@@ -16,43 +19,31 @@ import org.springframework.util.StringUtils;
         @CompoundIndex(name = "person_fullname_index", def = "{'lastName':1, 'firstName':1}", unique = true, sparse = true)
 })
 @ApiModel(description = "persons involved in the process of creating comics")
-public class Person implements Comparable<Person> {
+public class Person {
 
     private String id;
 
-    @ApiModelProperty(value = "first name")
-    private String firstName;
+    @DBRef
+    @ApiModelProperty(value = "list of names", required = true)
+    private List<Name> names;
 
-    @ApiModelProperty(value = "last name")
-    private String lastName;
-
+    @Indexed(name = "wikidata_index", unique = true, sparse = true)
     @ApiModelProperty(value = "wikidata")
     private String wikiData;
 
+    @Deprecated
+    @ApiModelProperty(value = "first name")
+    private String firstName;
+
+    @Deprecated
+    @ApiModelProperty(value = "last name")
+    private String lastName;
+
+    @Deprecated
     @ApiModelProperty(value = "pseudonym")
     private String pseudonym;
 
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
 
-    private String getLastNameOrPseudonym() {
-        if (this.lastName != null) {
-            return this.lastName;
-        }
-        return this.pseudonym;
-    }
-
-    @Override
-    public String toString() {
-        return StringUtils.trimWhitespace(firstName + " " + lastName);
-    }
-
-    @Override
-    public int compareTo(Person o) {
-        int last = 0;
-        if (getLastNameOrPseudonym() != null) {
-            last = this.getLastNameOrPseudonym().compareToIgnoreCase(o.getLastNameOrPseudonym());
-        }
-        return last == 0 ? this.firstName.compareToIgnoreCase(o.firstName) : last;
-    }
 }
