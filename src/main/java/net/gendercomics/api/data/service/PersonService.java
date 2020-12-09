@@ -50,6 +50,8 @@ public class PersonService {
         person.getMetaData().setCreatedOn(new Date());
         person.getMetaData().setCreatedBy(userName);
 
+        person.setNames(saveNames(person.getNames()));
+
         return _personRepository.insert(person);
     }
 
