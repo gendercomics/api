@@ -1,7 +1,5 @@
 package net.gendercomics.api.model;
 
-import java.util.List;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -12,6 +10,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.beans.Transient;
+import java.util.List;
+
 @Getter
 @Setter
 @Document("persons")
@@ -19,7 +20,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
         @CompoundIndex(name = "person_fullname_index", def = "{'lastName':1, 'firstName':1}", unique = true, sparse = true)
 })
 @ApiModel(description = "persons involved in the process of creating comics")
-public class Person {
+public class Person implements Comparable<Person> {
 
     private String id;
 
@@ -46,4 +47,20 @@ public class Person {
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
 
+    @Transient
+    private Name getSortName() {
+        if (names.size() > 1) {
+            for (Name name : names) {
+                if (name.isSearchable()) {
+                    return name;
+                }
+            }
+        }
+        return names.get(0);
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        return this.getSortName().compareTo(o.getSortName());
+    }
 }

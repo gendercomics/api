@@ -1,17 +1,17 @@
 package net.gendercomics.api.data.service;
 
-import java.util.Date;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.gendercomics.api.data.repository.NameRepository;
 import net.gendercomics.api.data.repository.PersonRepository;
 import net.gendercomics.api.model.MetaData;
 import net.gendercomics.api.model.Name;
 import net.gendercomics.api.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -25,7 +25,7 @@ public class PersonService {
     public List<Person> findAll() {
         List<Person> persons = _personRepository.findAll();
         log.debug("#persons={}", persons.size());
-        //Collections.sort(persons);
+        Collections.sort(persons);
         return persons;
     }
 
