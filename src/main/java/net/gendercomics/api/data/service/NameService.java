@@ -52,6 +52,7 @@ public class NameService {
 */
 
     public Name saveName(Name name) {
+        name.setEmptyStringsNull();
         return name.getId() == null ? _nameRepository.insert(name) : _nameRepository.save(name);
     }
 
