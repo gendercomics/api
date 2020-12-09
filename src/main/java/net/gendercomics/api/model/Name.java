@@ -23,7 +23,7 @@ public class Name implements Comparable<Name> {
     @ApiModelProperty(value = "last name")
     private String lastName;
 
-    @ApiModelProperty(value = "name value (firstname + lastname or single name value")
+    @ApiModelProperty(value = "name value")
     private String name;
 
     @ApiModelProperty(value = "true if name is a pseudonym")
@@ -32,12 +32,12 @@ public class Name implements Comparable<Name> {
     @ApiModelProperty(value = "true if name entity shall be searchable (e.g. to be referenced as comic creator)")
     private boolean searchable;
 
+    private String getComparableName() {
+        return name != null ? name : lastName + ' ' + firstName;
+    }
+
     @Override
     public int compareTo(Name o) {
-        int last = 0;
-        last = this.lastName.compareToIgnoreCase(o.lastName);
-        return last == 0 ? this.firstName.compareToIgnoreCase(o.firstName) : last;
-
-        // TODO implement comparison logic
+        return this.getComparableName().compareToIgnoreCase(o.getComparableName());
     }
 }

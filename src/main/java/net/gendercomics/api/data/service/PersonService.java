@@ -20,7 +20,7 @@ public class PersonService {
 
     private final MongoDbService _mongoDbService;
     private final PersonRepository _personRepository;
-    private final NameRepository _nameRepository;
+    private final NameService _nameService;
 
     public List<Person> findAll() {
         List<Person> persons = _personRepository.findAll();
@@ -71,12 +71,8 @@ public class PersonService {
     }
 
     private List<Name> saveNames(List<Name> names) {
-        names.forEach(name -> saveName(name));
+        names.forEach(name -> _nameService.saveName(name));
         return names;
-    }
-
-    private Name saveName(Name name) {
-        return name.getId() == null ? _nameRepository.insert(name) : _nameRepository.save(name);
     }
 
     public Person getPerson(String id) {
