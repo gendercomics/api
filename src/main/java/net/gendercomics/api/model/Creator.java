@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 public class Creator {
 
     @DBRef
-    private Person person;
+    private Name name;
     @DBRef
     private Role role;
 

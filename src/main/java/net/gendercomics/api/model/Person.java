@@ -6,8 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.util.StringUtils;
+
+import java.beans.Transient;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,39 +24,43 @@ public class Person implements Comparable<Person> {
 
     private String id;
 
-    @ApiModelProperty(value = "first name")
-    private String firstName;
+    @DBRef
+    @ApiModelProperty(value = "list of names", required = true)
+    private List<Name> names;
 
-    @ApiModelProperty(value = "last name")
-    private String lastName;
-
+    @Indexed(name = "wikidata_index", unique = true, sparse = true)
     @ApiModelProperty(value = "wikidata")
     private String wikiData;
 
+    @Deprecated
+    @ApiModelProperty(value = "first name")
+    private String firstName;
+
+    @Deprecated
+    @ApiModelProperty(value = "last name")
+    private String lastName;
+
+    @Deprecated
     @ApiModelProperty(value = "pseudonym")
     private String pseudonym;
 
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
 
-    private String getLastNameOrPseudonym() {
-        if (this.lastName != null) {
-            return this.lastName;
+    @Transient
+    private Name getSortName() {
+        if (names.size() > 1) {
+            for (Name name : names) {
+                if (name.isSearchable()) {
+                    return name;
+                }
+            }
         }
-        return this.pseudonym;
-    }
-
-    @Override
-    public String toString() {
-        return StringUtils.trimWhitespace(firstName + " " + lastName);
+        return names.get(0);
     }
 
     @Override
     public int compareTo(Person o) {
-        int last = 0;
-        if (getLastNameOrPseudonym() != null) {
-            last = this.getLastNameOrPseudonym().compareToIgnoreCase(o.getLastNameOrPseudonym());
-        }
-        return last == 0 ? this.firstName.compareToIgnoreCase(o.firstName) : last;
+        return this.getSortName().compareTo(o.getSortName());
     }
 }

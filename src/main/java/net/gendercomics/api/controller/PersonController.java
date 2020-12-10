@@ -30,7 +30,7 @@ public class PersonController {
 
     @ApiOperation("get all persons")
     @GetMapping(path = "/persons", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Person> getAllComics() {
+    public List<Person> getAllPersons() {
         return _personService.findAll();
     }
 
@@ -52,7 +52,7 @@ public class PersonController {
 
     @ApiOperation("insert a person")
     @PostMapping(path = "/persons")
-    public Person insertComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Person person) {
+    public Person insertPerson(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Person person) {
         return _personService.insert(person, principal.getName());
     }
 
