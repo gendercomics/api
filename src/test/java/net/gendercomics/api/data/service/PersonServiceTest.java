@@ -25,7 +25,7 @@ public class PersonServiceTest {
     private PersonRepository _personRepository;
 
     @MockBean
-    private NameRepository _nameRepository;
+    private NameService _nameService;
 
     @MockBean
     private MongoDbService _mongoDbService;
