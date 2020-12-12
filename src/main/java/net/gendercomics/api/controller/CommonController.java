@@ -29,13 +29,13 @@ public class CommonController {
     private final RoleService _roleService;
     private final KeywordService _keywordService;
 
-    @ApiOperation("retreive API information")
+    @ApiOperation("retrieve API information")
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BuildProperties getInfo() {
         return _buildProperties;
     }
 
-    @ApiOperation("retreive API information")
+    @ApiOperation("retrieve API information")
     @GetMapping(path = "/count", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public DataCount getDataCount() {
         DataCount dataCount = new DataCount();

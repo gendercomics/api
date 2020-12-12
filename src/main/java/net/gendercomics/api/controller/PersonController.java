@@ -56,10 +56,10 @@ public class PersonController {
         return _personService.save(person, principal.getName());
     }
 
-    @ApiOperation("update a person")
-    @DeleteMapping(path = "/persons/{personId}")
-    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String personId) {
-        _personService.delete(personId);
+    @ApiOperation("delete a person")
+    @DeleteMapping(path = "/persons/{id}")
+    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
+        _personService.delete(id);
     }
 
 }

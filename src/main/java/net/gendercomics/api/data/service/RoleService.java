@@ -1,8 +1,5 @@
 package net.gendercomics.api.data.service;
 
-import java.util.Date;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.RoleRepository;
@@ -11,6 +8,9 @@ import net.gendercomics.api.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -48,5 +48,9 @@ public class RoleService {
 
     public long getRoleCount() {
         return _roleRepository.count();
+    }
+
+    public void delete(String id) {
+        _roleRepository.deleteById(id);
     }
 }

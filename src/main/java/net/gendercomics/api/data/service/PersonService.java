@@ -83,8 +83,8 @@ public class PersonService {
         return _personRepository.count();
     }
 
-    public void delete(String personId) {
-        Person person = getPerson(personId);
+    public void delete(String id) {
+        Person person = getPerson(id);
         person.getNames().forEach(_nameService::deleteName);
         _personRepository.delete(person);
     }

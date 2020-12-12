@@ -11,13 +11,7 @@ import net.gendercomics.api.data.service.RoleService;
 import net.gendercomics.api.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = {"roles"})
@@ -52,6 +46,12 @@ public class RoleController {
     @PutMapping(path = "/roles/{id}")
     public Role saveRole(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Role role) {
         return _roleService.save(role, principal.getName());
+    }
+
+    @ApiOperation("delete a role")
+    @DeleteMapping(path = "/roles/{id}")
+    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
+        _roleService.delete(id);
     }
 
 }

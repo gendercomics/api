@@ -1,9 +1,5 @@
 package net.gendercomics.api.data.service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.KeywordRepository;
@@ -12,6 +8,9 @@ import net.gendercomics.api.model.KeywordType;
 import net.gendercomics.api.model.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -52,5 +51,9 @@ public class KeywordService {
 
     public long getKeywordCount() {
         return _keywordRepository.count();
+    }
+
+    public void delete(String id) {
+        _keywordRepository.deleteById(id);
     }
 }

@@ -1,7 +1,5 @@
 package net.gendercomics.api;
 
-import java.util.Arrays;
-
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
@@ -21,6 +19,8 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -64,15 +64,19 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/comics*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.PUT, "/comics*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.DELETE, "/comics*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.POST, "/persons*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.PUT, "/persons*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.DELETE, "/persons*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.POST, "/publishers*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.PUT, "/publishers*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.DELETE, "/publishers*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.POST, "/roles*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.PUT, "/roles*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.DELETE, "/roles*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.POST, "/keywords*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.PUT, "/keywords*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.DELETE, "/keywords*").hasRole("crud_comics")
                 .anyRequest().permitAll();
     }
 
