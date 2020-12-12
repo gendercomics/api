@@ -1,8 +1,5 @@
 package net.gendercomics.api.controller;
 
-import java.security.Principal;
-import java.util.List;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -11,14 +8,11 @@ import net.gendercomics.api.data.service.PersonService;
 import net.gendercomics.api.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.security.Principal;
+import java.util.List;
 
 @Api(tags = {"persons"})
 @RestController
@@ -60,6 +54,12 @@ public class PersonController {
     @PutMapping(path = "/persons/{id}")
     public Person savePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Person person) {
         return _personService.save(person, principal.getName());
+    }
+
+    @ApiOperation("update a person")
+    @DeleteMapping(path = "/persons/{personId}")
+    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String personId) {
+        _personService.delete(personId);
     }
 
 }

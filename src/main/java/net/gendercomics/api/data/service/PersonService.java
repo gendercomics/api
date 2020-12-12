@@ -82,4 +82,10 @@ public class PersonService {
     public long getPersonCount() {
         return _personRepository.count();
     }
+
+    public void delete(String personId) {
+        Person person = getPerson(personId);
+        person.getNames().forEach(_nameService::deleteName);
+        _personRepository.delete(person);
+    }
 }

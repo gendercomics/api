@@ -56,4 +56,8 @@ public class NameService {
         return name.getId() == null ? _nameRepository.insert(name) : _nameRepository.save(name);
     }
 
+    public void deleteName(Name name) {
+        _nameRepository.delete(name);
+    }
+
 }
