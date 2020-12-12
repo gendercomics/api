@@ -9,8 +9,10 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.util.StringUtils;
 
 import java.beans.Transient;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -49,6 +51,9 @@ public class Person implements Comparable<Person> {
 
     @Transient
     private Name getSortName() {
+        if (names == null) {
+            return new Name();
+        }
         if (names.size() > 1) {
             for (Name name : names) {
                 if (name.isSearchable()) {
