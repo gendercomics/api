@@ -11,12 +11,12 @@ spring:
   profiles: dev
   data:
     mongodb:
-      uri: mongodb://gendercomics_api:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+      uri: mongodb://gendercomics_api_dev:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
 
 keycloak:
   realm: gendercomics
   resource: gendercomics-admin
-  auth-server-url: http://localhost:81/auth
+  auth-server-url: http://localhost:81/auth/
   ssl-required: external
   public-client: true
   bearer-only: true

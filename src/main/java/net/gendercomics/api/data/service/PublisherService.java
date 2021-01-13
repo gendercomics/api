@@ -52,4 +52,8 @@ public class PublisherService {
         return _publisherRepository.count();
     }
 
+
+    public void delete(String id) {
+        _publisherRepository.deleteById(id);
+    }
 }

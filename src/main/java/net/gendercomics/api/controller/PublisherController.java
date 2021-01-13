@@ -11,13 +11,7 @@ import net.gendercomics.api.data.service.PublisherService;
 import net.gendercomics.api.model.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = {"publishers"})
@@ -52,5 +46,11 @@ public class PublisherController {
     @PutMapping(path = "/publishers/{id}")
     public Publisher savePublisher(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Publisher publisher) {
         return _publisherService.save(publisher, principal.getName());
+    }
+
+    @ApiOperation("delete a publisher")
+    @DeleteMapping(path = "/publishers/{id}")
+    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
+        _publisherService.delete(id);
     }
 }

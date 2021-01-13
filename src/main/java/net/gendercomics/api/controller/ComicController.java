@@ -16,15 +16,7 @@ import net.gendercomics.api.model.ComicType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -92,6 +84,12 @@ public class ComicController {
     @PutMapping(path = "/comics/{id}")
     public Comic saveComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Comic comic) {
         return _comicService.save(comic, principal.getName());
+    }
+
+    @ApiOperation("delete a comic")
+    @DeleteMapping(path = "/comics/{id}")
+    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
+        _comicService.delete(id);
     }
 
 }

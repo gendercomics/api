@@ -1,16 +1,15 @@
 package net.gendercomics.api.model;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +17,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 //@JsonTypeName("comic")
 //@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 //@JsonInclude(Include.NON_NULL)
+@CompoundIndexes(value = {
+        @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
+})
 @ApiModel(description = "comic book model")
 public class Comic implements Comparable<Comic> {
 
@@ -25,7 +27,6 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
 
-    @Indexed(name = "comic_book_title_index", direction = IndexDirection.ASCENDING, unique = true)
     @ApiModelProperty(value = "comic book title", required = true)
     private String title;
 

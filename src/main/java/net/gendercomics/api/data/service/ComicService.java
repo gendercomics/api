@@ -1,10 +1,5 @@
 package net.gendercomics.api.data.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +11,11 @@ import net.gendercomics.api.model.ComicType;
 import net.gendercomics.api.model.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -75,5 +75,9 @@ public class ComicService {
         comic.getMetaData().setChangedOn(new Date());
         comic.getMetaData().setChangedBy(userName);
         return _comicRepository.save(comic);
+    }
+
+    public void delete(String comicId) {
+        _comicRepository.deleteById(comicId);
     }
 }

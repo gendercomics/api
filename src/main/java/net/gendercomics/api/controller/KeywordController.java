@@ -12,14 +12,7 @@ import net.gendercomics.api.data.service.KeywordService;
 import net.gendercomics.api.model.Keyword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = {"keywords"})
@@ -44,16 +37,22 @@ public class KeywordController {
 
     /*** admin endpoints - secured, only authorized access allowed ***/
 
-    @ApiOperation("insert a role")
+    @ApiOperation("insert a keyword")
     @PostMapping(path = "/keywords")
     public Keyword insertRole(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Keyword keyword) {
         return _keywordService.insert(keyword, principal.getName());
     }
 
-    @ApiOperation("update a role")
+    @ApiOperation("update a keyword")
     @PutMapping(path = "/keywords/{id}")
     public Keyword saveRole(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Keyword keyword) {
         return _keywordService.save(keyword, principal.getName());
+    }
+
+    @ApiOperation("delete a keyword")
+    @DeleteMapping(path = "/keywords/{id}")
+    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
+        _keywordService.delete(id);
     }
 
 }
