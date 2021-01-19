@@ -8,4 +8,7 @@ plugins {
     id 'com.gradle.enterprise' version '3.5.1'
 }
 
+gradleEnterprise {
+}
+
 rootProject.name = 'gendercomics-api'
