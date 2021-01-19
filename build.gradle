@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.9.RELEASE'
-    id 'com.palantir.docker' version '0.22.1'
+    id 'org.springframework.boot' version '2.4.2'
+    id 'com.palantir.docker' version '0.25.0'
     id 'java'
 }
 
@@ -77,6 +77,7 @@ dependencies {
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'junit:junit:4.13'
 }
 
 dependencyManagement {
