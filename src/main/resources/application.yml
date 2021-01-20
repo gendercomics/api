@@ -8,7 +8,7 @@ server:
 ---
 
 spring:
-  profiles: dev
+  config.activate.on-profile: dev
   data:
     mongodb:
       uri: mongodb://gendercomics_api_dev:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
@@ -25,7 +25,7 @@ keycloak:
 ---
 
 spring:
-  profiles: stage
+  config.activate.on-profile: stage
   data:
     mongodb:
       uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
@@ -42,7 +42,7 @@ keycloak:
 ---
 
 spring:
-  profiles: production
+  config.activate.on-profile: production
   devtools:
     add-properties: false
   data:
