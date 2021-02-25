@@ -1,13 +1,11 @@
 package net.gendercomics.api.data.service;
 
-import net.gendercomics.api.data.repository.NameRepository;
 import net.gendercomics.api.data.repository.PersonRepository;
 import net.gendercomics.api.model.Person;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
