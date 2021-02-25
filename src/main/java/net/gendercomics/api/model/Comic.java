@@ -47,7 +47,7 @@ public class Comic implements Comparable<Comic> {
     private Publisher publisher;
 
     @ApiModelProperty(value = "year of publication")
-    private Integer year;
+    private String year;
 
     @ApiModelProperty(value = "edition")
     private String edition;
