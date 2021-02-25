@@ -23,13 +23,13 @@ public class RoleController {
     private final RoleService _roleService;
 
     @ApiOperation("get all roles")
-    @GetMapping(path = "/roles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Role> getAllRoles() {
         return _roleService.findAll();
     }
 
     @ApiOperation("get a role")
-    @GetMapping(path = "/roles/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/roles/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Role getRole(@ApiParam @PathVariable("id") String id) {
         return _roleService.getRole(id);
     }

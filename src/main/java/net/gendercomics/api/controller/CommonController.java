@@ -30,13 +30,13 @@ public class CommonController {
     private final KeywordService _keywordService;
 
     @ApiOperation("retrieve API information")
-    @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_VALUE)
     public BuildProperties getInfo() {
         return _buildProperties;
     }
 
     @ApiOperation("retrieve API information")
-    @GetMapping(path = "/count", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
     public DataCount getDataCount() {
         DataCount dataCount = new DataCount();
         dataCount.setComics(_comicService.getComicCount());

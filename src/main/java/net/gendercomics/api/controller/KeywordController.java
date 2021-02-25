@@ -24,13 +24,13 @@ public class KeywordController {
     private final KeywordService _keywordService;
 
     @ApiOperation("get all keywords")
-    @GetMapping(path = "/keywords", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/keywords", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Keyword> getKeywords(@RequestParam Optional<String> type) {
         return type.map(_keywordService::findByType).orElseGet(_keywordService::findAll);
     }
 
     @ApiOperation("get a keyword")
-    @GetMapping(path = "/keywords/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/keywords/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Keyword getKeyword(@ApiParam @PathVariable("id") String id) {
         return _keywordService.getKeyword(id);
     }

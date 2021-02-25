@@ -23,13 +23,13 @@ public class PersonController {
     private final PersonService _personService;
 
     @ApiOperation("get all persons")
-    @GetMapping(path = "/persons", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/persons", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Person> getAllPersons() {
         return _personService.findAll();
     }
 
     @ApiOperation("get person by id")
-    @GetMapping(path = "/persons/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/persons/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Person getPerson(@ApiParam @PathVariable("id") String id) {
         return _personService.getPerson(id);
     }

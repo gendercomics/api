@@ -22,13 +22,13 @@ public class NameController {
     private final NameService _nameService;
 
     @ApiOperation("get all names")
-    @GetMapping(path = "/names", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/names", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Name> getAllPersons() {
         return _nameService.findAll();
     }
 
     @ApiOperation("get all creators (searchable names")
-    @GetMapping(path = "/creators", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/creators", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Name> getAllCreators() {
         return _nameService.findSearchableNames();
     }

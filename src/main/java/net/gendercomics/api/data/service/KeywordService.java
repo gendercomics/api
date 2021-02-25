@@ -20,13 +20,11 @@ public class KeywordService {
     private final KeywordRepository _keywordRepository;
 
     public List<Keyword> findAll() {
-        List<Keyword> keywordList = _keywordRepository.findAll();
-        return keywordList;
+        return _keywordRepository.findAll();
     }
 
     public List<Keyword> findByType(String type) {
-        List<Keyword> keywordList = _keywordRepository.findByType(KeywordType.valueOf(type));
-        return keywordList;
+        return _keywordRepository.findByType(KeywordType.valueOf(type));
     }
 
     public Keyword getKeyword(String id) {

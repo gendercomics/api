@@ -23,13 +23,13 @@ public class PublisherController {
     private final PublisherService _publisherService;
 
     @ApiOperation("get all publishers")
-    @GetMapping(path = "/publishers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/publishers", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Publisher> getAllPublishers() {
         return _publisherService.findAll();
     }
 
     @ApiOperation("get a publisher")
-    @GetMapping(path = "/publishers/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/publishers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Publisher getPublisher(@ApiParam @PathVariable("id") String id) {
         return _publisherService.getPublisher(id);
     }
