@@ -29,7 +29,4 @@ public class Keyword {
     @ApiModelProperty(value = "list of links")
     private List<String> links;
 
-    @ApiModelProperty(value = "map of comments")
-    private Map<String, Comment> comments;
-
 }
