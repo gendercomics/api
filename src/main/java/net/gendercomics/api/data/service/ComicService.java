@@ -43,12 +43,10 @@ public class ComicService {
         return _comicRepository.findByTitle(title).orElseThrow(NotFoundException::new);
     }
 
+    @Deprecated
     public Comic insert(Comic comic, String userName) {
         log.debug("userName={} tries to insert comic", userName);
-        comic.setMetaData(new MetaData());
-        comic.getMetaData().setCreatedOn(new Date());
-        comic.getMetaData().setCreatedBy(userName);
-        return _comicRepository.insert(comic);
+        return save(comic, userName);
     }
 
     public String getComicAsXml(String id) throws JsonProcessingException {
@@ -72,9 +70,16 @@ public class ComicService {
         if (comic.getMetaData() == null) {
             comic.setMetaData(new MetaData());
         }
-        comic.getMetaData().setChangedOn(new Date());
-        comic.getMetaData().setChangedBy(userName);
-        return _comicRepository.save(comic);
+
+        if (comic.getId() == null) {
+            comic.getMetaData().setCreatedOn(new Date());
+            comic.getMetaData().setCreatedBy(userName);
+            return _comicRepository.insert(comic);
+        } else {
+            comic.getMetaData().setChangedOn(new Date());
+            comic.getMetaData().setChangedBy(userName);
+            return _comicRepository.save(comic);
+        }
     }
 
     public void delete(String comicId) {

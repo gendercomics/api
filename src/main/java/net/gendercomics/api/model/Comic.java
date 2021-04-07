@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -68,6 +69,10 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "list of keywords")
     @DBRef
     private List<Keyword> keywords;
+
+    @ApiModelProperty(value = "list of comments")
+    @DBRef
+    private List<Text> comments;
 
     @Override
     public int compareTo(Comic o) {
