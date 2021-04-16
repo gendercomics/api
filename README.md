@@ -7,3 +7,13 @@ API for accessing the gendercomics.net database
 ![GitHub issues](https://img.shields.io/github/issues/gendercomics/api.svg)
 
 Documentation: https://api.gendercomics.net/swagger-ui.html
+
+## Release Notes
+---
+### gendercomics-admin-webapp-1.6.0-SNAPSHOT
+- TODO
+
+---
+### gendercomics-admin-webapp-1.5.0
+- Upgrade to Java 11
+

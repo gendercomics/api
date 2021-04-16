@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine as build
+FROM adoptopenjdk/openjdk11:alpine-slim as build
 WORKDIR /workspace/app
 
 COPY gradlew .
@@ -10,7 +10,7 @@ COPY src src
 RUN ./gradlew build unpack -x test
 RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
 
-FROM openjdk:8-jre-alpine
+FROM adoptopenjdk/openjdk11:alpine-jre
 VOLUME /tmp
 ARG DEPENDENCY=/workspace/app/build/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
