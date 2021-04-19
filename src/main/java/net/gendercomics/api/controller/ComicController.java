@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 
@@ -26,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ComicController {
 
-    private final HttpServletRequest _request;
 
     private final ComicService _comicService;
 
@@ -77,7 +75,7 @@ public class ComicController {
     @ApiOperation("insert a comic")
     @PostMapping(path = "/comics")
     public Comic insertComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Comic comic) {
-        return _comicService.insert(comic, principal.getName());
+        return _comicService.save(comic, principal.getName());
     }
 
     @ApiOperation("update a comic")

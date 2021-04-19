@@ -165,7 +165,7 @@ public class ComicControllerTest {
 
     @Test
     @WithMockUser(username = "mock_user", roles = {"crud_comics"})
-    public void givenAuthorizedUser_whenInsertComic_thenOk() throws Exception {
+    public void givenAuthorizedUser_whenSaveNewComic_thenInsertComicOk() throws Exception {
         Comic comic = new Comic();
         comic.setTitle("testComic");
 
@@ -173,7 +173,7 @@ public class ComicControllerTest {
         insertedComic.setId("4711");
         insertedComic.setTitle("testComic");
 
-        when(_comicService.insert(any(), any())).thenReturn(insertedComic);
+        when(_comicService.save(any(), any())).thenReturn(insertedComic);
 
         _mockMvc.perform(post("/comics/")
                 .accept(MediaType.APPLICATION_JSON)
