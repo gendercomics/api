@@ -228,7 +228,7 @@ public class ComicControllerTest {
 
     @Test
     public void whenGetComicCount_thenOk() throws Exception {
-        when(_comicService.getComicCount()).thenReturn(7l);
+        when(_comicService.getComicCount()).thenReturn(7L);
 
         _mockMvc.perform(get("/comics/count"))
                 .andExpect(status().isOk())
