@@ -129,7 +129,7 @@ public class ComicControllerTest {
         when(_comicService.findAll()).thenReturn(comicList);
 
         _mockMvc.perform(get("/comics")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0].title", is("Wonderwoman")))
@@ -244,10 +244,10 @@ public class ComicControllerTest {
         comicList.get(0).setTitle("test_anthology");
         comicList.get(0).setType(ComicType.anthology);
 
-        when(_comicService.findByTypes(ComicType.anthology, ComicType.magazine)).thenReturn(comicList);
+        when(_comicService.findByTypes(ComicType.anthology, ComicType.magazine, ComicType.series)).thenReturn(comicList);
 
         _mockMvc.perform(get("/comics/parents")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$.[0].type", is(ComicType.anthology.name())));
@@ -264,7 +264,7 @@ public class ComicControllerTest {
         when(_comicService.findByTitle(title)).thenReturn(comic);
 
         _mockMvc.perform(get("/comics/title/" + title)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title", is(title)));
     }
