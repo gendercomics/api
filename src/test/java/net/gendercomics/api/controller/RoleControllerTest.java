@@ -103,7 +103,7 @@ public class RoleControllerTest {
         when(_roleService.findAll()).thenReturn(roles);
 
         _mockMvc.perform(get("/roles")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
     }
 
@@ -113,7 +113,7 @@ public class RoleControllerTest {
         String id = "role_id";
 
         _mockMvc.perform(get("/roles/" + id)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
     }
 
