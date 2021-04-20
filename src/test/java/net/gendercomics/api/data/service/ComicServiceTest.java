@@ -2,6 +2,9 @@ package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
+import net.gendercomics.api.model.Relation;
+import net.gendercomics.api.model.RelationType;
+import net.gendercomics.api.model.Text;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +13,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ComicService.class)
@@ -53,23 +57,25 @@ public class ComicServiceTest {
     }
 
     @Test
-    public void findByTitle() {
-        // TODO
-    }
+    public void whenGetComicWithCommentRelations_thenCommentsLoaded() {
+        Comic comic = new Comic();
+        comic.setId("comicId");
 
-    @Test
-    public void titleExists() {
-        // TODO
-    }
+        HashMap<RelationType, List<Relation>> relationMap = new HashMap<>();
+        relationMap.put(RelationType.comments, new ArrayList<>());
 
-    @Test
-    public void getComicAsXml() {
-        // TODO
-    }
+        Relation relation = new Relation();
+        relation.setId("relationId");
+        relation.setSource(new Text());
+        ((Text) relation.getSource()).setId("textId");
+        relationMap.get(RelationType.comments).add(relation);
 
-    @Test
-    public void getComic() {
-        // TODO
+        when(_comicRepository.findById(any())).thenReturn(Optional.of(comic));
+        when(_relationService.findAllRelationsGroupedByType(any())).thenReturn(relationMap);
+
+        Comic loadedComic = _comicService.getComic("comicId");
+        assertNotNull(loadedComic);
+        assertEquals("textId", loadedComic.getCommentsText().get(0).getId());
     }
 
 }

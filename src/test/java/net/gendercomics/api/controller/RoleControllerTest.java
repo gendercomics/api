@@ -76,6 +76,12 @@ public class RoleControllerTest {
     @MockBean
     private TextRepository _textRepository;
 
+    @MockBean
+    private RelationService _relationService;
+
+    @MockBean
+    private RelationRepository _relationRepository;
+
     /**
      * MongoDB mocks
      **/

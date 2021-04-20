@@ -7,11 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.*;
-import net.gendercomics.api.data.service.ComicService;
-import net.gendercomics.api.data.service.KeywordService;
-import net.gendercomics.api.data.service.PersonService;
-import net.gendercomics.api.data.service.PublisherService;
-import net.gendercomics.api.data.service.RoleService;
+import net.gendercomics.api.data.service.*;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
 import net.gendercomics.api.model.MetaData;
@@ -93,6 +89,12 @@ public class ComicControllerTest {
 
     @MockBean
     private TextRepository _textRepository;
+
+    @MockBean
+    private RelationService _relationService;
+
+    @MockBean
+    private RelationRepository _relationRepository;
 
     /**
      * MongoDB mocks
