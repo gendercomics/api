@@ -55,7 +55,7 @@ deploy:
 notifications:
   slack:
     rooms:
-      - visualitiesofgender:3zAI6z6JJXLeEIaBU49O0Wkr#builds
+      - visualitiesofgender:Yvvhzh3sykLIv85to8HSSfKX#builds
     on_success: change
   email:
     recipients:
