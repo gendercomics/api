@@ -18,9 +18,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Document(collection = "comics")
-//@JsonTypeName("comic")
-//@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
-//@JsonInclude(Include.NON_NULL)
 @CompoundIndexes(value = {
         @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
 })
@@ -84,7 +81,7 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "list of comments (from relations)")
     @Transient
     public List<Text> getCommentsText() {
-        if (this.relations != null) {
+        if (this.relations != null && !this.relations.isEmpty()) {
             return this.relations.get(RelationType.comments).stream()
                     .map(Relation::getSource)
                     .map(source -> (Text) source)
