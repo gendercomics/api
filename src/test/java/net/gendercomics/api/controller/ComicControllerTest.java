@@ -1,9 +1,5 @@
 package net.gendercomics.api.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.*;
@@ -11,10 +7,10 @@ import net.gendercomics.api.data.service.*;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
 import net.gendercomics.api.model.MetaData;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,24 +20,26 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebMvc
 public class ComicControllerTest {
@@ -107,7 +105,7 @@ public class ComicControllerTest {
 
     private ObjectMapper _objectMapper;
 
-    @Before
+    @BeforeEach
     public void setup() {
         _mockMvc = MockMvcBuilders
                 .webAppContextSetup(_context)
@@ -187,7 +185,7 @@ public class ComicControllerTest {
                 .andExpect(jsonPath("$.title", is("testComic")));
     }
 
-    @Ignore("check security config")
+    @Disabled("check security config")
     @Test
     @WithAnonymousUser
     public void givenAnonymousUser_whenInsertComic_thenForbidden() throws Exception {

@@ -3,10 +3,10 @@ package net.gendercomics.api.controller;
 import net.gendercomics.api.data.repository.*;
 import net.gendercomics.api.data.service.*;
 import net.gendercomics.api.model.Role;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -27,7 +27,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebMvc
 public class RoleControllerTest {
@@ -91,7 +91,7 @@ public class RoleControllerTest {
     @MockBean
     private GridFsTemplate _gridFsTemplate;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         _mockMvc = MockMvcBuilders
                 .webAppContextSetup(_context)
@@ -113,7 +113,7 @@ public class RoleControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Ignore("incomplete")
+    @Disabled("incomplete")
     @Test
     public void whenGetRole_thenOK() throws Exception {
         String id = "role_id";
@@ -125,10 +125,12 @@ public class RoleControllerTest {
 
     @Test
     public void whenInsertRole_thenOk() {
+        // TODO implement test
     }
 
 
     @Test
     public void whenSaveRole_thenOk() {
+        // TODO implement test
     }
 }
