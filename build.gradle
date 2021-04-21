@@ -56,6 +56,10 @@ sourceSets {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     // Spring
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: "${springBootVersion}"
