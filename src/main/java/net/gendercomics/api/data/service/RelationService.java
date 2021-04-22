@@ -1,6 +1,5 @@
 package net.gendercomics.api.data.service;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.RelationRepository;
