@@ -86,7 +86,7 @@ public class ComicService {
         _comicRepository.deleteById(comicId);
     }
 
-    private Map<RelationType, List<Relation>> loadRelations(String comicId) {
+    private Map<String, List<Relation>> loadRelations(String comicId) {
         return _relationService.findAllRelationsGroupedByType(comicId);
     }
 }

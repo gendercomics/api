@@ -76,13 +76,13 @@ public class Comic implements Comparable<Comic> {
     private List<Text> comments;
 
     @ApiModelProperty(value = "list of relations")
-    private Map<RelationType, List<Relation>> relations;
+    private Map<String, List<Relation>> relations;
 
     @ApiModelProperty(value = "list of comments (from relations)")
     @Transient
     public List<Text> getCommentsText() {
         if (this.relations != null && !this.relations.isEmpty()) {
-            return this.relations.get(RelationType.comments).stream()
+            return this.relations.get("comments").stream()
                     .map(Relation::getSource)
                     .map(source -> (Text) source)
                     .collect(Collectors.toList());

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.RelationRepository;
 import net.gendercomics.api.model.MetaData;
 import net.gendercomics.api.model.Relation;
-import net.gendercomics.api.model.RelationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +23,8 @@ public class RelationService {
         return relations;
     }
 
-    public Map<RelationType, List<Relation>> findAllRelationsGroupedByType(String id) {
-        Map<RelationType, List<Relation>> map = new HashMap<>();
+    public Map<String, List<Relation>> findAllRelationsGroupedByType(String id) {
+        Map<String, List<Relation>> map = new HashMap<>();
         for (Relation relation : findAllRelations(id)) {
             map.computeIfAbsent(relation.getRelationType(), k -> new ArrayList<>())
                     .add(relation);

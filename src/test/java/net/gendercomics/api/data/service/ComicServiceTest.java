@@ -3,7 +3,6 @@ package net.gendercomics.api.data.service;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.Relation;
-import net.gendercomics.api.model.RelationType;
 import net.gendercomics.api.model.Text;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,14 +60,15 @@ public class ComicServiceTest {
         Comic comic = new Comic();
         comic.setId("comicId");
 
-        HashMap<RelationType, List<Relation>> relationMap = new HashMap<>();
-        relationMap.put(RelationType.comments, new ArrayList<>());
+        HashMap<String, List<Relation>> relationMap = new HashMap<>();
+        relationMap.put("comments", new ArrayList<>());
 
-        Relation relation = new Relation();
+
+        Relation relation = new Relation("relationType");
         relation.setId("relationId");
         relation.setSource(new Text());
         ((Text) relation.getSource()).setId("textId");
-        relationMap.get(RelationType.comments).add(relation);
+        relationMap.get("comments").add(relation);
 
         when(_comicRepository.findById(any())).thenReturn(Optional.of(comic));
         when(_relationService.findAllRelationsGroupedByType(any())).thenReturn(relationMap);

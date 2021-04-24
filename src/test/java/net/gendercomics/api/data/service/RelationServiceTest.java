@@ -3,7 +3,6 @@ package net.gendercomics.api.data.service;
 import net.gendercomics.api.data.repository.RelationRepository;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.Relation;
-import net.gendercomics.api.model.RelationType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +34,12 @@ public class RelationServiceTest {
 
         List<Relation> relations = new ArrayList<>();
         // sourceRelation
-        relations.add(new Relation());
+        relations.add(new Relation("comments"));
         Comic sourceComic = new Comic();
         sourceComic.setId(comicId);
         relations.get(0).setSource(sourceComic);
         // targetRelation
-        relations.add(new Relation());
+        relations.add(new Relation("comments"));
         Comic targetComic = new Comic();
         targetComic.setId(comicId);
         relations.get(1).setTarget(new Comic());
@@ -58,31 +57,28 @@ public class RelationServiceTest {
 
         List<Relation> relations = new ArrayList<>();
         // sourceRelation
-        relations.add(new Relation());
+        relations.add(new Relation("comments"));
         Comic sourceComic = new Comic();
         sourceComic.setId(comicId);
         relations.get(0).setSource(sourceComic);
-        relations.get(0).setRelationType(RelationType.comments);
 
         // targetRelation 1
-        relations.add(new Relation());
+        relations.add(new Relation("comments"));
         Comic targetComic = new Comic();
         targetComic.setId(comicId);
         relations.get(1).setTarget(targetComic);
-        relations.get(1).setRelationType(RelationType.comments);
         // targetRelation 2
-        relations.add(new Relation());
+        relations.add(new Relation("comments"));
         Comic targetComic2 = new Comic();
         targetComic.setId(comicId);
         relations.get(2).setTarget(targetComic2);
-        relations.get(2).setRelationType(RelationType.comments);
 
         when(_relationService.findAllRelations(comicId)).thenReturn(relations);
 
-        Map<RelationType, List<Relation>> map = _relationService.findAllRelationsGroupedByType(comicId);
+        Map<String, List<Relation>> map = _relationService.findAllRelationsGroupedByType(comicId);
         assertNotNull(map);
         assertEquals(1, map.size());
-        assertEquals(3, map.get(RelationType.comments).size());
+        assertEquals(3, map.get("comments").size());
     }
 
 }

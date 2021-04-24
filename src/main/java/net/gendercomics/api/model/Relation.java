@@ -3,9 +3,13 @@ package net.gendercomics.api.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @Document(collection = "relation")
@@ -16,9 +20,6 @@ public class Relation {
 
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
-
-    @ApiModelProperty(value = "relation type", required = true)
-    private RelationType relationType;
 
     @ApiModelProperty(value = "the relation source's id", required = true)
     private ObjectId sourceId;
@@ -33,4 +34,16 @@ public class Relation {
     @ApiModelProperty(value = "the relation target", required = true)
     @DBRef(lazy = true)
     private Object target;
+
+    @NonNull
+    private Map<String, String> attributes;
+
+    public Relation(String relationType) {
+        this.attributes = new HashMap<>();
+        this.attributes.put("relationType", relationType);
+    }
+
+    public String getRelationType() {
+        return this.attributes.get("relationType");
+    }
 }
