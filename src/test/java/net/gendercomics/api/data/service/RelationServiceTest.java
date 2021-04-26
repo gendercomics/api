@@ -34,15 +34,13 @@ public class RelationServiceTest {
 
         List<Relation> relations = new ArrayList<>();
         // sourceRelation
-        relations.add(new Relation("comments"));
         Comic sourceComic = new Comic();
         sourceComic.setId(comicId);
-        relations.get(0).setSource(sourceComic);
+        relations.add(new Relation("comments", sourceComic, null));
         // targetRelation
-        relations.add(new Relation("comments"));
         Comic targetComic = new Comic();
         targetComic.setId(comicId);
-        relations.get(1).setTarget(new Comic());
+        relations.add(new Relation("comments", null, targetComic));
 
         when(_relationService.findAllRelations(comicId)).thenReturn(relations);
 
@@ -57,21 +55,18 @@ public class RelationServiceTest {
 
         List<Relation> relations = new ArrayList<>();
         // sourceRelation
-        relations.add(new Relation("comments"));
         Comic sourceComic = new Comic();
         sourceComic.setId(comicId);
-        relations.get(0).setSource(sourceComic);
+        relations.add(new Relation("comments", sourceComic, null));
 
         // targetRelation 1
-        relations.add(new Relation("comments"));
         Comic targetComic = new Comic();
         targetComic.setId(comicId);
-        relations.get(1).setTarget(targetComic);
+        relations.add(new Relation("comments", null, targetComic));
         // targetRelation 2
-        relations.add(new Relation("comments"));
         Comic targetComic2 = new Comic();
-        targetComic.setId(comicId);
-        relations.get(2).setTarget(targetComic2);
+        targetComic2.setId(comicId);
+        relations.add(new Relation("comments", null, targetComic2));
 
         when(_relationService.findAllRelations(comicId)).thenReturn(relations);
 

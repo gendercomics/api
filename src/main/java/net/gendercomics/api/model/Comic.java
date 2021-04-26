@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
         @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
 })
 @ApiModel(description = "comic book model")
-public class Comic implements Comparable<Comic> {
+public class Comic implements Comparable<Comic>, RelationId {
 
     private String id;
 

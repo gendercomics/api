@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Document(collection = "texts")
 @ApiModel(description = "text model")
-public class Text {
+public class Text implements RelationId {
 
     private String id;
 

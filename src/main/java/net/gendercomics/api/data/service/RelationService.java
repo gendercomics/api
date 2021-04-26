@@ -36,6 +36,7 @@ public class RelationService {
         if (relation.getMetaData() == null) {
             relation.setMetaData(new MetaData());
         }
+
         if (relation.getId() == null) {
             relation.getMetaData().setCreatedOn(new Date());
             relation.getMetaData().setCreatedBy(userName);

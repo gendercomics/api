@@ -8,11 +8,10 @@ import java.util.List;
 
 public interface RelationRepository extends MongoRepository<Relation, String> {
 
-    @Query(value = "{ 'sourceId':?0 }")
+    @Query(value = "{ 'source.id': ?0 }")
     List<Relation> findSourceRelationByObjectId(String id);
 
-    @Query(value = "{ 'targetId':?0 }")
+    @Query(value = "{ 'target.id': ?0 }}")
     List<Relation> findTargetRelationByObjectId(String id);
-
 
 }

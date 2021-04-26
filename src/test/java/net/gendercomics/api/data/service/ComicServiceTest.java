@@ -63,10 +63,8 @@ public class ComicServiceTest {
         HashMap<String, List<Relation>> relationMap = new HashMap<>();
         relationMap.put("comments", new ArrayList<>());
 
-
-        Relation relation = new Relation("relationType");
+        Relation relation = new Relation("relationType", new Text(), null);
         relation.setId("relationId");
-        relation.setSource(new Text());
         ((Text) relation.getSource()).setId("textId");
         relationMap.get("comments").add(relation);
 
