@@ -16,6 +16,7 @@ ext {
     lombokVersion = '1.18.20'
     springBootVersion = '2.4.5'
     springSecurityVersion = '5.4.6'
+    testContainersVersion = '1.15.3'
     swaggerVersion = '2.9.2'
 }
 
@@ -86,6 +87,7 @@ dependencies {
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: "${springSecurityVersion}"
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${junitVersion}"
+    testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: "${testContainersVersion}"
 }
 
 dependencyManagement {
