@@ -1,4 +1,4 @@
-package net.gendercomics.api.data.integrationtest;
+package net.gendercomics.api.integrationtest;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;

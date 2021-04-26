@@ -1,4 +1,4 @@
-package net.gendercomics.api.data.integrationtest;
+package net.gendercomics.api.integrationtest;
 
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;

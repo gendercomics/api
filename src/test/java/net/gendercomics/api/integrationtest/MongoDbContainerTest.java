@@ -1,4 +1,4 @@
-package net.gendercomics.api.data.integrationtest;
+package net.gendercomics.api.integrationtest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
