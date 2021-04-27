@@ -36,17 +36,15 @@ public class MigrationService {
         for (Comic comic : sourceList) {
             // get all comments
             for (Text text : comic.getComments()) {
-                Relation relation = new Relation("comments", text, comic);
-                relation.setMetaData(text.getMetaData());
-                _relationRepository.insert(relation);
+                List<Relation> sourceRelation = _relationRepository.findSourceRelationByObjectId(text.getId());
+                if (sourceRelation.isEmpty()) {
+                    Relation relation = new Relation("comments", text, comic);
+                    relation.setMetaData(text.getMetaData());
+                    _relationRepository.insert(relation);
+                }
                 resultList.add(_comicService.getComic(comic.getId()));
             }
             result.setResult(Collections.singletonList(resultList));
-
-            // TODO add check if already migrated
-
-            // TODO set comments to null
-            //comic.setComments(null);
         }
 
         return result;
