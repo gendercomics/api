@@ -2,6 +2,7 @@ package net.gendercomics.api.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Transient;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
         @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
 })
 @ApiModel(description = "comic book model")
-public class Comic implements Comparable<Comic>, RelationId {
+public class Comic implements Comparable<Comic> {
 
     private String id;
 
@@ -71,24 +72,10 @@ public class Comic implements Comparable<Comic>, RelationId {
     @DBRef
     private List<Keyword> keywords;
 
+    @Deprecated
     @ApiModelProperty(value = "list of comments")
     @DBRef
     private List<Text> comments;
-
-    @ApiModelProperty(value = "list of relations")
-    private Map<String, List<Relation>> relations;
-
-    @ApiModelProperty(value = "list of comments (from relations)")
-    @Transient
-    public List<Text> getCommentsText() {
-        if (this.relations != null && !this.relations.isEmpty()) {
-            return this.relations.get("comments").stream()
-                    .map(Relation::getSource)
-                    .map(source -> (Text) source)
-                    .collect(Collectors.toList());
-        }
-        return Collections.emptyList();
-    }
 
     @Override
     public int compareTo(Comic o) {

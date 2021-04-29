@@ -17,21 +17,6 @@ public class RelationService {
 
     private final RelationRepository _relationRepository;
 
-    public List<Relation> findAllRelations(String id) {
-        List<Relation> relations = _relationRepository.findSourceRelationByObjectId(id);
-        relations.addAll(_relationRepository.findTargetRelationByObjectId(id));
-        return relations;
-    }
-
-    public Map<String, List<Relation>> findAllRelationsGroupedByType(String id) {
-        Map<String, List<Relation>> map = new HashMap<>();
-        for (Relation relation : findAllRelations(id)) {
-            map.computeIfAbsent(relation.getRelationType(), k -> new ArrayList<>())
-                    .add(relation);
-        }
-        return map;
-    }
-
     public Relation save(Relation relation, String userName) {
         if (relation.getMetaData() == null) {
             relation.setMetaData(new MetaData());
@@ -50,5 +35,27 @@ public class RelationService {
 
     public void delete(String relationId) {
         _relationRepository.deleteById(relationId);
+    }
+
+    public List<Relation> findAllRelations(String id) {
+        List<Relation> relations = _relationRepository.findRelationsBySourceObjectId(id);
+        relations.addAll(_relationRepository.findRelationsByTargetObjectId(id));
+        return relations;
+    }
+
+    public Map<String, List<Relation>> findAllRelationsGroupedByType(String id) {
+        Map<String, List<Relation>> map = new HashMap<>();
+        for (Relation relation : findAllRelations(id)) {
+            map.computeIfAbsent(relation.getRelationType(), k -> new ArrayList<>())
+                    .add(relation);
+        }
+        return map;
+    }
+
+    public List findAllRelationsForType(String relationType, String id) {
+        List relations = new ArrayList();
+        _relationRepository.findRelationsByTypeAndSourceObjectId(relationType, id).forEach(relation -> relations.add(relation.getTarget()));
+        _relationRepository.findRelationsByTypeAndTargetObjectId(relationType, id).forEach(relation -> relations.add(relation.getSource()));
+        return relations;
     }
 }

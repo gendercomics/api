@@ -55,25 +55,4 @@ public class ComicServiceTest {
         verify(_comicRepository).insert(comic);
     }
 
-    @Test
-    public void whenGetComicWithCommentRelations_thenCommentsLoaded() {
-        Comic comic = new Comic();
-        comic.setId("comicId");
-
-        HashMap<String, List<Relation>> relationMap = new HashMap<>();
-        relationMap.put("comments", new ArrayList<>());
-
-        Relation relation = new Relation("relationType", new Text(), null);
-        relation.setId("relationId");
-        ((Text) relation.getSource()).setId("textId");
-        relationMap.get("comments").add(relation);
-
-        when(_comicRepository.findById(any())).thenReturn(Optional.of(comic));
-        when(_relationService.findAllRelationsGroupedByType(any())).thenReturn(relationMap);
-
-        Comic loadedComic = _comicService.getComic("comicId");
-        assertNotNull(loadedComic);
-        assertEquals("textId", loadedComic.getCommentsText().get(0).getId());
-    }
-
 }

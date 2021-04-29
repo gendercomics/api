@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -55,11 +56,7 @@ public class ComicService {
     }
 
     public Comic getComic(String id) {
-        Comic comic = _comicRepository.findById(id).orElse(null);
-        if (comic != null) {
-            comic.setRelations(loadRelations(comic.getId()));
-        }
-        return comic;
+        return _comicRepository.findById(id).orElse(null);
     }
 
     public long getComicCount() {
@@ -88,5 +85,17 @@ public class ComicService {
 
     private Map<String, List<Relation>> loadRelations(String comicId) {
         return _relationService.findAllRelationsGroupedByType(comicId);
+    }
+
+    public List<Text> getTextCommentsComic(String comicId) {
+        Map<String, List<Relation>> relations = _relationService.findAllRelationsGroupedByType(comicId);
+
+        if (relations != null && !relations.isEmpty()) {
+            return relations.get("comments").stream()
+                    .map(Relation::getSource)
+                    .map(source -> (Text) source)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 }

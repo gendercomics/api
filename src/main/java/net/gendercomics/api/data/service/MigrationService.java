@@ -36,9 +36,9 @@ public class MigrationService {
         for (Comic comic : sourceList) {
             // get all comments
             for (Text text : comic.getComments()) {
-                List<Relation> sourceRelation = _relationRepository.findSourceRelationByObjectId(text.getId());
+                List<Relation> sourceRelation = _relationRepository.findRelationsBySourceObjectId(text.getId());
                 if (sourceRelation.isEmpty()) {
-                    Relation relation = new Relation("comments", text, comic);
+                    Relation relation = new Relation("comments", text.getId(), text, comic.getId(), comic);
                     relation.setMetaData(text.getMetaData());
                     _relationRepository.insert(relation);
                 }

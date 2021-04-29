@@ -1,5 +1,6 @@
 package net.gendercomics.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 @Document(collection = "relations")
@@ -20,11 +22,17 @@ public class Relation {
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
 
+    @ApiModelProperty(value = "the relation source object id", required = true)
+    private String sourceId;
+
     @ApiModelProperty(value = "the relation source", required = true)
-    private RelationId source;
+    private Object source;
+
+    @ApiModelProperty(value = "the relation target object id", required = true)
+    private String targetId;
 
     @ApiModelProperty(value = "the relation target", required = true)
-    private RelationId target;
+    private Object target;
 
     @NonNull
     private Map<String, String> attributes;
@@ -32,13 +40,17 @@ public class Relation {
     private Relation() {
     }
 
-    public Relation(String relationType, RelationId source, RelationId target) {
+    public Relation(@NonNull String relationType, @NonNull String sourceId, @NonNull Object source, @NonNull String targetId, @NonNull Object target) {
         this.attributes = new HashMap<>();
-        this.attributes.put("relationType", relationType);
-        this.source = source;
-        this.target = target;
+        this.attributes.put("relationType", Objects.requireNonNull(relationType, "relationType must not be null"));
+        this.sourceId = Objects.requireNonNull(sourceId, "sourceId must not be null");
+        this.source = Objects.requireNonNull(source, "source must not be null");
+        this.targetId = Objects.requireNonNull(targetId, "targetId must not be null");
+        this.target = Objects.requireNonNull(target, "target must not be null");
     }
 
+    @Transient
+    @JsonIgnore
     public String getRelationType() {
         return this.attributes.get("relationType");
     }

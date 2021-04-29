@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ComicController {
 
-
     private final ComicService _comicService;
 
     /*** public endpoints ***/

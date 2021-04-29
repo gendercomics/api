@@ -3,6 +3,7 @@ package net.gendercomics.api.data.service;
 import net.gendercomics.api.data.repository.RelationRepository;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.Relation;
+import net.gendercomics.api.model.Text;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,11 @@ public class RelationServiceTest {
         // sourceRelation
         Comic sourceComic = new Comic();
         sourceComic.setId(comicId);
-        relations.add(new Relation("comments", sourceComic, null));
+        relations.add(new Relation("comments", "sourceId1", sourceComic, "targetId1", new Text()));
         // targetRelation
         Comic targetComic = new Comic();
         targetComic.setId(comicId);
-        relations.add(new Relation("comments", null, targetComic));
+        relations.add(new Relation("comments", "sourceId1", new Text(), "targetId2", targetComic));
 
         when(_relationService.findAllRelations(comicId)).thenReturn(relations);
 
@@ -57,16 +58,16 @@ public class RelationServiceTest {
         // sourceRelation
         Comic sourceComic = new Comic();
         sourceComic.setId(comicId);
-        relations.add(new Relation("comments", sourceComic, null));
+        relations.add(new Relation("comments", "sourceId1", sourceComic, "targetId1", new Text()));
 
         // targetRelation 1
         Comic targetComic = new Comic();
         targetComic.setId(comicId);
-        relations.add(new Relation("comments", null, targetComic));
+        relations.add(new Relation("comments", "sourceId2", new Text(), "targetId2", targetComic));
         // targetRelation 2
         Comic targetComic2 = new Comic();
         targetComic2.setId(comicId);
-        relations.add(new Relation("comments", null, targetComic2));
+        relations.add(new Relation("comments", "sourceId3", new Text(), "targetId3", targetComic2));
 
         when(_relationService.findAllRelations(comicId)).thenReturn(relations);
 
