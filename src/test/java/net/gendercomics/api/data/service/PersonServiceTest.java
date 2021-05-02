@@ -1,20 +1,18 @@
 package net.gendercomics.api.data.service;
 
-import net.gendercomics.api.data.repository.NameRepository;
 import net.gendercomics.api.data.repository.PersonRepository;
 import net.gendercomics.api.model.Person;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {PersonService.class})
 public class PersonServiceTest {
 
@@ -29,26 +27,6 @@ public class PersonServiceTest {
 
     @MockBean
     private MongoDbService _mongoDbService;
-
-    @Test
-    public void findAll() {
-        // TODO implement test
-    }
-
-    @Test
-    public void findByName() {
-        // TODO implement test
-    }
-
-    @Test
-    public void insert() {
-        // TODO implement test
-    }
-
-    @Test
-    public void save() {
-        // TODO implement test
-    }
 
     @Test
     public void getPerson() {

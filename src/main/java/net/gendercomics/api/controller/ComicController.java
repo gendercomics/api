@@ -1,9 +1,5 @@
 package net.gendercomics.api.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,32 +16,34 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.security.Principal;
+import java.util.List;
+
 @Api(tags = {"comics"})
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ComicController {
 
-    private final HttpServletRequest _request;
 
     private final ComicService _comicService;
 
     /*** public endpoints ***/
 
     @ApiOperation("get all comics")
-    @GetMapping(path = "/comics", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/comics", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Comic> getAllComics() {
         return _comicService.findAll();
     }
 
     @ApiOperation("get all comic parents (anthologies, magazines")
-    @GetMapping(path = "/comics/parents", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/comics/parents", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Comic> getAllParents() {
-        return _comicService.findByTypes(ComicType.anthology, ComicType.magazine);
+        return _comicService.findByTypes(ComicType.anthology, ComicType.magazine, ComicType.series);
     }
 
     @ApiOperation("get a comic")
-    @GetMapping(path = "/comics/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/comics/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Comic getComic(@ApiParam @PathVariable("id") String id) {
         return _comicService.getComic(id);
     }
@@ -57,14 +55,14 @@ public class ComicController {
     }
 
     @ApiOperation("get the number of comics in the database")
-    @GetMapping(path = "/comics/count", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public long getComicCount() throws JsonProcessingException {
+    @GetMapping(path = "/comics/count", produces = MediaType.APPLICATION_JSON_VALUE)
+    public long getComicCount() {
         return _comicService.getComicCount();
     }
 
     @ApiOperation("get a comic by title")
-    @GetMapping(path = "/comics/title/{title}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Comic getComicByTitle(@ApiParam @PathVariable("title") String title) throws JsonProcessingException {
+    @GetMapping(path = "/comics/title/{title}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Comic getComicByTitle(@ApiParam @PathVariable("title") String title) {
         try {
             return _comicService.findByTitle(title);
         } catch (NotFoundException e) {
@@ -77,7 +75,7 @@ public class ComicController {
     @ApiOperation("insert a comic")
     @PostMapping(path = "/comics")
     public Comic insertComic(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Comic comic) {
-        return _comicService.insert(comic, principal.getName());
+        return _comicService.save(comic, principal.getName());
     }
 
     @ApiOperation("update a comic")

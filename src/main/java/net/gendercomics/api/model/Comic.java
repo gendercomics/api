@@ -4,26 +4,28 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Document(collection = "comics")
-//@JsonTypeName("comic")
-//@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
-//@JsonInclude(Include.NON_NULL)
 @CompoundIndexes(value = {
         @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
 })
 @ApiModel(description = "comic book model")
-public class Comic implements Comparable<Comic> {
+public class Comic implements Comparable<Comic>, RelationId {
 
     private String id;
+
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
 
@@ -47,7 +49,7 @@ public class Comic implements Comparable<Comic> {
     private Publisher publisher;
 
     @ApiModelProperty(value = "year of publication")
-    private Integer year;
+    private String year;
 
     @ApiModelProperty(value = "edition")
     private String edition;
@@ -68,6 +70,25 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "list of keywords")
     @DBRef
     private List<Keyword> keywords;
+
+    @ApiModelProperty(value = "list of comments")
+    @DBRef
+    private List<Text> comments;
+
+    @ApiModelProperty(value = "list of relations")
+    private Map<String, List<Relation>> relations;
+
+    @ApiModelProperty(value = "list of comments (from relations)")
+    @Transient
+    public List<Text> getCommentsText() {
+        if (this.relations != null && !this.relations.isEmpty()) {
+            return this.relations.get("comments").stream()
+                    .map(Relation::getSource)
+                    .map(source -> (Text) source)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
 
     @Override
     public int compareTo(Comic o) {

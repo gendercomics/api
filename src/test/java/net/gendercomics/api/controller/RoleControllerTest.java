@@ -1,24 +1,12 @@
 package net.gendercomics.api.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.gendercomics.api.data.repository.ComicRepository;
-import net.gendercomics.api.data.repository.KeywordRepository;
-import net.gendercomics.api.data.repository.NameRepository;
-import net.gendercomics.api.data.repository.PersonRepository;
-import net.gendercomics.api.data.repository.PublisherRepository;
-import net.gendercomics.api.data.repository.RoleRepository;
-import net.gendercomics.api.data.service.ComicService;
-import net.gendercomics.api.data.service.KeywordService;
-import net.gendercomics.api.data.service.PersonService;
-import net.gendercomics.api.data.service.PublisherService;
-import net.gendercomics.api.data.service.RoleService;
+import net.gendercomics.api.data.repository.*;
+import net.gendercomics.api.data.service.*;
 import net.gendercomics.api.model.Role;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,19 +14,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebMvc
 public class RoleControllerTest {
@@ -84,6 +73,15 @@ public class RoleControllerTest {
     @MockBean
     private NameRepository _nameRepository;
 
+    @MockBean
+    private TextRepository _textRepository;
+
+    @MockBean
+    private RelationService _relationService;
+
+    @MockBean
+    private RelationRepository _relationRepository;
+
     /**
      * MongoDB mocks
      **/
@@ -93,7 +91,7 @@ public class RoleControllerTest {
     @MockBean
     private GridFsTemplate _gridFsTemplate;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         _mockMvc = MockMvcBuilders
                 .webAppContextSetup(_context)
@@ -111,26 +109,28 @@ public class RoleControllerTest {
         when(_roleService.findAll()).thenReturn(roles);
 
         _mockMvc.perform(get("/roles")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
     }
 
-    @Ignore("incomplete")
+    @Disabled("incomplete")
     @Test
     public void whenGetRole_thenOK() throws Exception {
         String id = "role_id";
 
         _mockMvc.perform(get("/roles/" + id)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void whenInsertRole_thenOk() {
+        // TODO implement test
     }
 
 
     @Test
     public void whenSaveRole_thenOk() {
+        // TODO implement test
     }
 }

@@ -1,0 +1,21 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+POST http://localhost:8001/relations
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJTX2NHUlJfdmxGR3ZnTXZmeVc5RzZmcHFxbGphZDFKV1MtOXMtUzlKM21rIn0.eyJqdGkiOiI2OGM5NjdmZi1jMDUwLTQwZDMtOTVkOS1lMTRiZjc1MGI5ZmQiLCJleHAiOjE1ODE0MjQwODYsIm5iZiI6MCwiaWF0IjoxNTgxNDIzNzg2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgxL2F1dGgvcmVhbG1zL2dlbmRlcmNvbWljcyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJlMjQzNzc0YS0zZmVjLTRkMzEtOWMzNS0yODM1YTYyOGE5YzYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJnZW5kZXJjb21pY3MtYWRtaW4iLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIzMjc1NWM5YS1jYjA2LTRhYzEtYmZjMC1mMWU0ZTVmNjI1YWEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImh0dHA6Ly9sb2NhbGhvc3Q6ODAwMSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImdlbmRlcmNvbWljcy1hZG1pbiI6eyJyb2xlcyI6WyJhZG1pbiIsImNydWRfY29taWNzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJNaWNoYWVsIExpdHNjaGF1ZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtaWNoYWVsIiwiZ2l2ZW5fbmFtZSI6Ik1pY2hhZWwiLCJmYW1pbHlfbmFtZSI6IkxpdHNjaGF1ZXIiLCJlbWFpbCI6Im1pY2hhZWwubGl0c2NoYXVlckBnbWFpbC5jb20ifQ.TCMqyFiLOqvjgy3tws9m1bd12t-fSknPJTcFiI7PgLdvLa5DcCOZ9bSqLLicKHduw4X0Ddi48udwJvWQOfmuWEJ22eh52l-1wtZLr7kP_ipQUJtDc7QP8i3RWFSqMj-yAyJZ6aCjbBgdNUfpiU5SN9TAtn5aZKvpkBZU03yXs7UWyKv5CF794fJp6wAfYtNBuqglTufc6_6GusfvAOYkJ-ECaEEy9E2lZbPnCXkthXvD3ypGHPUTWgtwTcBzxFdTCz1VuGTFiFuV2TNjRrC2C-nIJIgsJFQZIuQnLHGrlWpPVBgruWTA7N7_dDNE1SeF9gdz1dl7IRab0lbR2dI1Cg
+
+{
+  "relation": {
+    "relationType": "comments",
+    "sourceId": null,
+    "targetId": null
+  }
+}
+
+###

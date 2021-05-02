@@ -8,15 +8,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@Document(collection = "comments")
-@ApiModel(description = "comment model")
-public class Comment {
+@Document(collection = "texts")
+@ApiModel(description = "text model")
+public class Text implements RelationId {
 
     private String id;
 
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
 
-    @ApiModelProperty(value = "the comment text", required = true)
-    private String text;
+    @ApiModelProperty(value = "contains the (rich)text - formatted by tiptap editor", required = true)
+    private String value;
+
 }

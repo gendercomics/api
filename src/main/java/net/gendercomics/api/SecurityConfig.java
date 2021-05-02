@@ -30,7 +30,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
      * Registers the KeycloakAuthenticationProvider with the authentication manager.
      */
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
         auth.authenticationProvider(keycloakAuthenticationProvider);
@@ -77,6 +77,13 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/keywords*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.PUT, "/keywords*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.DELETE, "/keywords*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.POST, "/texts*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.PUT, "/texts*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.DELETE, "/texts*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.POST, "/relations*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.PUT, "/relations*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.DELETE, "/relations*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.POST, "/migration*").hasRole("migration")
                 .anyRequest().permitAll();
     }
 

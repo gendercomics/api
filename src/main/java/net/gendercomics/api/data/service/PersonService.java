@@ -71,7 +71,7 @@ public class PersonService {
     }
 
     private List<Name> saveNames(List<Name> names) {
-        names.forEach(name -> _nameService.saveName(name));
+        names.forEach(_nameService::saveName);
         return names;
     }
 

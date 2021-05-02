@@ -6,16 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.ComicRepository;
-import net.gendercomics.api.model.Comic;
-import net.gendercomics.api.model.ComicType;
-import net.gendercomics.api.model.MetaData;
+import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,6 +18,7 @@ import java.util.List;
 public class ComicService {
 
     private final ComicRepository _comicRepository;
+    private final RelationService _relationService;
 
     public List<Comic> findAll() {
         List<Comic> comics = _comicRepository.findAll();
@@ -43,12 +39,10 @@ public class ComicService {
         return _comicRepository.findByTitle(title).orElseThrow(NotFoundException::new);
     }
 
+    @Deprecated(since = "gendercomics-api-1.6.0")
     public Comic insert(Comic comic, String userName) {
         log.debug("userName={} tries to insert comic", userName);
-        comic.setMetaData(new MetaData());
-        comic.getMetaData().setCreatedOn(new Date());
-        comic.getMetaData().setCreatedBy(userName);
-        return _comicRepository.insert(comic);
+        return save(comic, userName);
     }
 
     public String getComicAsXml(String id) throws JsonProcessingException {
@@ -61,7 +55,11 @@ public class ComicService {
     }
 
     public Comic getComic(String id) {
-        return _comicRepository.findById(id).orElse(null);
+        Comic comic = _comicRepository.findById(id).orElse(null);
+        if (comic != null) {
+            comic.setRelations(loadRelations(comic.getId()));
+        }
+        return comic;
     }
 
     public long getComicCount() {
@@ -72,12 +70,23 @@ public class ComicService {
         if (comic.getMetaData() == null) {
             comic.setMetaData(new MetaData());
         }
-        comic.getMetaData().setChangedOn(new Date());
-        comic.getMetaData().setChangedBy(userName);
-        return _comicRepository.save(comic);
+
+        if (comic.getId() == null) {
+            comic.getMetaData().setCreatedOn(new Date());
+            comic.getMetaData().setCreatedBy(userName);
+            return _comicRepository.insert(comic);
+        } else {
+            comic.getMetaData().setChangedOn(new Date());
+            comic.getMetaData().setChangedBy(userName);
+            return _comicRepository.save(comic);
+        }
     }
 
     public void delete(String comicId) {
         _comicRepository.deleteById(comicId);
+    }
+
+    private Map<String, List<Relation>> loadRelations(String comicId) {
+        return _relationService.findAllRelationsGroupedByType(comicId);
     }
 }

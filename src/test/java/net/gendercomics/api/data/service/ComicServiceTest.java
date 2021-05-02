@@ -1,35 +1,37 @@
 package net.gendercomics.api.data.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import net.gendercomics.api.model.Relation;
+import net.gendercomics.api.model.Text;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Sort;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ComicServiceTest.TestContextConfiguration.class, ComicService.class})
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = ComicService.class)
 public class ComicServiceTest {
 
     @Autowired
     private ComicService _comicService;
 
-    @Autowired
+    @MockBean
     private ComicRepository _comicRepository;
+
+    @MockBean
+    private RelationService _relationService;
 
     @Test
     public void findAll() {
@@ -49,38 +51,29 @@ public class ComicServiceTest {
     @Test
     public void insertComic() {
         Comic comic = new Comic();
-
-        _comicService.insert(comic, "test-user");
-
+        _comicService.save(comic, "test-user");
         verify(_comicRepository).insert(comic);
     }
 
     @Test
-    public void findByTitle() {
-        // TODO
+    public void whenGetComicWithCommentRelations_thenCommentsLoaded() {
+        Comic comic = new Comic();
+        comic.setId("comicId");
+
+        HashMap<String, List<Relation>> relationMap = new HashMap<>();
+        relationMap.put("comments", new ArrayList<>());
+
+        Relation relation = new Relation("relationType", new Text(), null);
+        relation.setId("relationId");
+        ((Text) relation.getSource()).setId("textId");
+        relationMap.get("comments").add(relation);
+
+        when(_comicRepository.findById(any())).thenReturn(Optional.of(comic));
+        when(_relationService.findAllRelationsGroupedByType(any())).thenReturn(relationMap);
+
+        Comic loadedComic = _comicService.getComic("comicId");
+        assertNotNull(loadedComic);
+        assertEquals("textId", loadedComic.getCommentsText().get(0).getId());
     }
 
-    @Test
-    public void titleExists() {
-        // TODO
-    }
-
-    @Test
-    public void getComicAsXml() {
-        // TODO
-    }
-
-    @Test
-    public void getComic() {
-        // TODO
-    }
-
-    @TestConfiguration
-    static class TestContextConfiguration {
-
-        @Bean
-        public ComicRepository comicRepository() {
-            return mock(ComicRepository.class);
-        }
-    }
 }
