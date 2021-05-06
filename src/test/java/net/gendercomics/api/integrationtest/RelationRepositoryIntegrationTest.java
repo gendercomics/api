@@ -30,19 +30,17 @@ public class RelationRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void whenFindSourceRelationByObjectId_ThenReturnRelation() {
-        Relation relation = new Relation("comments", "aaaaaaaaaaaaaaaaaaaaaaaa", new Text(), "ffffffffffffffffffffffff", new Comic());
-        ((Text) relation.getSource()).setId("aaaaaaaaaaaaaaaaaaaaaaaa");
+        Relation relation = new Relation("comments", "aaaaaaaaaaaaaaaaaaaaaaaa", Text.class.getName(), "ffffffffffffffffffffffff", Comic.class.getName());
         relation = _relationRepository.insert(relation);
 
-        List<Relation> relationList = _relationRepository.findRelationsBySourceObjectId("aaaaaaaaaaaaaaaaaaaaaaaa");
+        List<Relation> relationList = _relationRepository.findRelationsBySourceId("aaaaaaaaaaaaaaaaaaaaaaaa");
         assertThat(relationList).isNotEmpty();
         assertThat(relationList.get(0).getSourceId()).isEqualTo("aaaaaaaaaaaaaaaaaaaaaaaa");
     }
 
     @Test
     public void whenFindRelationsByTypeAndSourceObjectId_ThenReturnRelation() {
-        Relation relation = new Relation("comments", "aaaaaaaaaaaaaaaaaaaaaaaa", new Text(), "ffffffffffffffffffffffff", new Comic());
-        ((Text) relation.getSource()).setId("aaaaaaaaaaaaaaaaaaaaaaaa");
+        Relation relation = new Relation("comments", "aaaaaaaaaaaaaaaaaaaaaaaa", Text.class.getName(), "ffffffffffffffffffffffff", Comic.class.getName());
         relation = _relationRepository.insert(relation);
 
         List<Relation> relationList = _relationRepository.findRelationsByTypeAndSourceObjectId("comments", "aaaaaaaaaaaaaaaaaaaaaaaa");

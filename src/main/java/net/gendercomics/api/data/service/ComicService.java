@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -20,6 +19,7 @@ public class ComicService {
 
     private final ComicRepository _comicRepository;
     private final RelationService _relationService;
+    private final TextService _textService;
 
     public List<Comic> findAll() {
         List<Comic> comics = _comicRepository.findAll();
@@ -87,15 +87,10 @@ public class ComicService {
         return _relationService.findAllRelationsGroupedByType(comicId);
     }
 
-    public List<Text> getTextCommentsComic(String comicId) {
-        Map<String, List<Relation>> relations = _relationService.findAllRelationsGroupedByType(comicId);
-
-        if (relations != null && !relations.isEmpty()) {
-            return relations.get("comments").stream()
-                    .map(Relation::getSource)
-                    .map(source -> (Text) source)
-                    .collect(Collectors.toList());
+    public void saveComment(String comicId, Text text, String userName) {
+        Text savedText = _textService.save(text, userName);
+        if (!_relationService.relationExists(savedText.getId(), comicId)) {
+            _relationService.save(new Relation("comments", text.getId(), text.getClass().getName(), comicId, Comic.class.getName()), userName);
         }
-        return Collections.emptyList();
     }
 }

@@ -2,8 +2,6 @@ package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
-import net.gendercomics.api.model.Relation;
-import net.gendercomics.api.model.Text;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +10,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ComicService.class)
@@ -32,6 +29,9 @@ public class ComicServiceTest {
 
     @MockBean
     private RelationService _relationService;
+
+    @MockBean
+    private TextService _textService;
 
     @Test
     public void findAll() {

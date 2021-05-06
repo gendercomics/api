@@ -1,6 +1,8 @@
 package net.gendercomics.api.data.service;
 
+import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.data.repository.RelationRepository;
+import net.gendercomics.api.data.repository.TextRepository;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.Relation;
 import net.gendercomics.api.model.Text;
@@ -29,6 +31,12 @@ public class RelationServiceTest {
     @MockBean
     private RelationRepository _relationRepository;
 
+    @MockBean
+    private TextRepository _textRepository;
+
+    @MockBean
+    private ComicRepository _comicRepository;
+
     @Test
     public void whenFindAllRelations_thenReturnList() {
         String comicId = "comicId";
@@ -37,11 +45,11 @@ public class RelationServiceTest {
         // sourceRelation
         Comic sourceComic = new Comic();
         sourceComic.setId(comicId);
-        relations.add(new Relation("comments", "sourceId1", sourceComic, "targetId1", new Text()));
+        relations.add(new Relation("comments", "sourceId1", sourceComic.getClass().getName(), "targetId1", Text.class.getName()));
         // targetRelation
         Comic targetComic = new Comic();
         targetComic.setId(comicId);
-        relations.add(new Relation("comments", "sourceId1", new Text(), "targetId2", targetComic));
+        relations.add(new Relation("comments", "sourceId1", Text.class.getName(), "targetId2", targetComic.getClass().getName()));
 
         when(_relationService.findAllRelations(comicId)).thenReturn(relations);
 
@@ -58,16 +66,16 @@ public class RelationServiceTest {
         // sourceRelation
         Comic sourceComic = new Comic();
         sourceComic.setId(comicId);
-        relations.add(new Relation("comments", "sourceId1", sourceComic, "targetId1", new Text()));
+        relations.add(new Relation("comments", "sourceId1", sourceComic.getClass().getName(), "targetId1", Text.class.getName()));
 
         // targetRelation 1
         Comic targetComic = new Comic();
         targetComic.setId(comicId);
-        relations.add(new Relation("comments", "sourceId2", new Text(), "targetId2", targetComic));
+        relations.add(new Relation("comments", "sourceId2", Text.class.getName(), "targetId2", targetComic.getClass().getName()));
         // targetRelation 2
         Comic targetComic2 = new Comic();
         targetComic2.setId(comicId);
-        relations.add(new Relation("comments", "sourceId3", new Text(), "targetId3", targetComic2));
+        relations.add(new Relation("comments", "sourceId3", Text.class.getName(), "targetId3", targetComic2.getClass().getName()));
 
         when(_relationService.findAllRelations(comicId)).thenReturn(relations);
 

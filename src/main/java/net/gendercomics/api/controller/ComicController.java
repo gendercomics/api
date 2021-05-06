@@ -9,6 +9,7 @@ import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
+import net.gendercomics.api.model.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -87,6 +88,14 @@ public class ComicController {
     @DeleteMapping(path = "/comics/{id}")
     public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
         _comicService.delete(id);
+    }
+
+    @ApiOperation("save a comment for a comic")
+    @PostMapping(path = "/comics/{id}/comment")
+    public void insertComment(@ApiIgnore Principal principal,
+                            @ApiParam(required = true) @PathVariable String id,
+                            @ApiParam(required = true) @RequestBody Text text) {
+        _comicService.saveComment(id, text, principal.getName());
     }
 
 }

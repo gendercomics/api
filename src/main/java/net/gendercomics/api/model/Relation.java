@@ -6,8 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -15,6 +19,9 @@ import java.util.Objects;
 @Data
 @Document(collection = "relations")
 @ApiModel(description = "relation model")
+@CompoundIndexes(value = {
+        @CompoundIndex(name = "relation_ids_index", def = "{'sourceId':1, 'targetId':1}", unique = true, sparse = true)
+})
 public class Relation {
 
     private String id;
@@ -23,16 +30,18 @@ public class Relation {
     private MetaData metaData;
 
     @ApiModelProperty(value = "the relation source object id", required = true)
+    @Indexed
     private String sourceId;
 
-    @ApiModelProperty(value = "the relation source", required = true)
-    private Object source;
+    @ApiModelProperty(value = "the relation source type", required = true)
+    private String sourceType;
 
     @ApiModelProperty(value = "the relation target object id", required = true)
+    @Indexed
     private String targetId;
 
-    @ApiModelProperty(value = "the relation target", required = true)
-    private Object target;
+    @ApiModelProperty(value = "the relation target type", required = true)
+    private String targetType;
 
     @NonNull
     private Map<String, String> attributes;
@@ -40,13 +49,13 @@ public class Relation {
     private Relation() {
     }
 
-    public Relation(@NonNull String relationType, @NonNull String sourceId, @NonNull Object source, @NonNull String targetId, @NonNull Object target) {
+    public Relation(@NonNull String relationType, @NonNull String sourceId, @NonNull String sourceType, @NonNull String targetId, @NonNull String targetType) {
         this.attributes = new HashMap<>();
         this.attributes.put("relationType", Objects.requireNonNull(relationType, "relationType must not be null"));
         this.sourceId = Objects.requireNonNull(sourceId, "sourceId must not be null");
-        this.source = Objects.requireNonNull(source, "source must not be null");
+        this.sourceType = Objects.requireNonNull(sourceType);
         this.targetId = Objects.requireNonNull(targetId, "targetId must not be null");
-        this.target = Objects.requireNonNull(target, "target must not be null");
+        this.targetType = Objects.requireNonNull(targetType);
     }
 
     @Transient
@@ -54,4 +63,5 @@ public class Relation {
     public String getRelationType() {
         return this.attributes.get("relationType");
     }
+
 }

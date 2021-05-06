@@ -2,22 +2,19 @@ package net.gendercomics.api.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Document(collection = "comics")
 @CompoundIndexes(value = {
         @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
@@ -28,6 +25,7 @@ public class Comic implements Comparable<Comic> {
     private String id;
 
     @ApiModelProperty(value = "metadata", required = true)
+    @EqualsAndHashCode.Exclude
     private MetaData metaData;
 
     @ApiModelProperty(value = "comic book title", required = true)
