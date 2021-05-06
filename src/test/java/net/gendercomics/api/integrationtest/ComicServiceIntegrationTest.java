@@ -55,7 +55,9 @@ public class ComicServiceIntegrationTest extends AbstractIntegrationTest {
         String comicId = "comicId";
         Text text = new Text();
 
-        _comicService.saveComment(comicId, text, "integration_test_user");
+        Text savedText = _comicService.saveComment(comicId, text, "integration_test_user");
+
+        assertThat(savedText.getId()).isNotNull();
 
         assertThat(_mongoTemplate.findAll(Text.class))
                 .isNotNull()
@@ -77,7 +79,9 @@ public class ComicServiceIntegrationTest extends AbstractIntegrationTest {
 
         Relation relation = _mongoTemplate.findAll(Relation.class).get(0);
 
-        _comicService.saveComment(comicId, text, "integration_test_user");
+        Text savedText = _comicService.saveComment(comicId, text, "integration_test_user");
+
+        assertThat(savedText.getId()).isNotNull();
 
         assertThat(_mongoTemplate.findAll(Text.class))
                 .isNotNull()
