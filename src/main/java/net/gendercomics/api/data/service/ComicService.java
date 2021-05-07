@@ -87,11 +87,4 @@ public class ComicService {
         return _relationService.findAllRelationsGroupedByType(comicId);
     }
 
-    public Text saveComment(String comicId, Text text, String userName) {
-        Text savedText = _textService.save(text, userName);
-        if (!_relationService.relationExists(savedText.getId(), comicId)) {
-            _relationService.save(new Relation("comments", text.getId(), text.getClass().getName(), comicId, Comic.class.getName()), userName);
-        }
-        return savedText;
-    }
 }

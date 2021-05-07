@@ -22,19 +22,17 @@ public class RelationService {
     private final ComicRepository _comicRepository;
 
     public Relation save(Relation relation, String userName) {
-        if (relation.getMetaData() == null) {
-            relation.setMetaData(new MetaData());
-        }
-
-        if (relation.getId() == null) {
-            relation.getMetaData().setCreatedOn(new Date());
-            relation.getMetaData().setCreatedBy(userName);
-            return _relationRepository.insert(relation);
-        } else {
+        if (relationExists(relation.getSourceId(), relation.getTargetId())) {
+            relation = _relationRepository.findBySourceIdAndTargetId(relation.getSourceId(), relation.getTargetId());
             relation.getMetaData().setChangedOn(new Date());
             relation.getMetaData().setChangedBy(userName);
             return _relationRepository.save(relation);
         }
+
+        relation.setMetaData(new MetaData());
+        relation.getMetaData().setCreatedOn(new Date());
+        relation.getMetaData().setCreatedBy(userName);
+        return _relationRepository.insert(relation);
     }
 
     public void delete(String relationId) {
