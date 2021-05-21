@@ -59,6 +59,9 @@ public class Comic implements Comparable<Comic> {
     @ApiModelProperty(value = "isbn")
     private String isbn;
 
+    @ApiModelProperty(value = "part of series (comic)")
+    private Series series;
+
     @ApiModelProperty(value = "part of publication (comic)")
     private PartOf partOf;
 
