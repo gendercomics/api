@@ -33,6 +33,7 @@ public class ComicService {
         for (ComicType comicType : comicTypes) {
             comics.addAll(_comicRepository.findByType(comicType));
         }
+        Collections.sort(comics);
         return comics;
     }
 

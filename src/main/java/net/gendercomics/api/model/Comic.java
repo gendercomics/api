@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -20,7 +21,7 @@ import java.util.List;
         @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
 })
 @ApiModel(description = "comic book model")
-public class Comic implements Comparable<Comic> {
+public class Comic implements Comparable<Comic>, DisplayName {
 
     private String id;
 
@@ -81,5 +82,11 @@ public class Comic implements Comparable<Comic> {
     @Override
     public int compareTo(Comic o) {
         return this.title.compareToIgnoreCase(o.title);
+    }
+
+    @Transient
+    @Override
+    public String getNameForOptionList() {
+        return this.issue != null ? this.title + ", " + this.issue : this.title;
     }
 }
