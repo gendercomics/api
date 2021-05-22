@@ -244,7 +244,7 @@ public class ComicControllerTest {
         comicList.get(0).setTitle("test_anthology");
         comicList.get(0).setType(ComicType.anthology);
 
-        when(_comicService.findByTypes(ComicType.anthology, ComicType.magazine, ComicType.series)).thenReturn(comicList);
+        when(_comicService.findByTypes(ComicType.anthology, ComicType.magazine)).thenReturn(comicList);
 
         _mockMvc.perform(get("/comics/parents")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))

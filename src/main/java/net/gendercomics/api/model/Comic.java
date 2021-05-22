@@ -74,14 +74,13 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @DBRef
     private List<Keyword> keywords;
 
-    @Deprecated
     @ApiModelProperty(value = "list of comments")
     @DBRef
     private List<Text> comments;
 
     @Override
     public int compareTo(Comic o) {
-        return this.title.compareToIgnoreCase(o.title);
+        return this.getNameForOptionList().compareToIgnoreCase(o.getNameForOptionList());
     }
 
     @Transient
