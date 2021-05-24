@@ -6,8 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,9 +16,6 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Document(collection = "comics")
-@CompoundIndexes(value = {
-        @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
-})
 @ApiModel(description = "comic book model")
 public class Comic implements Comparable<Comic>, DisplayName {
 
@@ -30,6 +26,7 @@ public class Comic implements Comparable<Comic>, DisplayName {
     private MetaData metaData;
 
     @ApiModelProperty(value = "comic book title", required = true)
+    @Indexed(name = "comic_title_index")
     private String title;
 
     @ApiModelProperty(value = "comic book subtitle")
