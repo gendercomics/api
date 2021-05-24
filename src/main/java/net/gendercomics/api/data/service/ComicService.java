@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.ComicRepository;
-import net.gendercomics.api.model.*;
+import net.gendercomics.api.model.Comic;
+import net.gendercomics.api.model.ComicType;
+import net.gendercomics.api.model.MetaData;
+import net.gendercomics.api.model.Relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +40,12 @@ public class ComicService {
         return comics;
     }
 
-    public Comic findByTitle(String title) throws NotFoundException {
-        return _comicRepository.findByTitle(title).orElseThrow(NotFoundException::new);
+    public List<Comic> findByTitle(String title) {
+        return _comicRepository.findByTitle(title);
+    }
+
+    public boolean titleExists(String title) {
+        return !_comicRepository.findByTitle(title).isEmpty();
     }
 
     @Deprecated(since = "gendercomics-api-1.6.0")

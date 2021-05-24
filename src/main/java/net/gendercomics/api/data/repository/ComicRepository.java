@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ComicRepository extends MongoRepository<Comic, String> {
 
     @Query(value = "{ 'title': ?0 }")
-    Optional<Comic> findByTitle(String title);
+    List<Comic> findByTitle(String title);
 
     @Query(value = "{ 'type': ?0 }")
     List<Comic> findByType(ComicType type);
