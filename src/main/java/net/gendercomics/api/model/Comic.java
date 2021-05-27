@@ -35,7 +35,7 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @ApiModelProperty(value = "magazine issue")
     private String issue;
 
-    @ApiModelProperty(value = "comic book type (comic, magazine, anthology, webcomic, series)", required = true)
+    @ApiModelProperty(value = "comic book type (comic, magazine, anthology, webcomic, comic-series, publishing-series)", required = true)
     private ComicType type;
 
     @ApiModelProperty(value = "list of creators")

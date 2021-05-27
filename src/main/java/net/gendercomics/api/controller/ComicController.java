@@ -41,6 +41,9 @@ public class ComicController {
     @ApiOperation("get comics by type (ComicType.anthology, ComicType.magazine, ComicType.series)")
     @GetMapping(path = "/comics/type/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Comic> getByType(@ApiParam @PathVariable("type") String type) {
+        if ("series".equals(type)) {
+            return _comicService.findByTypes(ComicType.comic_series, ComicType.publishing_series);
+        }
         return _comicService.findByTypes(ComicType.valueOf(type));
     }
 
