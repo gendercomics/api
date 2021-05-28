@@ -32,7 +32,7 @@ public class Publisher implements Comparable<Publisher>, DisplayName {
 
 
     @Override
-    public String getNameForOptionList() {
+    public String getNameForWebAppList() {
         return this.name;
     }
 }

@@ -85,12 +85,21 @@ public class Comic implements Comparable<Comic>, DisplayName {
 
     @Override
     public int compareTo(Comic o) {
-        return this.getNameForOptionList().compareToIgnoreCase(o.getNameForOptionList());
+        return this.getNameForWebAppList().compareToIgnoreCase(o.getNameForWebAppList());
     }
 
     @Transient
     @Override
-    public String getNameForOptionList() {
-        return this.issue != null ? this.title + ", " + this.issue : this.title;
+    public String getNameForWebAppList() {
+        String value = this.title;
+        if (this.issue != null) {
+            value += ", ";
+            value += this.issue;
+        }
+        if (this.issueTitle != null) {
+            value += ": ";
+            value += this.issueTitle;
+        }
+        return value;
     }
 }
