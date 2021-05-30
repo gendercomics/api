@@ -53,6 +53,9 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @DBRef
     private Publisher publisher;
 
+    @ApiModelProperty(value = "printer")
+    private String printer;
+
     @ApiModelProperty(value = "year of publication")
     private String year;
 
