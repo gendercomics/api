@@ -9,13 +9,11 @@ import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
 import net.gendercomics.api.model.MetaData;
+import net.gendercomics.api.model.Relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,6 +21,8 @@ import java.util.List;
 public class ComicService {
 
     private final ComicRepository _comicRepository;
+    private final RelationService _relationService;
+    private final TextService _textService;
 
     public List<Comic> findAll() {
         List<Comic> comics = _comicRepository.findAll();
@@ -36,14 +36,19 @@ public class ComicService {
         for (ComicType comicType : comicTypes) {
             comics.addAll(_comicRepository.findByType(comicType));
         }
+        Collections.sort(comics);
         return comics;
     }
 
-    public Comic findByTitle(String title) throws NotFoundException {
-        return _comicRepository.findByTitle(title).orElseThrow(NotFoundException::new);
+    public List<Comic> findByTitle(String title) {
+        return _comicRepository.findByTitle(title);
     }
 
-    @Deprecated
+    public boolean titleExists(String title) {
+        return !_comicRepository.findByTitle(title).isEmpty();
+    }
+
+    @Deprecated(since = "gendercomics-api-1.6.0")
     public Comic insert(Comic comic, String userName) {
         log.debug("userName={} tries to insert comic", userName);
         return save(comic, userName);
@@ -85,4 +90,9 @@ public class ComicService {
     public void delete(String comicId) {
         _comicRepository.deleteById(comicId);
     }
+
+    private Map<String, List<Relation>> loadRelations(String comicId) {
+        return _relationService.findAllRelationsGroupedByType(comicId);
+    }
+
 }

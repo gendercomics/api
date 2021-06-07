@@ -1,35 +1,37 @@
 package net.gendercomics.api.data.service;
 
+import net.gendercomics.api.data.repository.ComicRepository;
+import net.gendercomics.api.model.Comic;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import net.gendercomics.api.data.repository.ComicRepository;
-import net.gendercomics.api.model.Comic;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Sort;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ComicServiceTest.TestContextConfiguration.class, ComicService.class})
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = ComicService.class)
 public class ComicServiceTest {
 
     @Autowired
     private ComicService _comicService;
 
-    @Autowired
+    @MockBean
     private ComicRepository _comicRepository;
+
+    @MockBean
+    private RelationService _relationService;
+
+    @MockBean
+    private TextService _textService;
 
     @Test
     public void findAll() {
@@ -49,38 +51,8 @@ public class ComicServiceTest {
     @Test
     public void insertComic() {
         Comic comic = new Comic();
-
-        _comicService.insert(comic, "test-user");
-
+        _comicService.save(comic, "test-user");
         verify(_comicRepository).insert(comic);
     }
 
-    @Test
-    public void findByTitle() {
-        // TODO
-    }
-
-    @Test
-    public void titleExists() {
-        // TODO
-    }
-
-    @Test
-    public void getComicAsXml() {
-        // TODO
-    }
-
-    @Test
-    public void getComic() {
-        // TODO
-    }
-
-    @TestConfiguration
-    static class TestContextConfiguration {
-
-        @Bean
-        public ComicRepository comicRepository() {
-            return mock(ComicRepository.class);
-        }
-    }
 }

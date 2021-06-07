@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Document("publishers")
 @ApiModel(description = "comic book publisher")
-public class Publisher implements Comparable<Publisher> {
+public class Publisher implements Comparable<Publisher>, DisplayName {
 
     private String id;
     @Indexed(name = "publisher_name_index", unique = true, direction = IndexDirection.ASCENDING)
@@ -31,4 +31,8 @@ public class Publisher implements Comparable<Publisher> {
     }
 
 
+    @Override
+    public String getNameForWebAppList() {
+        return this.name;
+    }
 }
