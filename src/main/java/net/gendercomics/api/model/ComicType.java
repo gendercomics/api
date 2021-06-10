@@ -5,7 +5,6 @@ public enum ComicType {
     comic,
     comic_series,
     publishing_series,
-    series,
     magazine,
     webcomic,
     zine
