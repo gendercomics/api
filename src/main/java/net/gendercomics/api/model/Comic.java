@@ -20,7 +20,7 @@ import java.util.List;
 @Document(collection = "comics")
 @ApiModel(description = "comic book model")
 @CompoundIndexes(value = {
-        @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
+        @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", sparse = true)
 })
 public class Comic implements Comparable<Comic>, DisplayName {
 
