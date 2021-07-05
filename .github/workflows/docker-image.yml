@@ -28,6 +28,7 @@ jobs:
           images: gendercomics/api
           tags: |
             type=ref,event=branch
+            type=ref,event=tag
             type=semver,pattern={{version}}
 
       - name: Build and push Docker image
