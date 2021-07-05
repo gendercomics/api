@@ -35,8 +35,5 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.6.1
         with:
-          #context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          #tags: gendercomics/api:latest
-          #labels: ${{ steps.meta.outputs.labels }}
