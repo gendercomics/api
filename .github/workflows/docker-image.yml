@@ -26,6 +26,9 @@ jobs:
         uses: docker/metadata-action@v3.3.0
         with:
           images: gendercomics/api
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.6.1
