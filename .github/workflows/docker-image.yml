@@ -56,7 +56,5 @@ jobs:
           host: ${{secrets.APP_HOST}}                                      # Remote server address - REQUIRED true
           user: ${{secrets.DEPLOY_USER}}                                      # Remote server user - REQUIRED true
           key: ${{secrets.DEPLOY_KEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key"
-          pre_upload: |
-            echo "This will be executed before the upload!"
-            ls
+          pre_upload: echo "This will be executed before the upload!" && ls
           post_upload: echo "This will be executed after the upload!"  # Command to run via ssh after scp upload - REQUIRED false
