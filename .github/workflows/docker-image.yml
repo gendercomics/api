@@ -18,7 +18,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: extract metadata (tags, labels) for Docker
+      - name: extract metadata (tags, labels) for docker
         id: meta
         uses: docker/metadata-action@v3.3.0
         with:
@@ -77,6 +77,14 @@ jobs:
       - name: check out the repo
         uses: actions/checkout@v2
 
+      - name: extract metadata (tags, labels) for docker
+          id: meta
+          uses: docker/metadata-action@v3.3.0
+          with:
+            images: gendercomics/api
+            tags: |
+              type=ref,event=tag
+
       - name: deploy stage
         uses: alinz/ssh-scp-action@master
         with:
@@ -96,7 +104,7 @@ jobs:
           # then run these commands
           ssh_after: |
             echo 'running docker-compose'
-            docker pull gendercomics/api:latest
+            docker pull gendercomics/api:${{ steps.meta.outputs.tags }}
             cd /var/gendercomics/api
             docker-compose up -d gendercomics-api
             echo 'DONE!!!'
