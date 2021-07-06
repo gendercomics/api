@@ -44,7 +44,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
 
   copy_docker_compose:
-    needs: push_to_registry
+    needs: [checkout_repo, push_to_registry]
     name: Copy docker-compose.yml to digitalocean.com
     runs-on: ubuntu-latest
     steps:
