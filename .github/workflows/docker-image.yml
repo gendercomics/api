@@ -43,9 +43,16 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
-##  copy_docker_compose:
-##    needs: push_to_registry
-##    name: Copy docker-compose.yml to digitalocean.com
-##    runs-on: ubuntu-latest
-##    steps:
-##      - name: copy file via ssh
+  copy_docker_compose:
+    needs: push_to_registry
+    name: Copy docker-compose.yml to digitalocean.com
+    runs-on: ubuntu-latest
+    steps:
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.APP_HOST }}
+            username: ${{ secrets.DEPLOY_USER }}
+            key: ${{ DEPLOY_KEY }}
+            source: './docker-compose.yml'
+            target: '/var/gendercomics/api'
