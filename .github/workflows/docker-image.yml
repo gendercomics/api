@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+        with:
+          path: api
 
   push_to_registry:
     needs: checkout_repo
@@ -62,7 +64,7 @@ jobs:
 
           # then upload docker-compose.yml
           scp: |
-            ./docker-compose.yml ${{ secrets.DEPLOY_USER }}@${{ secrets.APP_HOST }}:/var/gendercomics/api
+            ./api/docker-compose.yml ${{ secrets.DEPLOY_USER }}@${{ secrets.APP_HOST }}:/var/gendercomics/api
 
           # then run these commands
           ssh_after: |
