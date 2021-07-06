@@ -9,7 +9,6 @@ on: [push]
 
 jobs:
   push_to_registry:
-    needs: checkout_repo
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +39,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
 
   copy_docker_compose:
-    needs: [checkout_repo, push_to_registry]
+    needs: push_to_registry
     name: Copy docker-compose.yml to digitalocean.com
     runs-on: ubuntu-latest
     steps:
