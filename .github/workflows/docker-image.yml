@@ -62,7 +62,7 @@ jobs:
 
           # then upload docker-compose.yml
           scp: |
-            /home/runner/work/api/api/docker-compose.yml ${{ secrets.DEPLOY_USER }}@${{ secrets.APP_HOST }}:/var/gendercomics/api
+            ./docker-compose.yml ${{ secrets.DEPLOY_USER }}@${{ secrets.APP_HOST }}:/var/gendercomics/api
 
           # then run these commands
           ssh_after: |
