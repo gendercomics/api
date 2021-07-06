@@ -48,13 +48,15 @@ jobs:
     name: Copy docker-compose.yml to digitalocean.com
     runs-on: ubuntu-latest
     steps:
-      - name: copy file via ssh key
-        uses: mdallasanta/ssh-scp-deploy@v1.0.4
+      - name: SSH Server Deploy
+        uses: kostya-ten/ssh-server-deploy@v4
         with:
-          local: 'docker-compose.yml'                                                 # Local file path - REQUIRED false - DEFAULT ./
-          remote: '/var/gendercomics/api'                                                # Remote file path - REQUIRED false - DEFAULT ~/
-          host: ${{secrets.APP_HOST}}                                      # Remote server address - REQUIRED true
-          user: ${{secrets.DEPLOY_USER}}                                      # Remote server user - REQUIRED true
-          key: ${{secrets.DEPLOY_KEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key"
-          pre_upload: echo "This will be executed before the upload!"
-          post_upload: echo "This will be executed after the upload!"  # Command to run via ssh after scp upload - REQUIRED false
+          host: ${{ secrets.APP_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          private_key: ${{ secrets.DEPLOY_KEY }}
+          scp_source: README.md
+          scp_target: /var/gendercomics/api
+          before_script: |
+            df -h
+          after_script: |
+            whoami
