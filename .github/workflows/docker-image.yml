@@ -38,7 +38,7 @@ jobs:
   deploy_stage:
     if: ${{ github.ref != 'ref/head/master' }}
     needs: push_to_registry
-    name: deploy to digitalocean.com
+    name: stage deployment to digitalocean.com
     runs-on: ubuntu-latest
     steps:
       - name: check out the repo
@@ -71,7 +71,7 @@ jobs:
   deploy_production:
     if: ${{ github.ref == 'ref/head/master' }}
     needs: push_to_registry
-    name: deploy to digitalocean.com
+    name: production deployment to digitalocean.com
     runs-on: ubuntu-latest
     steps:
       - name: check out the repo
