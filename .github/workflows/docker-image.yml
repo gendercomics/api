@@ -46,7 +46,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
-      - name: SSH Server Deploy
+      - name: deploy stage
         if: ${{ github.ref != 'ref/head/master' }}
         uses: alinz/ssh-scp-action@master
         with:
@@ -55,7 +55,7 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           # runs this on remove server
           ssh_before: |
-            echo deploying ${{ github.ref }} branch
+            echo 'deploying ${{ github.ref }} branch'
             cd /var/gendercomics/api
             ls -lath
 
@@ -65,4 +65,8 @@ jobs:
 
           # then run these commands
           ssh_after: |
-            echo DONE!!!
+            echo 'running docker-compose'
+            docker pull gendercomics/api:latest
+            cd /var/gendercomics/api
+            docker-compose up -d gendercomics-api-stage
+            echo 'DONE!!!'
