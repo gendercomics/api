@@ -53,6 +53,6 @@ jobs:
         with:
           host: ${{ secrets.APP_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ DEPLOY_KEY }}
+          key: ${{ secrets.DEPLOY_KEY }}
           source: './docker-compose.yml'
           target: '/var/gendercomics/api'
