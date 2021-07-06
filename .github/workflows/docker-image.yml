@@ -49,14 +49,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: SSH Server Deploy
-        uses: kostya-ten/ssh-server-deploy@v4
-        with:
-          host: ${{ secrets.APP_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          private_key: ${{ secrets.DEPLOY_KEY }}
-          scp_source: README.md
-          scp_target: /var/gendercomics/api
-          before_script: |
-            df -h
-          after_script: |
-            whoami
+        uses: alinz/ssh-scp-action@master
+          env:
+            HELLO: cool
+            MESSAGE: hello world
+          with:
+            key: ${{ secrets.DEPLOY_KEY }}
+            host: ${{ secrets.APP_HOST }}
+            user: ${{ secrets.DEPLOY_USER }}
+            # runs this on remove server
+            ssh_before: |
+              echo $HELLO
+              echo $MESSAGE
+              ls -lath
+
+            # then upload docker-compose.yml
+            scp: |
+              ./docker-compose.yml ${{ secrets.DEPLOY_USER }}${{ secrets.APP_HOST }}:/var/gendercomics/api
+
+            # then run these commands
+            ssh_after: |
+              echo $HELLO
+              echo $MESSAGE
+              ls -lath
