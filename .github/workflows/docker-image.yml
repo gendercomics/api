@@ -8,18 +8,14 @@ name: Build & Publish Docker image
 on: [push]
 
 jobs:
-  checkout_repo:
-    name: checkout git repo
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-
   push_to_registry:
     needs: checkout_repo
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
+      - name: Check out the repo
+          uses: actions/checkout@v2
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v1.10.0
         with:
@@ -48,6 +44,9 @@ jobs:
     name: Copy docker-compose.yml to digitalocean.com
     runs-on: ubuntu-latest
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
       - name: SSH Server Deploy
         uses: alinz/ssh-scp-action@master
         with:
