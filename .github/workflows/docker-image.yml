@@ -50,17 +50,14 @@ jobs:
     steps:
       - name: SSH Server Deploy
         uses: alinz/ssh-scp-action@master
-        env:
-          HELLO: cool
-          MESSAGE: hello world
         with:
           key: ${{ secrets.DEPLOY_KEY }}
           host: ${{ secrets.APP_HOST }}
           user: ${{ secrets.DEPLOY_USER }}
           # runs this on remove server
           ssh_before: |
-            echo $HELLO
-            echo $MESSAGE
+            echo copy docker-compose.yml
+            cd /var/gendercomics/api
             ls -lath
 
           # then upload docker-compose.yml
@@ -69,6 +66,5 @@ jobs:
 
           # then run these commands
           ssh_after: |
-            echo $HELLO
-            echo $MESSAGE
+            echo DONE!!!
             ls -lath
