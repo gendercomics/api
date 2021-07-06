@@ -43,9 +43,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
-  copy_docker_compose:
-    needs: push_to_registry
-    name: Copy docker-compose.yml to digitalocean.com
-    runs-on: ubuntu-latest
-    steps:
-      - name: copy file via ssh
+##  copy_docker_compose:
+##    needs: push_to_registry
+##    name: Copy docker-compose.yml to digitalocean.com
+##    runs-on: ubuntu-latest
+##    steps:
+##      - name: copy file via ssh
