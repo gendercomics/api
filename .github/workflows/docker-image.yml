@@ -1,27 +1,24 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# build, publis and deploy an API docker image
 
-name: Build & Publish Docker image
+name: build, publish & deploy docker image
 
 on: [push]
 
 jobs:
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: push docker image to docker hub
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
+      - name: check out the repo
         uses: actions/checkout@v2
 
-      - name: Log in to Docker Hub
+      - name: log in to docker hub
         uses: docker/login-action@v1.10.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v3.3.0
         with:
@@ -32,22 +29,22 @@ jobs:
           flavor: |
             latest=true
 
-      - name: Build and push Docker image
+      - name: build and push docker image
         uses: docker/build-push-action@v2.6.1
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
-  copy_docker_compose:
+  deploy_stage:
+    if: ${{ github.ref != 'ref/head/master' }}
     needs: push_to_registry
-    name: Copy docker-compose.yml to digitalocean.com
+    name: deploy to digitalocean.com
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
+      - name: check out the repo
         uses: actions/checkout@v2
 
       - name: deploy stage
-        if: ${{ github.ref != 'ref/head/master' }}
         uses: alinz/ssh-scp-action@master
         with:
           key: ${{ secrets.DEPLOY_KEY }}
@@ -55,7 +52,7 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           # runs this on remove server
           ssh_before: |
-            echo 'deploying ${{ github.ref }} branch'
+            echo 'STAGE: deploying ${{ github.ref }} branch'
             cd /var/gendercomics/api
             ls -lath
 
@@ -69,4 +66,37 @@ jobs:
             docker pull gendercomics/api:latest
             cd /var/gendercomics/api
             docker-compose up -d gendercomics-api-stage
+            echo 'DONE!!!'
+
+  deploy_production:
+    if: ${{ github.ref == 'ref/head/master' }}
+    needs: push_to_registry
+    name: deploy to digitalocean.com
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out the repo
+        uses: actions/checkout@v2
+
+      - name: deploy stage
+        uses: alinz/ssh-scp-action@master
+        with:
+          key: ${{ secrets.DEPLOY_KEY }}
+          host: ${{ secrets.APP_HOST }}
+          user: ${{ secrets.DEPLOY_USER }}
+          # runs this on remove server
+          ssh_before: |
+            echo 'PRODUCTION: deploying ${{ github.ref }} branch'
+            cd /var/gendercomics/api
+            ls -lath
+
+          # then upload docker-compose.yml
+          scp: |
+            ./docker-compose.yml ${{ secrets.DEPLOY_USER }}@${{ secrets.APP_HOST }}:/var/gendercomics/api
+
+          # then run these commands
+          ssh_after: |
+            echo 'running docker-compose'
+            docker pull gendercomics/api:latest
+            cd /var/gendercomics/api
+            docker-compose up -d gendercomics-api
             echo 'DONE!!!'
