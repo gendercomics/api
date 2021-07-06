@@ -49,10 +49,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: copy file via ssh key
-        uses: appleboy/scp-action@master
+        uses: mdallasanta/ssh-scp-deploy@v1.0.4
         with:
-          host: ${{ secrets.APP_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          source: './docker-compose.yml'
-          target: '/var/gendercomics/api'
+          local: './docker-compose.yml'                                                 # Local file path - REQUIRED false - DEFAULT ./
+          remote: '/var/gendercomics/api'                                                # Remote file path - REQUIRED false - DEFAULT ~/
+          host: ${{secrets.APP_HOST}}                                      # Remote server address - REQUIRED true
+          user: ${{secrets.DEPLOY_USER}}                                      # Remote server user - REQUIRED true
+          key: ${{secrets.DEPLOY_KEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key"
+          pre_upload: echo "This will be executed before the upload!"  # Command to run via ssh before scp upload - REQUIRED false
+          post_upload: echo "This will be executed after the upload!"  # Command to run via ssh after scp upload - REQUIRED false
