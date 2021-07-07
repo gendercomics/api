@@ -36,7 +36,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
 
   deploy_stage:
-    if: ${{ github.ref != 'ref/head/master' }}
     needs: push_to_registry
     name: stage deployment to digitalocean.com
     runs-on: ubuntu-latest
