@@ -51,7 +51,7 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           # runs this on remove server
           ssh_before: |
-            echo 'STAGE: deploying ${{ github.ref }} branch'
+            echo 'STAGE: deploying ${{ github.ref }}'
             cd /var/gendercomics/api
             ls -lath
 
@@ -68,7 +68,7 @@ jobs:
             echo 'DONE!!!'
 
   deploy_production:
-    if: ${{ github.ref == 'ref/head/master' }}
+    if: ${{ github.ref == 'ref/tags/*' }}
     needs: push_to_registry
     name: production deployment to digitalocean.com
     runs-on: ubuntu-latest
@@ -92,7 +92,7 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           # runs this on remove server
           ssh_before: |
-            echo 'PRODUCTION: deploying ${{ github.ref }} branch'
+            echo 'PRODUCTION: deploying ${{ github.ref }}'
             cd /var/gendercomics/api
             ls -lath
 
