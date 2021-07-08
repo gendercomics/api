@@ -68,7 +68,7 @@ jobs:
             echo 'DONE!!!'
 
   deploy_production:
-    if: ${{ github.ref == 'ref/tags/*' }}
+    if: startsWith(github.ref, 'refs/tags/')
     needs: push_to_registry
     name: production deployment to digitalocean.com
     runs-on: ubuntu-latest
