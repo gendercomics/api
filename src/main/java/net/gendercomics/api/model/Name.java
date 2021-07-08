@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.beans.Transient;
@@ -25,6 +26,7 @@ public class Name implements Comparable<Name> {
     @ApiModelProperty(value = "last name")
     private String lastName;
 
+    @Indexed(name = "name_index", unique = true, sparse = true)
     @ApiModelProperty(value = "name value")
     private String name;
 

@@ -10,6 +10,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
+### gendercomics-admin-webapp-1.7.0
+- CI/CD using github actions
+
+---
 ### gendercomics-admin-webapp-1.6.2
 - docker container configuration set to 'restart: always'
 - comic_title_issue_index not unique
