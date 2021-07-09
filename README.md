@@ -2,9 +2,7 @@
 
 API for accessing the gendercomics.net database
 
-
-[![Build Status](https://travis-ci.com/gendercomics/api.svg?branch=develop)](https://travis-ci.com/gendercomics/api)
-![GitHub issues](https://img.shields.io/github/issues/gendercomics/api.svg)
+![build status master branch](https://github.com/gendercomics/api/actions/workflows/docker-image.yml/badge.svg?branch=master)
 
 Documentation: https://api.gendercomics.net/swagger-ui.html
 
