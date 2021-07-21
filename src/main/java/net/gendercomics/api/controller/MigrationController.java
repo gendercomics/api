@@ -19,10 +19,18 @@ public class MigrationController {
 
     private final MigrationService _migrationService;
 
+    /**
+     * @ApiOperation("execute comments migration from DbRef to relateion")
+     * @PostMapping(path = "/migration/comic-comments", produces = MediaType.APPLICATION_JSON_VALUE)
+     * public MigrationResult migrateComicComments() {
+     * return _migrationService.comicCommentToRelation();
+     * }
+     */
+
     @ApiOperation("execute comments migration from DbRef to relateion")
-    @PostMapping(path = "/migration/comic-comments", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MigrationResult migrateComicComments() {
-        return _migrationService.comicCommentToRelation();
+    @PostMapping(path = "/migration/publisher", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MigrationResult migratePublisher() {
+        return _migrationService.publisherToPublisherList();
     }
 
 
