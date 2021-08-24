@@ -63,4 +63,18 @@ public class MigrationService {
         result.setStatus(MigrationResult.OK);
         return result;
     }
+
+    public MigrationResult roleToRoleList() {
+        MigrationResult result = new MigrationResult();
+        _comicRepository.findAll().stream().filter(comic -> comic.getCreators() != null).forEach(comic -> {
+            comic.getCreators().forEach(creator -> {
+                creator.setRoles(new ArrayList<>());
+                creator.getRoles().add(creator.getRole());
+            } );
+            _comicRepository.save(comic);
+        });
+
+        result.setStatus(MigrationResult.OK);
+        return result;
+    }
 }
