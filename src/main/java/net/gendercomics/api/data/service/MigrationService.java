@@ -50,4 +50,31 @@ public class MigrationService {
         return result;
     }
 
+    public MigrationResult publisherToPublisherList() {
+        MigrationResult result = new MigrationResult();
+
+        List<Comic> comicList = _comicRepository.findAll();
+        comicList.stream().filter(comic -> comic.getPublisher() != null).forEach(comic -> {
+            comic.setPublishers(new ArrayList<>());
+            comic.getPublishers().add(comic.getPublisher());
+            _comicRepository.save(comic);
+        });
+
+        result.setStatus(MigrationResult.OK);
+        return result;
+    }
+
+    public MigrationResult roleToRoleList() {
+        MigrationResult result = new MigrationResult();
+        _comicRepository.findAll().stream().filter(comic -> comic.getCreators() != null).forEach(comic -> {
+            comic.getCreators().forEach(creator -> {
+                creator.setRoles(new ArrayList<>());
+                creator.getRoles().add(creator.getRole());
+            } );
+            _comicRepository.save(comic);
+        });
+
+        result.setStatus(MigrationResult.OK);
+        return result;
+    }
 }
