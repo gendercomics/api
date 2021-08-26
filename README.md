@@ -8,20 +8,25 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
-### gendercomics-admin-webapp-1.7.0
+### gendercomics-api-1.8.0
+- multiple publishers (+ migration endpoint)
+- multiple roles for a creator (+ migration endpoint)
+
+---
+### gendercomics-api-1.7.0
 - CI/CD using github actions
 
 ---
-### gendercomics-admin-webapp-1.6.2
+### gendercomics-api-1.6.2
 - docker container configuration set to 'restart: always'
 - comic_title_issue_index not unique
 
 ---
-### gendercomics-admin-webapp-1.6.1
+### gendercomics-api-1.6.1
 - series type removed
 
 ---
-### gendercomics-admin-webapp-1.6.0
+### gendercomics-api-1.6.0
 - ComicType.series replaced by comic_series and publishing_series
 - added Comic.Printer [String]
 - Comic.HyperLink replaces Comic.Link
@@ -31,6 +36,6 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 - JUnit4 to JUnit5 upgrade
 
 ---
-### gendercomics-admin-webapp-1.5.0
+### gendercomics-api-1.5.0
 - Upgrade to Java 11
 
