@@ -95,4 +95,7 @@ public class ComicService {
         return _relationService.findAllRelationsGroupedByType(comicId);
     }
 
+    public List<Comic> findAllForList() {
+        return _comicRepository.findAllLimitFields();
+    }
 }
