@@ -19,7 +19,7 @@ public interface ComicRepository extends MongoRepository<Comic, String> {
     @Query(value = "{ 'comments': { $ne:null } }")
     List<Comic> findWithComments();
 
-    @Query(value = "{}", fields = "{ 'title' : 1, 'subTitle' : 1, 'type' : 1, 'creators' : 1, 'publishers.publisher.name' : 1, 'issue' : 1, 'issueTitle' : 1, 'series' : 1, 'series' : 1, 'partOf' : 1, 'metaData' : 1 }")
+    @Query(value = "{}", fields = "{ 'title' : 1, 'subTitle' : 1, 'type' : 1, 'creators' : 1, 'publishers' : 1, 'issue' : 1, 'issueTitle' : 1, 'series' : 1, 'series' : 1, 'partOf' : 1, 'metaData' : 1 }")
     List<Comic> findAllLimitFields();
 
 }
