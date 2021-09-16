@@ -8,6 +8,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
+### gendercomics-api-1.9.0
+- multiple publishers fixes
+
+---
 ### gendercomics-api-1.8.0
 - multiple publishers (+ migration endpoint)
 - multiple roles for a creator (+ migration endpoint)
