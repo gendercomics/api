@@ -8,6 +8,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
+### gendercomics-api-1.10.0-SNAPSHOT
+TODO
+
+---
 ### gendercomics-api-1.9.0
 - multiple publishers fixes
 
