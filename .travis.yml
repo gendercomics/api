@@ -12,7 +12,7 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_65c1486ae971_key -iv $encrypted_65c1486ae971_iv -in deploy-key.enc -out deploy-key -d
 
 before_script:
-  - VERSION=1.9.0-SNAPSHOT
+  - VERSION=1.9.0
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
