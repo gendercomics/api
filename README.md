@@ -8,8 +8,8 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
-### gendercomics-api-1.11.0-SNAPSHOT
-TODO
+### gendercomics-api-1.10.1
+- comic list sorted alphabetically again
 
 ---
 ### gendercomics-api-1.10.0
