@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
@@ -96,6 +95,8 @@ public class ComicService {
     }
 
     public List<Comic> findAllForList() {
-        return _comicRepository.findAllLimitFields();
+        List<Comic> comics = _comicRepository.findAllLimitFields();
+        Collections.sort(comics);
+        return comics;
     }
 }
