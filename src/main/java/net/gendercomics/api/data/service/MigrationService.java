@@ -70,7 +70,34 @@ public class MigrationService {
             comic.getCreators().forEach(creator -> {
                 creator.setRoles(new ArrayList<>());
                 creator.getRoles().add(creator.getRole());
-            } );
+            });
+            _comicRepository.save(comic);
+        });
+
+        result.setStatus(MigrationResult.OK);
+        return result;
+    }
+
+    public MigrationResult linkToLinkList() {
+        MigrationResult result = new MigrationResult();
+
+        List<Comic> comicList = _comicRepository.findAll();
+        comicList.stream().filter(comic -> comic.getHyperLink() != null).forEach(comic -> {
+            comic.setHyperLinks((new ArrayList<>()));
+            comic.getHyperLinks().add(comic.getHyperLink());
+            _comicRepository.save(comic);
+        });
+
+        result.setStatus(MigrationResult.OK);
+        return result;
+    }
+
+    public MigrationResult removeHyperLink() {
+        MigrationResult result = new MigrationResult();
+
+        List<Comic> comicList = _comicRepository.findAll();
+        comicList.stream().filter(comic -> comic.getHyperLink() != null).forEach(comic -> {
+            comic.setHyperLink(null);
             _comicRepository.save(comic);
         });
 

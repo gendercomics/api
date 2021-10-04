@@ -67,8 +67,12 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @ApiModelProperty(value = "edition")
     private String edition;
 
+    @Deprecated
     @ApiModelProperty(value = "hyperlink object (url, last accessed")
     private HyperLink hyperLink;
+
+    @ApiModelProperty(value = "list of hyperlinks (url, last accessed")
+    private List<HyperLink> hyperLinks;
 
     @ApiModelProperty(value = "isbn")
     private String isbn;
