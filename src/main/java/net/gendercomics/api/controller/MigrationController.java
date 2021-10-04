@@ -39,4 +39,16 @@ public class MigrationController {
         return _migrationService.roleToRoleList();
     }
 
+    @ApiOperation("execute hyperlink migration from hyperlink to hyperlink list")
+    @PostMapping(path = "/migration/hyperlink", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MigrationResult migrateHyperLinks() {
+        return _migrationService.linkToLinkList();
+    }
+
+    @ApiOperation("execute hyperlink migration from hyperlink to hyperlink list")
+    @PostMapping(path = "/migration/remove-hyperlink", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MigrationResult removeHyperLinks() {
+        return _migrationService.removeHyperLink();
+    }
+
 }
