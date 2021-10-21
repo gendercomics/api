@@ -58,6 +58,9 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @DBRef
     private List<Publisher> publishers;
 
+    @ApiModelProperty(value = "list of location changes for publishers")
+    private List<PublisherOverride> publisherOverrides;
+
     @ApiModelProperty(value = "printer")
     private String printer;
 
