@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -103,5 +105,39 @@ public class MigrationService {
 
         result.setStatus(MigrationResult.OK);
         return result;
+    }
+
+    public List<Comic> listComicsWithSeries() {
+        return _comicRepository.findAll().stream().filter(comic -> comic.getSeries() != null).collect(Collectors.toList());
+    }
+
+    public MigrationResult seriesToSeriesList() {
+        MigrationResult result = new MigrationResult();
+
+        List<Comic> comicList = _comicRepository.findAll();
+        comicList.stream().filter(comic -> comic.getSeries() != null)
+                .forEach(comic -> {
+                    comic.setSeriesList(new ArrayList<>());
+                    comic.getSeriesList().add(comic.getSeries());
+                    _comicRepository.save(comic);
+                });
+
+        result.setStatus(MigrationResult.OK);
+        return result;
+    }
+
+    public int removeSeries() {
+        AtomicInteger count = new AtomicInteger();
+
+        List<Comic> comicList = _comicRepository.findAll();
+        comicList.stream().filter(comic -> comic.getSeries() != null)
+                .forEach(comic -> {
+                    comic.setSeries(null);
+                    _comicRepository.save(comic);
+                    count.incrementAndGet();
+                });
+
+        return count.get();
+
     }
 }
