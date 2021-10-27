@@ -9,7 +9,7 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 ## Release Notes
 ---
 ### gendercomics-api-1.11.0-SNAPSHOT
-TODO
+- multiple series in comic (+ migration endpoint)
 
 ---
 ### gendercomics-api-1.10.1
