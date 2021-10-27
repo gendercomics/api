@@ -58,6 +58,9 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @DBRef
     private List<Publisher> publishers;
 
+    @ApiModelProperty(value = "list of location changes for publishers")
+    private List<PublisherOverride> publisherOverrides;
+
     @ApiModelProperty(value = "printer")
     private String printer;
 
@@ -77,8 +80,12 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @ApiModelProperty(value = "isbn")
     private String isbn;
 
+    @Deprecated
     @ApiModelProperty(value = "part of series (comic)")
     private Series series;
+
+    @ApiModelProperty(value = "list part of publishing or comic series")
+    private List<Series> seriesList;
 
     @ApiModelProperty(value = "part of publication (comic)")
     private PartOf partOf;
@@ -114,4 +121,5 @@ public class Comic implements Comparable<Comic>, DisplayName {
         }
         return value;
     }
+
 }
