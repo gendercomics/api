@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -73,7 +72,7 @@ public class MigrationService {
         comicList.stream().filter(comic -> comic.getCreators() != null)
                 .forEach(comic -> {
                     comic.getCreators().stream().forEach(creator -> {
-                        creator.setRoles(null);
+                        creator.setRole(null);
                     });
                     _comicRepository.save(comic);
                     count.incrementAndGet();
