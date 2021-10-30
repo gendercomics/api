@@ -73,9 +73,9 @@ public class MigrationService {
                 .forEach(comic -> {
                     comic.getCreators().stream().forEach(creator -> {
                         creator.setRole(null);
+                        count.incrementAndGet();
                     });
                     _comicRepository.save(comic);
-                    count.incrementAndGet();
                 });
 
         return count.get();
