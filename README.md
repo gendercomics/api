@@ -14,6 +14,7 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 - removed comic.series single attribute
 - removed comic.hyperlink single attribute
 - migration cleanup (removal) endpoint for comic.creator.role (single entry)
+- list and cleanup of empty hyperlinks (MigrationController)
 
 ---
 ### gendercomics-api-1.11.0
