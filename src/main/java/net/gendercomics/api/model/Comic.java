@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -59,7 +60,7 @@ public class Comic implements Comparable<Comic>, DisplayName {
     private List<Publisher> publishers;
 
     @ApiModelProperty(value = "list of location changes for publishers")
-    private List<PublisherOverride> publisherOverrides;
+    private Map<String, String> publisherOverrides;
 
     @ApiModelProperty(value = "printer")
     private String printer;
