@@ -5,10 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.ComicRepository;
-import net.gendercomics.api.model.Comic;
-import net.gendercomics.api.model.ComicType;
-import net.gendercomics.api.model.MetaData;
-import net.gendercomics.api.model.Relation;
+import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,6 +72,9 @@ public class ComicService {
             comic.setMetaData(new MetaData());
         }
 
+        // process publisher override
+        comic.setPublisherOverrides(processPublisherLocationOverride(comic.getPublishers(), comic.getPublisherOverrides()));
+
         if (comic.getId() == null) {
             comic.getMetaData().setCreatedOn(new Date());
             comic.getMetaData().setCreatedBy(userName);
@@ -99,4 +99,21 @@ public class ComicService {
         Collections.sort(comics);
         return comics;
     }
+
+    private Map<String, String> processPublisherLocationOverride(final List<Publisher> publishers, final Map<String, String> existingOverrides) {
+        if (publishers == null || publishers.isEmpty()) {
+            return null;
+        }
+
+        Map<String, String> overrides = new HashMap<>();
+
+        publishers.stream().forEach(publisher -> {
+            String locationOverride = publisher.getLocationOverride();
+            if (locationOverride != null)
+                overrides.put(publisher.getId(), publisher.getLocationOverride());
+        });
+
+        return overrides.isEmpty() ? null : overrides;
+    }
+
 }

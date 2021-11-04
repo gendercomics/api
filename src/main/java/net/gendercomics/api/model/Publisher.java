@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,12 +25,14 @@ public class Publisher implements Comparable<Publisher>, DisplayName {
     private String url;
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
+    @Transient
+    @ApiModelProperty(value = "location override related to specific comic (transient)", required = true)
+    private String locationOverride;
 
     @Override
     public int compareTo(Publisher o) {
         return this.name.compareToIgnoreCase(o.name);
     }
-
 
     @Override
     public String getNameForWebAppList() {

@@ -8,6 +8,17 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
+### gendercomics-api-1.12.0
+- removed previous migration endpoints (series, links, publisher, roles)
+- migration cleanup (removal) endpoint for publisher
+- removed comic.series single attribute
+- removed comic.hyperlink single attribute
+- migration cleanup (removal) endpoint for comic.creator.role (single entry)
+- list and cleanup of empty hyperlinks (MigrationController)
+- transient location override for specific publisher
+- save publisher location override in Hashmap (via service)
+
+---
 ### gendercomics-api-1.11.0
 - multiple series in comic (+ migration endpoint)
 

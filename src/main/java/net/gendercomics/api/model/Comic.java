@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -59,7 +60,7 @@ public class Comic implements Comparable<Comic>, DisplayName {
     private List<Publisher> publishers;
 
     @ApiModelProperty(value = "list of location changes for publishers")
-    private List<PublisherOverride> publisherOverrides;
+    private Map<String, String> publisherOverrides;
 
     @ApiModelProperty(value = "printer")
     private String printer;
@@ -70,19 +71,11 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @ApiModelProperty(value = "edition")
     private String edition;
 
-    @Deprecated
-    @ApiModelProperty(value = "hyperlink object (url, last accessed")
-    private HyperLink hyperLink;
-
     @ApiModelProperty(value = "list of hyperlinks (url, last accessed")
     private List<HyperLink> hyperLinks;
 
     @ApiModelProperty(value = "isbn")
     private String isbn;
-
-    @Deprecated
-    @ApiModelProperty(value = "part of series (comic)")
-    private Series series;
 
     @ApiModelProperty(value = "list part of publishing or comic series")
     private List<Series> seriesList;
