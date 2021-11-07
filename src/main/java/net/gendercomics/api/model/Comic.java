@@ -2,34 +2,37 @@ package net.gendercomics.api.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Document(collection = "comics")
-@CompoundIndexes(value = {
-        @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", unique = true, sparse = true)
-})
 @ApiModel(description = "comic book model")
-public class Comic implements Comparable<Comic>, RelationId {
+@CompoundIndexes(value = {
+        @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", sparse = true)
+})
+public class Comic implements Comparable<Comic>, DisplayName {
 
     private String id;
 
     @ApiModelProperty(value = "metadata", required = true)
+    @EqualsAndHashCode.Exclude
     private MetaData metaData;
 
     @ApiModelProperty(value = "comic book title", required = true)
+    @Indexed(name = "comic_title_index")
     private String title;
 
     @ApiModelProperty(value = "comic book subtitle")
@@ -38,15 +41,29 @@ public class Comic implements Comparable<Comic>, RelationId {
     @ApiModelProperty(value = "magazine issue")
     private String issue;
 
-    @ApiModelProperty(value = "comic book type (comic, magazine, anthology, webcomic, series)", required = true)
+    @ApiModelProperty(value = "magazine issue title")
+    private String issueTitle;
+
+    @ApiModelProperty(value = "comic book type (comic, magazine, anthology, webcomic, comic-series, publishing-series)", required = true)
     private ComicType type;
 
     @ApiModelProperty(value = "list of creators")
     private List<Creator> creators;
 
+    @Deprecated
     @ApiModelProperty(value = "publisher")
     @DBRef
     private Publisher publisher;
+
+    @ApiModelProperty(value = "list of publishers")
+    @DBRef
+    private List<Publisher> publishers;
+
+    @ApiModelProperty(value = "list of location changes for publishers")
+    private Map<String, String> publisherOverrides;
+
+    @ApiModelProperty(value = "printer")
+    private String printer;
 
     @ApiModelProperty(value = "year of publication")
     private String year;
@@ -54,11 +71,14 @@ public class Comic implements Comparable<Comic>, RelationId {
     @ApiModelProperty(value = "edition")
     private String edition;
 
-    @ApiModelProperty(value = "link")
-    private String link;
+    @ApiModelProperty(value = "list of hyperlinks (url, last accessed")
+    private List<HyperLink> hyperLinks;
 
     @ApiModelProperty(value = "isbn")
     private String isbn;
+
+    @ApiModelProperty(value = "list part of publishing or comic series")
+    private List<Series> seriesList;
 
     @ApiModelProperty(value = "part of publication (comic)")
     private PartOf partOf;
@@ -75,23 +95,24 @@ public class Comic implements Comparable<Comic>, RelationId {
     @DBRef
     private List<Text> comments;
 
-    @ApiModelProperty(value = "list of relations")
-    private Map<String, List<Relation>> relations;
-
-    @ApiModelProperty(value = "list of comments (from relations)")
-    @Transient
-    public List<Text> getCommentsText() {
-        if (this.relations != null && !this.relations.isEmpty()) {
-            return this.relations.get("comments").stream()
-                    .map(Relation::getSource)
-                    .map(source -> (Text) source)
-                    .collect(Collectors.toList());
-        }
-        return Collections.emptyList();
-    }
-
     @Override
     public int compareTo(Comic o) {
-        return this.title.compareToIgnoreCase(o.title);
+        return this.getNameForWebAppList().compareToIgnoreCase(o.getNameForWebAppList());
     }
+
+    @Transient
+    @Override
+    public String getNameForWebAppList() {
+        String value = this.title;
+        if (this.issue != null) {
+            value += ", ";
+            value += this.issue;
+        }
+        if (this.issueTitle != null) {
+            value += ": ";
+            value += this.issueTitle;
+        }
+        return value;
+    }
+
 }

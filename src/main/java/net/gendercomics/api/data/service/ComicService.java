@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ public class ComicService {
 
     private final ComicRepository _comicRepository;
     private final RelationService _relationService;
+    private final TextService _textService;
 
     public List<Comic> findAll() {
         List<Comic> comics = _comicRepository.findAll();
@@ -32,11 +32,16 @@ public class ComicService {
         for (ComicType comicType : comicTypes) {
             comics.addAll(_comicRepository.findByType(comicType));
         }
+        Collections.sort(comics);
         return comics;
     }
 
-    public Comic findByTitle(String title) throws NotFoundException {
-        return _comicRepository.findByTitle(title).orElseThrow(NotFoundException::new);
+    public List<Comic> findByTitle(String title) {
+        return _comicRepository.findByTitle(title);
+    }
+
+    public boolean titleExists(String title) {
+        return !_comicRepository.findByTitle(title).isEmpty();
     }
 
     @Deprecated(since = "gendercomics-api-1.6.0")
@@ -55,11 +60,7 @@ public class ComicService {
     }
 
     public Comic getComic(String id) {
-        Comic comic = _comicRepository.findById(id).orElse(null);
-        if (comic != null) {
-            comic.setRelations(loadRelations(comic.getId()));
-        }
-        return comic;
+        return _comicRepository.findById(id).orElse(null);
     }
 
     public long getComicCount() {
@@ -70,6 +71,9 @@ public class ComicService {
         if (comic.getMetaData() == null) {
             comic.setMetaData(new MetaData());
         }
+
+        // process publisher override
+        comic.setPublisherOverrides(processPublisherLocationOverride(comic.getPublishers(), comic.getPublisherOverrides()));
 
         if (comic.getId() == null) {
             comic.getMetaData().setCreatedOn(new Date());
@@ -89,4 +93,27 @@ public class ComicService {
     private Map<String, List<Relation>> loadRelations(String comicId) {
         return _relationService.findAllRelationsGroupedByType(comicId);
     }
+
+    public List<Comic> findAllForList() {
+        List<Comic> comics = _comicRepository.findAllLimitFields();
+        Collections.sort(comics);
+        return comics;
+    }
+
+    private Map<String, String> processPublisherLocationOverride(final List<Publisher> publishers, final Map<String, String> existingOverrides) {
+        if (publishers == null || publishers.isEmpty()) {
+            return null;
+        }
+
+        Map<String, String> overrides = new HashMap<>();
+
+        publishers.stream().forEach(publisher -> {
+            String locationOverride = publisher.getLocationOverride();
+            if (locationOverride != null)
+                overrides.put(publisher.getId(), publisher.getLocationOverride());
+        });
+
+        return overrides.isEmpty() ? null : overrides;
+    }
+
 }

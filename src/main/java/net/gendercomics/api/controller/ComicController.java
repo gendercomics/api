@@ -5,15 +5,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
@@ -25,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ComicController {
 
-
     private final ComicService _comicService;
 
     /*** public endpoints ***/
@@ -36,10 +32,25 @@ public class ComicController {
         return _comicService.findAll();
     }
 
+    @ApiOperation("get all comics")
+    @GetMapping(path = "/comicsList", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Comic> getAllComicsForList() {
+        return _comicService.findAllForList();
+    }
+
     @ApiOperation("get all comic parents (anthologies, magazines")
     @GetMapping(path = "/comics/parents", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Comic> getAllParents() {
-        return _comicService.findByTypes(ComicType.anthology, ComicType.magazine, ComicType.series);
+        return _comicService.findByTypes(ComicType.anthology, ComicType.magazine);
+    }
+
+    @ApiOperation("get comics by type (ComicType.anthology, ComicType.magazine, ComicType.series)")
+    @GetMapping(path = "/comics/type/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Comic> getByType(@ApiParam @PathVariable("type") String type) {
+        if ("series".equals(type)) {
+            return _comicService.findByTypes(ComicType.comic_series, ComicType.publishing_series);
+        }
+        return _comicService.findByTypes(ComicType.valueOf(type));
     }
 
     @ApiOperation("get a comic")
@@ -62,12 +73,14 @@ public class ComicController {
 
     @ApiOperation("get a comic by title")
     @GetMapping(path = "/comics/title/{title}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Comic getComicByTitle(@ApiParam @PathVariable("title") String title) {
-        try {
-            return _comicService.findByTitle(title);
-        } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+    public List<Comic> getComicByTitle(@ApiParam @PathVariable("title") String title) {
+        return _comicService.findByTitle(title);
+    }
+
+    @ApiOperation("verify if a comic title exists in the database")
+    @GetMapping(path = "/comics/title/exists/{title}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean getTitleExists(@ApiParam @PathVariable("title") String title) {
+        return _comicService.titleExists(title);
     }
 
     /*** admin endpoints - secured, only authorized access allowed ***/

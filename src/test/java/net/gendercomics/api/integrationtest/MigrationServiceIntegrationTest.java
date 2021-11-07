@@ -50,11 +50,7 @@ public class MigrationServiceIntegrationTest extends AbstractIntegrationTest {
         assertEquals(1, result.getResult().size());
 
         Comic resultComic = _comicService.getComic(comic.getId());
-        assertThat(resultComic.getRelations())
-                .isNotEmpty()
-                .containsKey("comments");
-        assertThat(resultComic.getRelations().get("comments").get(0).getSource()).isInstanceOf(Text.class);
-        assertThat(((Text) resultComic.getRelations().get("comments").get(0).getSource()).getValue()).isEqualTo("hello gendercomics");
+       // assertThat(resultComic.getTextCommentsComic().get(0).getValue()).isEqualTo("hello gendercomics");
     }
 
     @AfterEach

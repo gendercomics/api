@@ -244,7 +244,7 @@ public class ComicControllerTest {
         comicList.get(0).setTitle("test_anthology");
         comicList.get(0).setType(ComicType.anthology);
 
-        when(_comicService.findByTypes(ComicType.anthology, ComicType.magazine, ComicType.series)).thenReturn(comicList);
+        when(_comicService.findByTypes(ComicType.anthology, ComicType.magazine)).thenReturn(comicList);
 
         _mockMvc.perform(get("/comics/parents")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -257,16 +257,17 @@ public class ComicControllerTest {
     public void whenGetComicByTitle_thenOk() throws NotFoundException, Exception {
         String title = "my_title";
 
-        Comic comic = new Comic();
-        comic.setId("id");
-        comic.setTitle(title);
+        List<Comic> comicList = new ArrayList<>();
+        comicList.add(new Comic());
+        comicList.get(0).setId("id");
+        comicList.get(0).setTitle(title);
 
-        when(_comicService.findByTitle(title)).thenReturn(comic);
+        when(_comicService.findByTitle(title)).thenReturn(comicList);
 
         _mockMvc.perform(get("/comics/title/" + title)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title", is(title)));
+                .andExpect(jsonPath("$.[0].title", is(title)));
     }
 
 }
