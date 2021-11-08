@@ -23,6 +23,26 @@ services:
       - traefik.enable=false
       - traefik.docker.network=proxy
 
+  elasticsearch:
+    image: elasticsearch:7.14.2
+    container_name: elasticsearch
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ${ES_DATA}:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+
   gendercomics-api-stage:
     image: gendercomics/api:latest
     container_name: gendercomics-api-stage
@@ -62,3 +82,5 @@ services:
 networks:
   proxy:
     external: true
+  elastic:
+    driver: bridge
