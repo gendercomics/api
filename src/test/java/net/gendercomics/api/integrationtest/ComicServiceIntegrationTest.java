@@ -42,6 +42,11 @@ public class ComicServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    public void whenSaveNewComic_ThenComicHasDbId() {
+        assertThat(_comicService.save(new Comic(), "integration-test").getId()).isNotNull();
+    }
+
+    @Test
     public void whenSaveComic_WithPublisherOverride_ThenComicHasPublisherOverrides() {
         Comic comic = new Comic();
         comic.setId("comicId-override");
