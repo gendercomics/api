@@ -9,8 +9,10 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.TextScore;
 
 import java.util.List;
 import java.util.Map;
@@ -33,9 +35,11 @@ public class Comic implements Comparable<Comic>, DisplayName {
 
     @ApiModelProperty(value = "comic book title", required = true)
     @Indexed(name = "comic_title_index")
+    @TextIndexed
     private String title;
 
     @ApiModelProperty(value = "comic book subtitle")
+    @TextIndexed
     private String subTitle;
 
     @ApiModelProperty(value = "magazine issue")

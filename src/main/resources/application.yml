@@ -12,6 +12,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://gendercomics_api_dev:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+      auto-index-creation: true
 
 keycloak:
   realm: gendercomics
