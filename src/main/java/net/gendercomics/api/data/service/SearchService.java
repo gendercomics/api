@@ -9,4 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class SearchService {
+
+    public void search(String searchTerm) {
+
+
+    }
+
 }
