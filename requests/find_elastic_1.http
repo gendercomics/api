@@ -1,0 +1,14 @@
+
+
+GET http://localhost:9200/gendercomics-dev.comics/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "title": "Asterix"
+    }
+  }
+}
+
+###
