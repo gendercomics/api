@@ -9,7 +9,9 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 ## Release Notes
 ---
 ### gendercomics-api-1.13.0-SNAPSHOT
-TODO
+- removed previous migration endpoints (creator.role, comic.publisher)
+- removed comic.creator.role single attribute
+- removed comic.publisher single
 
 ---
 ### gendercomics-api-1.12.0
