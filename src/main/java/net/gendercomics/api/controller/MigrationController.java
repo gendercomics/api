@@ -7,7 +7,10 @@ import net.gendercomics.api.data.service.MigrationService;
 import net.gendercomics.api.model.MigrationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"data migration endpoints"})
 @RestController
@@ -24,12 +27,6 @@ public class MigrationController {
      * return _migrationService.comicCommentToRelation();
      * }
      */
-
-    @ApiOperation("remove all comic creator.role single entries (set null)")
-    @PostMapping(path = "/migration/remove-comic-creator", produces = MediaType.APPLICATION_JSON_VALUE)
-    public int removeCreatorRole() {
-        return _migrationService.removeCreatorRole();
-    }
 
     @ApiOperation("list comics with empty hyperlinks")
     @GetMapping(path = "/migration/list-empty-hyperlinks", produces = MediaType.APPLICATION_JSON_VALUE)
