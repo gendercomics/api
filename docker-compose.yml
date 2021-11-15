@@ -42,7 +42,7 @@ services:
       - traefik.docker.network=proxy
 
   gendercomics-api:
-    image: gendercomics/api:1.12.0
+    image: gendercomics/api:1.12.1
     container_name: gendercomics-api
     restart: always
     environment:

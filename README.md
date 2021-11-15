@@ -13,6 +13,10 @@ TODO
 
 ---
 ### gendercomics-api-1.12.0
+- HOTFIX for wrong mongodb start command
+
+---
+### gendercomics-api-1.12.0
 - removed previous migration endpoints (series, links, publisher, roles)
 - migration cleanup (removal) endpoint for publisher
 - removed comic.series single attribute
