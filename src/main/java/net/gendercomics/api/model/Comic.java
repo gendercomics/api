@@ -50,11 +50,6 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @ApiModelProperty(value = "list of creators")
     private List<Creator> creators;
 
-    @Deprecated
-    @ApiModelProperty(value = "publisher")
-    @DBRef
-    private Publisher publisher;
-
     @ApiModelProperty(value = "list of publishers")
     @DBRef
     private List<Publisher> publishers;

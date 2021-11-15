@@ -25,12 +25,6 @@ public class MigrationController {
      * }
      */
 
-    @ApiOperation("remove all publisher single entries (set null)")
-    @PostMapping(path = "/migration/remove-publisher", produces = MediaType.APPLICATION_JSON_VALUE)
-    public int removePublisher() {
-        return _migrationService.removePublisher();
-    }
-
     @ApiOperation("remove all comic creator.role single entries (set null)")
     @PostMapping(path = "/migration/remove-comic-creator", produces = MediaType.APPLICATION_JSON_VALUE)
     public int removeCreatorRole() {
