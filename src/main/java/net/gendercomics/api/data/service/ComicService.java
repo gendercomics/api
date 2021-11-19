@@ -44,12 +44,6 @@ public class ComicService {
         return !_comicRepository.findByTitle(title).isEmpty();
     }
 
-    @Deprecated(since = "gendercomics-api-1.6.0")
-    public Comic insert(Comic comic, String userName) {
-        log.debug("userName={} tries to insert comic", userName);
-        return save(comic, userName);
-    }
-
     public String getComicAsXml(String id) throws JsonProcessingException {
         Comic comic = _comicRepository.findById(id).orElse(null);
         if (comic != null) {
