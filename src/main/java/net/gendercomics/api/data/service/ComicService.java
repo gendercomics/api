@@ -18,7 +18,6 @@ public class ComicService {
 
     private final ComicRepository _comicRepository;
     private final RelationService _relationService;
-    private final TextService _textService;
 
     public List<Comic> findAll() {
         List<Comic> comics = _comicRepository.findAll();
