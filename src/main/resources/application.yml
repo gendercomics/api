@@ -13,6 +13,11 @@ spring:
     mongodb:
       uri: mongodb://gendercomics_api_dev:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
       auto-index-creation: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 
 keycloak:
   realm: gendercomics

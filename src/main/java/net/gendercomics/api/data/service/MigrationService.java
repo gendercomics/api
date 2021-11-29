@@ -49,36 +49,6 @@ public class MigrationService {
         return result;
     }
 
-    public int removePublisher() {
-        AtomicInteger count = new AtomicInteger();
-
-        List<Comic> comicList = _comicRepository.findAll();
-        comicList.stream().filter(comic -> comic.getPublisher() != null)
-                .forEach(comic -> {
-                    comic.setPublisher(null);
-                    _comicRepository.save(comic);
-                    count.incrementAndGet();
-                });
-
-        return count.get();
-    }
-
-    public int removeCreatorRole() {
-        AtomicInteger count = new AtomicInteger();
-
-        List<Comic> comicList = _comicRepository.findAll();
-        comicList.stream().filter(comic -> comic.getCreators() != null)
-                .forEach(comic -> {
-                    comic.getCreators().stream().forEach(creator -> {
-                        creator.setRole(null);
-                        count.incrementAndGet();
-                    });
-                    _comicRepository.save(comic);
-                });
-
-        return count.get();
-    }
-
     public MigrationResult listEmptyHyperlink() {
         MigrationResult migrationResult = new MigrationResult();
         AtomicInteger count = new AtomicInteger();

@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.TextScore;
 
 import java.util.List;
 import java.util.Map;
@@ -54,11 +53,6 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @ApiModelProperty(value = "list of creators")
     private List<Creator> creators;
 
-    @Deprecated
-    @ApiModelProperty(value = "publisher")
-    @DBRef
-    private Publisher publisher;
-
     @ApiModelProperty(value = "list of publishers")
     @DBRef
     private List<Publisher> publishers;
@@ -98,6 +92,9 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @ApiModelProperty(value = "list of comments")
     @DBRef
     private List<Text> comments;
+
+    @ApiModelProperty(value = "cover image file name")
+    private String cover;
 
     @Override
     public int compareTo(Comic o) {

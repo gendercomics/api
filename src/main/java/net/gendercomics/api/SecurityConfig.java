@@ -84,6 +84,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/relations*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.DELETE, "/relations*").hasRole("crud_comics")
                 .antMatchers(HttpMethod.POST, "/migration*").hasRole("migration")
+                .antMatchers(HttpMethod.POST, "/files*").hasRole("crud_comics")
+                .antMatchers(HttpMethod.GET, "/images*").hasRole("crud_comics")
                 .anyRequest().permitAll();
     }
 

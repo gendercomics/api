@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,15 +17,36 @@ import java.nio.file.Paths;
 @Slf4j
 public class FileServiceImpl implements FileService {
 
-    private final Path root = Paths.get("/files/");
+    private final String _root = "/Users/mike/projects/gendercomics/images/";
 
     @Override
-    public void save(MultipartFile file) {
+    public void save(String comicId, MultipartFile file) {
+        String path = _root + comicId;
+        checkAndCreatePath(path);
+
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), Paths.get(path).resolve(file.getOriginalFilename()));
         } catch (Exception e) {
             log.error("Could not store the file.", e);
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }
+
+    @Override
+    public void delete(String comicId, String fileName) {
+        try {
+            Files.delete(Paths.get(_root + comicId + File.separator + fileName));
+        } catch (IOException e) {
+            log.error("Could not delete the file.", e);
+            throw new RuntimeException("Could not delete the file. Error: " + e.getMessage());
+        }
+    }
+
+    private void checkAndCreatePath(String path) {
+        File dir = new File(path);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+    }
+
 }
