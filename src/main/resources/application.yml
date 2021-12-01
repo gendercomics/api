@@ -7,6 +7,11 @@ server:
 
 ---
 
+logging:
+  level:
+    root: INFO
+    net.gendercomics: DEBUG
+
 spring:
   config.activate.on-profile: dev
   data:
@@ -18,7 +23,6 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
-
 keycloak:
   realm: gendercomics
   resource: gendercomics-admin
@@ -27,6 +31,9 @@ keycloak:
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
+
+images:
+  path: /Users/mike/projects/gendercomics/images/
 
 ---
 
@@ -44,6 +51,9 @@ keycloak:
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
+
+images:
+  path: /var/gendercomics/images-stage/
 
 ---
 
@@ -63,3 +73,6 @@ keycloak:
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
+
+images:
+  path: /var/gendercomics/images/
