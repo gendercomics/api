@@ -3,13 +3,13 @@ package net.gendercomics.api.data.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
@@ -17,7 +17,8 @@ import java.nio.file.Paths;
 @Slf4j
 public class FileServiceImpl implements FileService {
 
-    private final String _root = "/Users/mike/projects/gendercomics/images/";
+    @Value("${images.path}")
+    private String _root;
 
     @Override
     public void save(String comicId, MultipartFile file) {
@@ -34,6 +35,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void delete(String comicId, String fileName) {
+        log.debug("delete: " + comicId + "/" + fileName);
         try {
             Files.delete(Paths.get(_root + comicId + File.separator + fileName));
         } catch (IOException e) {
