@@ -5,10 +5,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -49,6 +56,46 @@ public class FileServiceImpl implements FileService {
         if (!dir.exists()) {
             dir.mkdir();
         }
+    }
+
+    @Override
+    public boolean hasDnbCover(String isbn) throws IOException {
+        if (isbn.length() != 13) {
+            log.warn("isbn not an isbn13: " + isbn);
+            return false;
+        }
+        URL url = new URL("https://portal.dnb.de/opac/mvb/cover?isbn=" + isbn);
+        HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+        huc.setRequestMethod("HEAD");
+        return HttpURLConnection.HTTP_OK == huc.getResponseCode();
+    }
+
+    @Override
+    public void saveDnbCover(String comicId, String isbn) {
+        try {
+            URL url = new URL("https://portal.dnb.de/opac/mvb/cover?isbn=" + isbn);
+            HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+            MimeType mimeType = MimeTypeUtils.parseMimeType(huc.getHeaderField("Content-Type"));
+            huc.disconnect();
+
+            if (isImageMimeType(mimeType)) {
+                ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+                String fileName = _root + comicId + File.separator + isbn + "-dnb-cover." + mimeType.getSubtype();
+                FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+                fileOutputStream.getChannel()
+                        .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+                fileOutputStream.close();
+                readableByteChannel.close();
+            } else {
+                log.error("url: " + url + " return not an image");
+            }
+        } catch (IOException e) {
+            log.error("error downloading file from DNB", e);
+        }
+    }
+
+    private boolean isImageMimeType(MimeType mimeType) {
+        return mimeType.includes(MimeTypeUtils.IMAGE_JPEG) || mimeType.includes(MimeTypeUtils.IMAGE_PNG);
     }
 
 }
