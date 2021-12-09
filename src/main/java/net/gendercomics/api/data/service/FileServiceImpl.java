@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -60,11 +61,12 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean hasDnbCover(String isbn) throws IOException {
-        if (isbn.length() != 13) {
-            log.warn("isbn not an isbn13: " + isbn);
+        String isbn13 = StringUtils.replace(isbn, "-", "");
+        if (isbn13.length() != 13) {
+            log.warn("isbn not an isbn13: " + isbn13);
             return false;
         }
-        URL url = new URL("https://portal.dnb.de/opac/mvb/cover?isbn=" + isbn);
+        URL url = new URL("https://portal.dnb.de/opac/mvb/cover?isbn=" + isbn13);
         HttpURLConnection huc = (HttpURLConnection) url.openConnection();
         huc.setRequestMethod("HEAD");
         return HttpURLConnection.HTTP_OK == huc.getResponseCode();
@@ -72,6 +74,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void saveDnbCover(String comicId, String isbn) {
+        checkAndCreatePath(_root + comicId);
+
         try {
             URL url = new URL("https://portal.dnb.de/opac/mvb/cover?isbn=" + isbn);
             HttpURLConnection huc = (HttpURLConnection) url.openConnection();
@@ -87,7 +91,7 @@ public class FileServiceImpl implements FileService {
                 fileOutputStream.close();
                 readableByteChannel.close();
             } else {
-                log.error("url: " + url + " return not an image");
+                log.error("url: " + url + " returned not an image");
             }
         } catch (IOException e) {
             log.error("error downloading file from DNB", e);

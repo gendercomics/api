@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Api(tags = {"files"})
 @RestController
 @CrossOrigin
@@ -28,6 +30,25 @@ public class FileController {
     public void delete(@ApiParam(required = true) @PathVariable("comicId") String comicId,
                        @ApiParam(required = true) @PathVariable("fileName") String fileName) {
         _fileService.delete(comicId, fileName);
+    }
+
+    @GetMapping("/files/dnb/cover/available/{isbn}")
+    public boolean dnbHasCover(@ApiParam(required = true) @PathVariable("isbn") String isbn) {
+        try {
+            return _fileService.hasDnbCover(isbn);
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    @PostMapping("/files/dnb/cover/download")
+    public void downloadDnbCover(@ApiParam(required = true) @RequestParam("comicId") String comicId,
+                                 @ApiParam(required = true) @RequestParam("isbn") String isbn) {
+        try {
+            _fileService.saveDnbCover(comicId, isbn);
+        } catch (IOException e) {
+            log.error("error downloading cover image from DNB", e);
+        }
     }
 
 }
