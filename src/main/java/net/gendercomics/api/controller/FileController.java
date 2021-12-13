@@ -34,11 +34,7 @@ public class FileController {
 
     @GetMapping("/files/dnb/cover/available/{isbn}")
     public boolean dnbHasCover(@ApiParam(required = true) @PathVariable("isbn") String isbn) {
-        try {
-            return _fileService.hasDnbCover(isbn);
-        } catch (IOException e) {
-            return false;
-        }
+        return _fileService.hasDnbCover(isbn);
     }
 
     @PostMapping("/files/dnb/cover/download")
@@ -49,6 +45,11 @@ public class FileController {
         } catch (IOException e) {
             log.error("error downloading cover image from DNB", e);
         }
+    }
+
+    @PostMapping("/files/dnb/cover/download/all")
+    public void downloadAllDnbCovers() {
+        _fileService.downloadAllDnbCovers();
     }
 
 }
