@@ -6,12 +6,6 @@ server:
   port: 8001
 
 ---
-
-logging:
-  level:
-    root: INFO
-    net.gendercomics: DEBUG
-
 spring:
   config.activate.on-profile: dev
   data:
@@ -35,6 +29,11 @@ keycloak:
 images:
   path: /Users/mike/projects/gendercomics/images/
 
+logging:
+  level:
+    root: INFO
+    net.gendercomics: DEBUG
+
 ---
 
 spring:
@@ -54,6 +53,11 @@ keycloak:
 
 images:
   path: /images/
+
+logging:
+  level:
+    root: INFO
+    net.gendercomics: DEBUG
 
 ---
 
