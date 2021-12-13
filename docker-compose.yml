@@ -11,6 +11,8 @@ services:
       - SPRING_PROFILES_ACTIVE=stage
       - MONGO_USERNAME=${MONGO_USERNAME_STAGE}
       - MONGO_PASSWORD=${MONGO_PASSWORD_STAGE}
+    volumes:
+      - /var/gendercomics/images-stage/:/images/
     networks:
       - proxy
     labels:
@@ -27,6 +29,8 @@ services:
       - SPRING_PROFILES_ACTIVE=production
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - /var/gendercomics/images/:/images/  
     networks:
       - proxy
     labels:

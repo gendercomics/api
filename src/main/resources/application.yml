@@ -53,7 +53,7 @@ keycloak:
   principal-attribute: preferred_username
 
 images:
-  path: /var/gendercomics/images-stage/
+  path: /images/
 
 ---
 
@@ -75,4 +75,4 @@ keycloak:
   principal-attribute: preferred_username
 
 images:
-  path: /var/gendercomics/images/
+  path: /images/
