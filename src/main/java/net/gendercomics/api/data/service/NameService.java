@@ -20,14 +20,12 @@ public class NameService {
 
     public List<Name> findAll() {
         List<Name> names = _nameRepository.findAll();
-        log.debug("#names={}", names.size());
         Collections.sort(names);
         return names;
     }
 
     public List<Name> findSearchableNames() {
         List<Name> names = _nameRepository.findIsSearchable();
-        log.debug("#names={}", names.size());
         Collections.sort(names);
         return names;
     }

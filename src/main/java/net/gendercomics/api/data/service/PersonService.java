@@ -24,7 +24,6 @@ public class PersonService {
 
     public List<Person> findAll() {
         List<Person> persons = _personRepository.findAll();
-        log.debug("#persons={}", persons.size());
         Collections.sort(persons);
         return persons;
     }

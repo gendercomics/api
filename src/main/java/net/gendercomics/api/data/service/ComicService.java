@@ -21,7 +21,6 @@ public class ComicService {
 
     public List<Comic> findAll() {
         List<Comic> comics = _comicRepository.findAll();
-        log.debug("#comics={}", comics.size());
         Collections.sort(comics);
         return comics;
     }
