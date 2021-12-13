@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'net.gendercomics.api'
-version = '1.12.1'
+version = '1.12.2'
 sourceCompatibility = '11'
 
 ext {
@@ -19,6 +19,8 @@ ext {
     testContainersVersion = '1.15.3'
     swaggerVersion = '2.9.2'
 }
+
+ext['log4j2.version'] = '2.15.0'
 
 configurations {
     developmentOnly
