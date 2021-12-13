@@ -20,6 +20,8 @@ ext {
     swaggerVersion = '2.9.2'
 }
 
+ext['log4j2.version'] = '2.15.0'
+
 configurations {
     developmentOnly
     runtimeClasspath {
