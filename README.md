@@ -8,11 +8,11 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
-### gendercomics-api-1.13.0-SNAPSHOT
-TODO
+### gendercomics-api-1.12.2
+- HOTFIX for log4j vulnerability
 
 ---
-### gendercomics-api-1.12.0
+### gendercomics-api-1.12.1
 - HOTFIX for wrong mongodb start command
 
 ---
