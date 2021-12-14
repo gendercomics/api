@@ -11,7 +11,7 @@ public interface FileService {
 
     boolean hasDnbCover(String isbn);
 
-    void saveDnbCover(String comicId, String isbn) throws IOException;
+    String saveDnbCover(String comicId, String isbn) throws IOException;
 
     int downloadAllDnbCovers();
 }

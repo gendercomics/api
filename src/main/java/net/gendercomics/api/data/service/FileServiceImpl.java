@@ -84,8 +84,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void saveDnbCover(String comicId, String isbn) {
+    public String saveDnbCover(String comicId, String isbn) {
         checkAndCreatePath(_root + comicId);
+        String fileName = null;
 
         try {
             URL url = new URL("https://portal.dnb.de/opac/mvb/cover?isbn=" + isbn);
@@ -95,8 +96,8 @@ public class FileServiceImpl implements FileService {
 
             if (isImageMimeType(mimeType)) {
                 ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
-                String fileName = _root + comicId + File.separator + isbn + "-dnb-cover." + mimeType.getSubtype();
-                FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+                fileName = isbn + "-dnb-cover." + mimeType.getSubtype();
+                FileOutputStream fileOutputStream = new FileOutputStream(_root + comicId + File.separator + fileName);
                 fileOutputStream.getChannel()
                         .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
                 fileOutputStream.close();
@@ -107,6 +108,8 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             log.error("error downloading file from DNB", e);
         }
+
+        return fileName;
     }
 
     @Override
@@ -118,7 +121,8 @@ public class FileServiceImpl implements FileService {
                 .filter(comic -> comic.getIsbn() != null)
                 .filter(comic -> hasDnbCover(comic.getIsbn()))
                 .forEach(comic -> {
-                    saveDnbCover(comic.getId(), comic.getIsbn());
+                    comic.setCover(saveDnbCover(comic.getId(), comic.getIsbn()));
+                    _comicRepository.save(comic);
                     count.addAndGet(1);
                 });
         return count.get();

@@ -38,18 +38,19 @@ public class FileController {
     }
 
     @PostMapping("/files/dnb/cover/download")
-    public void downloadDnbCover(@ApiParam(required = true) @RequestParam("comicId") String comicId,
-                                 @ApiParam(required = true) @RequestParam("isbn") String isbn) {
+    public String downloadDnbCover(@ApiParam(required = true) @RequestParam("comicId") String comicId,
+                                   @ApiParam(required = true) @RequestParam("isbn") String isbn) {
         try {
-            _fileService.saveDnbCover(comicId, isbn);
+            return _fileService.saveDnbCover(comicId, isbn);
         } catch (IOException e) {
             log.error("error downloading cover image from DNB", e);
+            return null;
         }
     }
 
     @PostMapping("/files/dnb/cover/download/all")
-    public void downloadAllDnbCovers() {
-        _fileService.downloadAllDnbCovers();
+    public int downloadAllDnbCovers() {
+        return _fileService.downloadAllDnbCovers();
     }
 
 }
