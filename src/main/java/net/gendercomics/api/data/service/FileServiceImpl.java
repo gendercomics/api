@@ -94,6 +94,8 @@ public class FileServiceImpl implements FileService {
             MimeType mimeType = MimeTypeUtils.parseMimeType(huc.getHeaderField("Content-Type"));
             huc.disconnect();
 
+            log.debug("downloading image from url: {}", url);
+
             if (isImageMimeType(mimeType)) {
                 ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
                 fileName = isbn + "-dnb-cover." + mimeType.getSubtype();
@@ -103,7 +105,7 @@ public class FileServiceImpl implements FileService {
                 fileOutputStream.close();
                 readableByteChannel.close();
             } else {
-                log.error("url: " + url + " returned not an image");
+                log.error("url: {} returned not an image", url);
             }
         } catch (IOException e) {
             log.error("error downloading file from DNB", e);
