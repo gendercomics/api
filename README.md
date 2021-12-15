@@ -8,6 +8,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
+### gendercomics-api-1.14.0
+- TODO: remove deprecated person name attributes
+
+---
 ### gendercomics-api-1.13.0
 - cover image upload
 - cover image download from DNB
