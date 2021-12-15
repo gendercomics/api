@@ -7,7 +7,10 @@ import net.gendercomics.api.data.service.MigrationService;
 import net.gendercomics.api.model.MigrationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"data migration endpoints"})
 @RestController
@@ -35,6 +38,18 @@ public class MigrationController {
     @PostMapping(path = "/migration/remove-empty-hyperlinks", produces = MediaType.APPLICATION_JSON_VALUE)
     public MigrationResult removeEmptyHyperlinks() {
         return _migrationService.removeEmptyHyperlink();
+    }
+
+    @ApiOperation("list persons with not-empty firstName, lastName or name")
+    @GetMapping(path = "/migration/list-persons", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MigrationResult listPersons() {
+        return _migrationService.listPersons();
+    }
+
+    @ApiOperation("remove person name attributes")
+    @PostMapping(path = "/migration/remove-person-name-attributes", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MigrationResult removePersonNameAttributes() {
+        return _migrationService.removeNameAttributes();
     }
 
 }

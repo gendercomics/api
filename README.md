@@ -9,7 +9,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 ## Release Notes
 ---
 ### gendercomics-api-1.13.0
-- TODO
+- cover image upload
+- cover image download from DNB
+- cover image download for all comics having isbn13 and an image available at DNB
+- cleanup endpoint for person name attributes
 
 ---
 ### gendercomics-api-1.12.3

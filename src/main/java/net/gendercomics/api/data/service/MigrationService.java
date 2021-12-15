@@ -3,6 +3,7 @@ package net.gendercomics.api.data.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.ComicRepository;
+import net.gendercomics.api.data.repository.PersonRepository;
 import net.gendercomics.api.data.repository.RelationRepository;
 import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -22,6 +23,7 @@ public class MigrationService {
     private final ComicRepository _comicRepository;
     private final RelationRepository _relationRepository;
     private final ComicService _comicService;
+    private final PersonRepository _personRepository;
 
     public MigrationResult comicCommentToRelation() {
         MigrationResult result = new MigrationResult();
@@ -51,7 +53,6 @@ public class MigrationService {
 
     public MigrationResult listEmptyHyperlink() {
         MigrationResult migrationResult = new MigrationResult();
-        AtomicInteger count = new AtomicInteger();
 
         List source = new ArrayList();
 
@@ -69,14 +70,46 @@ public class MigrationService {
 
     public MigrationResult removeEmptyHyperlink() {
         MigrationResult migrationResult = listEmptyHyperlink();
-        List result = new ArrayList();
+        List<Comic> result = new ArrayList();
         for (Object o : migrationResult.getSource()) {
             Comic comic = (Comic) o;
             comic.setHyperLinks(null);
             _comicRepository.save(comic);
             result.add(comic);
         }
-        migrationResult.setResult(result);
+        migrationResult.setResult(Collections.singletonList(result));
+
+        return migrationResult;
+    }
+
+    public MigrationResult listPersons() {
+        MigrationResult migrationResult = new MigrationResult();
+        AtomicInteger count = new AtomicInteger();
+
+        migrationResult.setSource(_personRepository.findAll()
+                .stream()
+                .filter(person -> (person.getFirstName() != null || person.getLastName() != null || person.getPseudonym() != null))
+                .collect(Collectors.toList()));
+
+        log.info("found {} person documents for data cleanup", migrationResult.getSource().size());
+
+        return migrationResult;
+    }
+
+    public MigrationResult removeNameAttributes() {
+        MigrationResult migrationResult = listPersons();
+        List<Person> result = new ArrayList();
+
+        for (Object o : migrationResult.getSource()) {
+            Person person = (Person) o;
+            person.setFirstName(null);
+            person.setLastName(null);
+            person.setPseudonym(null);
+            result.add(_personRepository.save(person));
+        }
+        migrationResult.setResult(Collections.singletonList(result));
+
+        log.info("updated {} person documents", migrationResult.getSource().size());
 
         return migrationResult;
     }
