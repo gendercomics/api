@@ -18,8 +18,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -38,7 +40,7 @@ public class FileServiceImpl implements FileService {
         checkAndCreatePath(path);
 
         try {
-            Files.copy(file.getInputStream(), Paths.get(path).resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), Paths.get(path).resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
             log.error("Could not store the file.", e);
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
