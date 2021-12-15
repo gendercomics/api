@@ -18,11 +18,9 @@ public class ComicService {
 
     private final ComicRepository _comicRepository;
     private final RelationService _relationService;
-    private final TextService _textService;
 
     public List<Comic> findAll() {
         List<Comic> comics = _comicRepository.findAll();
-        log.debug("#comics={}", comics.size());
         Collections.sort(comics);
         return comics;
     }
@@ -42,12 +40,6 @@ public class ComicService {
 
     public boolean titleExists(String title) {
         return !_comicRepository.findByTitle(title).isEmpty();
-    }
-
-    @Deprecated(since = "gendercomics-api-1.6.0")
-    public Comic insert(Comic comic, String userName) {
-        log.debug("userName={} tries to insert comic", userName);
-        return save(comic, userName);
     }
 
     public String getComicAsXml(String id) throws JsonProcessingException {

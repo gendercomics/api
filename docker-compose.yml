@@ -2,27 +2,6 @@ version: "3"
 
 services:
 
-  mongodb:
-    image: mongo:4.2.10
-    container_name: mongodb
-    restart: always
-    command: [--auth]
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_DATA_DB: ${MONGO_DATA_DB}
-      MONGO_DATA_CONFIGDB: ${MONGO_DATA_CONFIGDB}
-    volumes:
-      - ${MONGO_DATA_DB}:/data/db
-      - ${MONGO_DATA_CONFIGDB}:/data/configdb
-    networks:
-      - proxy
-    ports:
-      - 27017:27017
-    labels:
-      - traefik.enable=false
-      - traefik.docker.network=proxy
-
   gendercomics-api-stage:
     image: gendercomics/api:latest
     container_name: gendercomics-api-stage
@@ -32,17 +11,17 @@ services:
       - SPRING_PROFILES_ACTIVE=stage
       - MONGO_USERNAME=${MONGO_USERNAME_STAGE}
       - MONGO_PASSWORD=${MONGO_PASSWORD_STAGE}
+    volumes:
+      - /var/gendercomics/images-stage/:/images/
     networks:
       - proxy
-    depends_on:
-      - mongodb
     labels:
       - traefik.frontend.rule=Host:api-stage.${HOST}
       - traefik.port=8001
       - traefik.docker.network=proxy
 
   gendercomics-api:
-    image: gendercomics/api:1.12.3
+    image: gendercomics/api:1.13.0
     container_name: gendercomics-api
     restart: always
     environment:
@@ -50,10 +29,10 @@ services:
       - SPRING_PROFILES_ACTIVE=production
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - /var/gendercomics/images/:/images/  
     networks:
       - proxy
-    depends_on:
-      - mongodb
     labels:
       - traefik.frontend.rule=Host:api.${HOST}
       - traefik.port=8001

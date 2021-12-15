@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -75,7 +74,7 @@ public class ComicServiceIntegrationTest extends AbstractIntegrationTest {
                 .containsEntry("publisherId", "alternative location");
 
         savedComic.getPublishers().get(0).setLocationOverride(null);
-        Comic savedComicWithoutOverride =_comicService.save(savedComic, "integration-test");
+        Comic savedComicWithoutOverride = _comicService.save(savedComic, "integration-test");
 
         assertThat(savedComicWithoutOverride.getPublisherOverrides())
                 .isNull();
@@ -98,7 +97,7 @@ public class ComicServiceIntegrationTest extends AbstractIntegrationTest {
                 .containsEntry("publisherId", "alternative location");
 
         savedComic.getPublishers().get(0).setLocationOverride("new location");
-        Comic savedComicWithoutOverride =_comicService.save(savedComic, "integration-test");
+        Comic savedComicWithoutOverride = _comicService.save(savedComic, "integration-test");
 
         assertThat(savedComic.getPublisherOverrides())
                 .isNotNull()

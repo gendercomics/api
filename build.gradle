@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'net.gendercomics.api'
-version = '1.12.3'
+version = '1.13.0'
 sourceCompatibility = '11'
 
 ext {

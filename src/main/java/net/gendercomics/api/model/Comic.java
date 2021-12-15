@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -33,9 +34,11 @@ public class Comic implements Comparable<Comic>, DisplayName {
 
     @ApiModelProperty(value = "comic book title", required = true)
     @Indexed(name = "comic_title_index")
+    @TextIndexed
     private String title;
 
     @ApiModelProperty(value = "comic book subtitle")
+    @TextIndexed
     private String subTitle;
 
     @ApiModelProperty(value = "magazine issue")
@@ -49,11 +52,6 @@ public class Comic implements Comparable<Comic>, DisplayName {
 
     @ApiModelProperty(value = "list of creators")
     private List<Creator> creators;
-
-    @Deprecated
-    @ApiModelProperty(value = "publisher")
-    @DBRef
-    private Publisher publisher;
 
     @ApiModelProperty(value = "list of publishers")
     @DBRef
@@ -94,6 +92,9 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @ApiModelProperty(value = "list of comments")
     @DBRef
     private List<Text> comments;
+
+    @ApiModelProperty(value = "cover image file name")
+    private String cover;
 
     @Override
     public int compareTo(Comic o) {

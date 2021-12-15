@@ -6,12 +6,16 @@ server:
   port: 8001
 
 ---
-
 spring:
   config.activate.on-profile: dev
   data:
     mongodb:
       uri: mongodb://gendercomics_api_dev:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+      auto-index-creation: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 keycloak:
   realm: gendercomics
@@ -21,6 +25,14 @@ keycloak:
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
+
+images:
+  path: /Users/mike/projects/gendercomics/images/
+
+logging:
+  level:
+    root: INFO
+    net.gendercomics: DEBUG
 
 ---
 
@@ -38,6 +50,14 @@ keycloak:
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
+
+images:
+  path: /images/
+
+logging:
+  level:
+    root: INFO
+    net.gendercomics: DEBUG
 
 ---
 
@@ -57,3 +77,6 @@ keycloak:
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
+
+images:
+  path: /images/

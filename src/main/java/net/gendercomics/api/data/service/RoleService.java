@@ -21,7 +21,6 @@ public class RoleService {
 
     public List<Role> findAll() {
         List<Role> roles = _roleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
-        log.debug("#roles={}", roles.size());
         return roles;
     }
 
