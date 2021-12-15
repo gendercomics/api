@@ -6,6 +6,7 @@ import net.gendercomics.api.data.repository.ComicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StringUtils;
@@ -18,7 +19,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -92,13 +92,10 @@ public class FileServiceImpl implements FileService {
 
         try {
             URL url = new URL("https://portal.dnb.de/opac/mvb/cover?isbn=" + isbn);
-            HttpURLConnection huc = (HttpURLConnection) url.openConnection();
-            MimeType mimeType = MimeTypeUtils.parseMimeType(huc.getHeaderField("Content-Type"));
-            huc.disconnect();
-
-            log.debug("downloading image from url: {}", url);
+            MimeType mimeType = getMimeTypeFromUrl(url);
 
             if (isImageMimeType(mimeType)) {
+                log.debug("downloading image from url: {}", url);
                 ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
                 fileName = isbn + "-dnb-cover." + mimeType.getSubtype();
                 FileOutputStream fileOutputStream = new FileOutputStream(_root + comicId + File.separator + fileName);
@@ -114,6 +111,20 @@ public class FileServiceImpl implements FileService {
         }
 
         return fileName;
+    }
+
+    private MimeType getMimeTypeFromUrl(URL url) throws IOException {
+        MimeType mimeType = null;
+        HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+        String mimeTypeString = huc.getHeaderField("Content-Type");
+        try {
+            mimeType = MimeTypeUtils.parseMimeType(mimeTypeString);
+        } catch (InvalidMimeTypeException e) {
+            log.error("{} :: url={}", e.getMessage(), url);
+        }
+        huc.disconnect();
+
+        return mimeType;
     }
 
     @Override
@@ -133,7 +144,7 @@ public class FileServiceImpl implements FileService {
     }
 
     private boolean isImageMimeType(MimeType mimeType) {
-        return mimeType.includes(MimeTypeUtils.IMAGE_JPEG) || mimeType.includes(MimeTypeUtils.IMAGE_PNG);
+        return mimeType != null && (mimeType.includes(MimeTypeUtils.IMAGE_JPEG) || mimeType.includes(MimeTypeUtils.IMAGE_PNG));
     }
 
 }
