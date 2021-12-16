@@ -16,9 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @Document("persons")
-@CompoundIndexes(value = {
-        @CompoundIndex(name = "person_fullname_index", def = "{'lastName':1, 'firstName':1}", unique = true, sparse = true)
-})
 @ApiModel(description = "persons involved in the process of creating comics")
 public class Person implements Comparable<Person> {
 
@@ -31,18 +28,6 @@ public class Person implements Comparable<Person> {
     @Indexed(name = "wikidata_index", unique = true, sparse = true)
     @ApiModelProperty(value = "wikidata")
     private String wikiData;
-
-    @Deprecated
-    @ApiModelProperty(value = "first name")
-    private String firstName;
-
-    @Deprecated
-    @ApiModelProperty(value = "last name")
-    private String lastName;
-
-    @Deprecated
-    @ApiModelProperty(value = "pseudonym")
-    private String pseudonym;
 
     @ApiModelProperty(value = "metadata", required = true)
     private MetaData metaData;
