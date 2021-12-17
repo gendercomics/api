@@ -2,6 +2,7 @@ package net.gendercomics.api.data.service;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,10 @@ public class MongoDbService {
     public MongoTemplate getMongoTemplate() {
         MongoClient mongoClient = MongoClients.create(_mongoURI);
         return new MongoTemplate(mongoClient, "gendercomics-dev");
+    }
+
+    public MongoDatabase getDb(String dbName) {
+        MongoClient mongoClient = MongoClients.create(_mongoURI);
+        return mongoClient.getDatabase(dbName);
     }
 }
