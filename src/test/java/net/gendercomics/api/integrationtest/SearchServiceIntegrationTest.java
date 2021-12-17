@@ -2,7 +2,6 @@ package net.gendercomics.api.integrationtest;
 
 import net.gendercomics.api.data.service.SearchService;
 import net.gendercomics.api.model.Comic;
-import org.junit.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +73,6 @@ public class SearchServiceIntegrationTest extends AbstractIntegrationTest {
                 .contains(comic);
     }
 
-    @Ignore
     @Test
     public void whenSearch_PartialString_ThenReturnComic() {
         Comic comic = new Comic();
@@ -83,6 +81,11 @@ public class SearchServiceIntegrationTest extends AbstractIntegrationTest {
         comic.setSubTitle("welt");
 
         assertThat(_searchService.search("ha").getComics())
+                .isNotNull()
+                .hasSize(1)
+                .contains(comic);
+
+        assertThat(_searchService.search("elt").getComics())
                 .isNotNull()
                 .hasSize(1)
                 .contains(comic);
