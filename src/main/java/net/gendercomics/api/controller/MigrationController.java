@@ -40,16 +40,4 @@ public class MigrationController {
         return _migrationService.removeEmptyHyperlink();
     }
 
-    @ApiOperation("list persons with not-empty firstName, lastName or name")
-    @GetMapping(path = "/migration/list-persons", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MigrationResult listPersons() {
-        return _migrationService.listPersons();
-    }
-
-    @ApiOperation("remove person name attributes")
-    @PostMapping(path = "/migration/remove-person-name-attributes", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MigrationResult removePersonNameAttributes() {
-        return _migrationService.removeNameAttributes();
-    }
-
 }

@@ -5,15 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.data.repository.PersonRepository;
 import net.gendercomics.api.data.repository.RelationRepository;
-import net.gendercomics.api.model.*;
+import net.gendercomics.api.model.Comic;
+import net.gendercomics.api.model.MigrationResult;
+import net.gendercomics.api.model.Relation;
+import net.gendercomics.api.model.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -54,7 +55,7 @@ public class MigrationService {
     public MigrationResult listEmptyHyperlink() {
         MigrationResult migrationResult = new MigrationResult();
 
-        List source = new ArrayList();
+        List<Comic> source = new ArrayList<>();
 
         List<Comic> comicList = _comicRepository.findAll();
         comicList.stream().filter(comic -> comic.getHyperLinks() != null).forEach(comic -> {
@@ -63,14 +64,14 @@ public class MigrationService {
                 source.add(comic);
             });
         });
-        migrationResult.setSource(source);
+        migrationResult.setSource(Collections.singletonList(source));
         migrationResult.setStatus(MigrationResult.OK);
         return migrationResult;
     }
 
     public MigrationResult removeEmptyHyperlink() {
         MigrationResult migrationResult = listEmptyHyperlink();
-        List<Comic> result = new ArrayList();
+        List<Comic> result = new ArrayList<>();
         for (Object o : migrationResult.getSource()) {
             Comic comic = (Comic) o;
             comic.setHyperLinks(null);
@@ -82,35 +83,4 @@ public class MigrationService {
         return migrationResult;
     }
 
-    public MigrationResult listPersons() {
-        MigrationResult migrationResult = new MigrationResult();
-        AtomicInteger count = new AtomicInteger();
-
-        migrationResult.setSource(_personRepository.findAll()
-                .stream()
-                .filter(person -> (person.getFirstName() != null || person.getLastName() != null || person.getPseudonym() != null))
-                .collect(Collectors.toList()));
-
-        log.info("found {} person documents for data cleanup", migrationResult.getSource().size());
-
-        return migrationResult;
-    }
-
-    public MigrationResult removeNameAttributes() {
-        MigrationResult migrationResult = listPersons();
-        List<Person> result = new ArrayList();
-
-        for (Object o : migrationResult.getSource()) {
-            Person person = (Person) o;
-            person.setFirstName(null);
-            person.setLastName(null);
-            person.setPseudonym(null);
-            result.add(_personRepository.save(person));
-        }
-        migrationResult.setResult(Collections.singletonList(result));
-
-        log.info("updated {} person documents", migrationResult.getSource().size());
-
-        return migrationResult;
-    }
 }
