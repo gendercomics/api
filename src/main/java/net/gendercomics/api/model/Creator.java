@@ -12,9 +12,7 @@ public class Creator {
 
     @DBRef
     private Name name;
-    @Deprecated
-    @DBRef
-    private Role role;
+
     @DBRef
     private List<Role> roles;
 

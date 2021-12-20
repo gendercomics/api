@@ -7,3 +7,5 @@ spring:
       uri: mongodb://gendercomics_api:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
       auto-index-creation: true
 
+images:
+  path: /Users/mike/projects/gendercomics/images/

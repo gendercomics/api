@@ -21,7 +21,6 @@ public class PublisherService {
 
     public List<Publisher> findAll() {
         List<Publisher> publishers = _publisherRepository.findAll();
-        log.debug("#publisher={}", publishers.size());
         Collections.sort(publishers);
         return publishers;
     }
@@ -50,7 +49,6 @@ public class PublisherService {
     public long getPublisherCount() {
         return _publisherRepository.count();
     }
-
 
     public void delete(String id) {
         _publisherRepository.deleteById(id);
