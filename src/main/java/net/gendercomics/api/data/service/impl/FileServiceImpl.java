@@ -1,8 +1,9 @@
-package net.gendercomics.api.data.service;
+package net.gendercomics.api.data.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.ComicRepository;
+import net.gendercomics.api.data.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

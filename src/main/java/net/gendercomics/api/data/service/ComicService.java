@@ -108,4 +108,23 @@ public class ComicService {
         return overrides.isEmpty() ? null : overrides;
     }
 
+    public List<Comic> getByCreatorNames(List<Name> nameList) {
+        Set<Comic> comicSet = new HashSet<>();
+
+        nameList.stream().forEach(name -> {
+            comicSet.addAll(_comicRepository.getByCreatorNameId(name.getId()));
+        });
+
+        return new ArrayList<>(comicSet);
+    }
+
+    public List<Comic> getByPublisherNames(List<Publisher> publishers) {
+        Set<Comic> comicSet = new HashSet<>();
+
+        publishers.stream().forEach(publisher -> {
+            comicSet.addAll(_comicRepository.getByPublisherId(publisher.getId()));
+        });
+
+        return new ArrayList<>(comicSet);
+    }
 }

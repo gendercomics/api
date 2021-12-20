@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ComicRepository extends MongoRepository<Comic, String> {
 
@@ -22,4 +21,9 @@ public interface ComicRepository extends MongoRepository<Comic, String> {
     @Query(value = "{}", fields = "{ 'title' : 1, 'subTitle' : 1, 'type' : 1, 'creators' : 1, 'publishers' : 1, 'issue' : 1, 'issueTitle' : 1, 'seriesList' : 1, 'series' : 1, 'partOf' : 1, 'metaData' : 1 }")
     List<Comic> findAllLimitFields();
 
+    @Query(value = "{ 'creators.name.id': ?0 }")
+    List<Comic> getByCreatorNameId(String id);
+
+    @Query(value = "{ 'publishers.id': ?0 }")
+    List<Comic> getByPublisherId(String id);
 }
