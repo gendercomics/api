@@ -9,6 +9,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 ## Release Notes
 
 ---
+### gendercomics-api-1.15.0
+- TODO
+
+---
 ### gendercomics-api-1.14.0
 - removed deprecated person name attributes
 - regex search service (without controller)
