@@ -2,6 +2,7 @@ package net.gendercomics.api.controller;
 
 import net.gendercomics.api.data.repository.*;
 import net.gendercomics.api.data.service.*;
+import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -38,7 +39,7 @@ public class RoleControllerTest {
     private MockMvc _mockMvc;
 
     @MockBean
-    private ComicService _comicService;
+    private ComicServiceImpl _comicService;
 
     @MockBean
     private CommonController _commonController;

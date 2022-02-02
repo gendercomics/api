@@ -15,10 +15,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Document(collection = "comics")
 @ApiModel(description = "comic book model")
 @CompoundIndexes(value = {
@@ -26,6 +27,7 @@ import java.util.Map;
 })
 public class Comic implements Comparable<Comic>, DisplayName {
 
+    @EqualsAndHashCode.Include
     private String id;
 
     @ApiModelProperty(value = "metadata", required = true)
@@ -33,11 +35,13 @@ public class Comic implements Comparable<Comic>, DisplayName {
     private MetaData metaData;
 
     @ApiModelProperty(value = "comic book title", required = true)
+    @EqualsAndHashCode.Include
     @Indexed(name = "comic_title_index")
     @TextIndexed
     private String title;
 
     @ApiModelProperty(value = "comic book subtitle")
+    @EqualsAndHashCode.Include
     @TextIndexed
     private String subTitle;
 
@@ -98,7 +102,7 @@ public class Comic implements Comparable<Comic>, DisplayName {
 
     @Override
     public int compareTo(Comic o) {
-        return this.getNameForWebAppList().compareToIgnoreCase(o.getNameForWebAppList());
+        return this.getComparableNameForWebAppList().compareToIgnoreCase(o.getComparableNameForWebAppList());
     }
 
     @Transient
@@ -116,4 +120,26 @@ public class Comic implements Comparable<Comic>, DisplayName {
         return value;
     }
 
+    @Transient
+    @Override
+    public String getComparableNameForWebAppList() {
+        String comparableName = "";
+        if (this.seriesList != null) {
+            List<Series> seriesList = this.seriesList.stream()
+                    .filter(series -> series.getComic().getType().equals(ComicType.comic_series))
+                    .collect(Collectors.toList());
+            if (!seriesList.isEmpty()) {
+                comparableName += seriesList.get(0).getComic().getTitle();
+                if (seriesList.get(0).getVolume() != null) {
+                    comparableName += " " + seriesList.get(0).getVolume();
+                }
+            }
+        }
+
+        if (comparableName.length() > 0) {
+            comparableName += ": ";
+        }
+
+        return comparableName + getNameForWebAppList();
+    }
 }

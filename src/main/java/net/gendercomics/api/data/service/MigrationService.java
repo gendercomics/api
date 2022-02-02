@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.data.repository.PersonRepository;
 import net.gendercomics.api.data.repository.RelationRepository;
+import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.MigrationResult;
 import net.gendercomics.api.model.Relation;
@@ -23,7 +24,7 @@ public class MigrationService {
 
     private final ComicRepository _comicRepository;
     private final RelationRepository _relationRepository;
-    private final ComicService _comicService;
+    private final ComicServiceImpl _comicService;
     private final PersonRepository _personRepository;
 
     public MigrationResult comicCommentToRelation() {

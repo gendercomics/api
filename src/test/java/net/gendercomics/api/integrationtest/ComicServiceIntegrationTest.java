@@ -1,6 +1,6 @@
 package net.gendercomics.api.integrationtest;
 
-import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.Publisher;
 import org.junit.jupiter.api.AfterEach;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ComicServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private ComicService _comicService;
+    private ComicServiceImpl _comicService;
 
     @Autowired
     private MongoTemplate _mongoTemplate;

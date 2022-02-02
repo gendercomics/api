@@ -34,8 +34,15 @@ public class Publisher implements Comparable<Publisher>, DisplayName {
         return this.name.compareToIgnoreCase(o.name);
     }
 
+    @Transient
     @Override
     public String getNameForWebAppList() {
+        return this.name;
+    }
+
+    @Transient
+    @Override
+    public String getComparableNameForWebAppList() {
         return this.name;
     }
 }

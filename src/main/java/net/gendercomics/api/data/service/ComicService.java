@@ -1,130 +1,37 @@
 package net.gendercomics.api.data.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import net.gendercomics.api.data.repository.ComicRepository;
-import net.gendercomics.api.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import net.gendercomics.api.model.Comic;
+import net.gendercomics.api.model.ComicType;
+import net.gendercomics.api.model.Name;
+import net.gendercomics.api.model.Publisher;
 
-import java.util.*;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@Slf4j
-public class ComicService {
+public interface ComicService {
+    List<Comic> findAll();
 
-    private final ComicRepository _comicRepository;
-    private final RelationService _relationService;
+    List<Comic> findByTypes(ComicType... comicTypes);
 
-    public List<Comic> findAll() {
-        List<Comic> comics = _comicRepository.findAll();
-        Collections.sort(comics);
-        return comics;
-    }
+    List<Comic> findByTitle(String title);
 
-    public List<Comic> findByTypes(ComicType... comicTypes) {
-        List<Comic> comics = new ArrayList<>();
-        for (ComicType comicType : comicTypes) {
-            comics.addAll(_comicRepository.findByType(comicType));
-        }
-        Collections.sort(comics);
-        return comics;
-    }
+    boolean titleExists(String title);
 
-    public List<Comic> findByTitle(String title) {
-        return _comicRepository.findByTitle(title);
-    }
+    String getComicAsXml(String id) throws JsonProcessingException;
 
-    public boolean titleExists(String title) {
-        return !_comicRepository.findByTitle(title).isEmpty();
-    }
+    Comic getComic(String id);
 
-    public String getComicAsXml(String id) throws JsonProcessingException {
-        Comic comic = _comicRepository.findById(id).orElse(null);
-        if (comic != null) {
-            XmlMapper xmlMapper = new XmlMapper();
-            return xmlMapper.writeValueAsString(comic);
-        }
-        return null;
-    }
+    long getComicCount();
 
-    public Comic getComic(String id) {
-        return _comicRepository.findById(id).orElse(null);
-    }
+    Comic save(Comic comic, String userName);
 
-    public long getComicCount() {
-        return _comicRepository.count();
-    }
+    void delete(String comicId);
 
-    public Comic save(Comic comic, String userName) {
-        if (comic.getMetaData() == null) {
-            comic.setMetaData(new MetaData());
-        }
+    List<Comic> findAllForList();
 
-        // process publisher override
-        comic.setPublisherOverrides(processPublisherLocationOverride(comic.getPublishers(), comic.getPublisherOverrides()));
+    List<Comic> getByCreatorNames(List<Name> nameList);
 
-        if (comic.getId() == null) {
-            comic.getMetaData().setCreatedOn(new Date());
-            comic.getMetaData().setCreatedBy(userName);
-            return _comicRepository.insert(comic);
-        } else {
-            comic.getMetaData().setChangedOn(new Date());
-            comic.getMetaData().setChangedBy(userName);
-            return _comicRepository.save(comic);
-        }
-    }
+    List<Comic> getByPublisherNames(List<Publisher> publishers);
 
-    public void delete(String comicId) {
-        _comicRepository.deleteById(comicId);
-    }
-
-    private Map<String, List<Relation>> loadRelations(String comicId) {
-        return _relationService.findAllRelationsGroupedByType(comicId);
-    }
-
-    public List<Comic> findAllForList() {
-        List<Comic> comics = _comicRepository.findAllLimitFields();
-        Collections.sort(comics);
-        return comics;
-    }
-
-    private Map<String, String> processPublisherLocationOverride(final List<Publisher> publishers, final Map<String, String> existingOverrides) {
-        if (publishers == null || publishers.isEmpty()) {
-            return null;
-        }
-
-        Map<String, String> overrides = new HashMap<>();
-
-        publishers.stream().forEach(publisher -> {
-            String locationOverride = publisher.getLocationOverride();
-            if (locationOverride != null)
-                overrides.put(publisher.getId(), publisher.getLocationOverride());
-        });
-
-        return overrides.isEmpty() ? null : overrides;
-    }
-
-    public List<Comic> getByCreatorNames(List<Name> nameList) {
-        Set<Comic> comicSet = new HashSet<>();
-
-        nameList.stream().forEach(name -> {
-            comicSet.addAll(_comicRepository.getByCreatorNameId(name.getId()));
-        });
-
-        return new ArrayList<>(comicSet);
-    }
-
-    public List<Comic> getByPublisherNames(List<Publisher> publishers) {
-        Set<Comic> comicSet = new HashSet<>();
-
-        publishers.stream().forEach(publisher -> {
-            comicSet.addAll(_comicRepository.getByPublisherId(publisher.getId()));
-        });
-
-        return new ArrayList<>(comicSet);
-    }
+    List<Comic> getBySeries(List<Comic> seriesList);
 }

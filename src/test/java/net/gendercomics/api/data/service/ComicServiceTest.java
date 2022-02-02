@@ -1,6 +1,7 @@
 package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.ComicRepository;
+import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Comic;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +19,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = ComicService.class)
+@ContextConfiguration(classes = ComicServiceImpl.class)
 public class ComicServiceTest {
 
     @Autowired
-    private ComicService _comicService;
+    private ComicServiceImpl _comicService;
 
     @MockBean
     private ComicRepository _comicRepository;

@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.data.service.SearchService;
-import net.gendercomics.api.model.Comic;
-import net.gendercomics.api.model.Name;
-import net.gendercomics.api.model.Publisher;
-import net.gendercomics.api.model.SearchResult;
+import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -31,7 +29,14 @@ public class SearchServiceImpl implements SearchService {
         Pattern regex = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE);
 
         // search comics
-        Set<Comic> comicSet = new HashSet<>(findComics(regex));
+        List<Comic> comicList = findComics(regex);
+        Set<Comic> comicSet = new HashSet<>(comicList);
+
+        // find all comics in a series found by previous search
+        List<Comic> seriesList = comicList.stream()
+                .filter(comic -> ComicType.comic_series.equals(comic.getType()) || ComicType.publishing_series.equals(comic.getType()))
+                .collect(Collectors.toList());
+        comicSet.addAll(_comicService.getBySeries(seriesList));
 
         // search names, add comic results
         result.setNames(findNames(regex));
