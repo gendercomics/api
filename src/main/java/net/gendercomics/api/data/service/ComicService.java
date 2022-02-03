@@ -6,6 +6,7 @@ import net.gendercomics.api.model.ComicType;
 import net.gendercomics.api.model.Name;
 import net.gendercomics.api.model.Publisher;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ComicService {
@@ -34,4 +35,6 @@ public interface ComicService {
     List<Comic> getByPublisherNames(List<Publisher> publishers);
 
     List<Comic> getBySeries(List<Comic> seriesList);
+
+    Collection<? extends Comic> getByAnthologies(List<Comic> anthologyList);
 }

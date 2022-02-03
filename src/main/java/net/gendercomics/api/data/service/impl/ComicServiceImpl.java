@@ -152,4 +152,15 @@ public class ComicServiceImpl implements ComicService {
 
         return new ArrayList<>(comicSet);
     }
+
+    @Override
+    public Collection<? extends Comic> getByAnthologies(List<Comic> anthologyList) {
+        Set<Comic> comicSet = new HashSet<>();
+
+        anthologyList.stream().forEach(anthology -> {
+            comicSet.addAll(_comicRepository.getByAnthology(anthology.getId()));
+        });
+
+        return comicSet;
+    }
 }

@@ -29,4 +29,7 @@ public interface ComicRepository extends MongoRepository<Comic, String> {
 
     @Query(value = "{ 'seriesList.comic.id': ?0 }")
     List<Comic> getBySeriesId(String id);
+
+    @Query(value = "{ 'partOf.comic.id': ?0 }")
+    List<Comic> getByAnthology(String id);
 }

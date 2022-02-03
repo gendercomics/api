@@ -38,6 +38,12 @@ public class SearchServiceImpl implements SearchService {
                 .collect(Collectors.toList());
         comicSet.addAll(_comicService.getBySeries(seriesList));
 
+        // find all comics within an anthology
+        List<Comic> anthologyList = comicList.stream()
+                .filter(comic -> ComicType.anthology.equals(comic.getType()))
+                .collect(Collectors.toList());
+        comicSet.addAll(_comicService.getByAnthologies(anthologyList));
+
         // search names, add comic results
         result.setNames(findNames(regex));
         comicSet.addAll(findComicsByNames(result.getNames()));
