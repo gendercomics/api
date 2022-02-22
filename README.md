@@ -7,6 +7,9 @@ API for accessing the gendercomics.net database
 Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
+---
+### gendercomics-api-1.16.0
+- TODO
 
 ---
 ### gendercomics-api-1.15.0
