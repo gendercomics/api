@@ -10,7 +10,7 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ---
 ### gendercomics-api-1.15.0
-- TODO
+- regex search service fully implemented
 
 ---
 ### gendercomics-api-1.14.0
