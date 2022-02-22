@@ -5,7 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ComicController {
 
-    private final ComicService _comicService;
+    private final ComicServiceImpl _comicService;
 
     /*** public endpoints ***/
 

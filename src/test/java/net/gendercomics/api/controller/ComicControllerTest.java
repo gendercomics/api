@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.*;
 import net.gendercomics.api.data.service.*;
+import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
 import net.gendercomics.api.model.MetaData;
@@ -50,7 +51,7 @@ public class ComicControllerTest {
     private MockMvc _mockMvc;
 
     @MockBean
-    private ComicService _comicService;
+    private ComicServiceImpl _comicService;
 
     @MockBean
     private CommonController _commonController;

@@ -1,6 +1,6 @@
 package net.gendercomics.api.integrationtest;
 
-import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.data.service.MigrationService;
 import net.gendercomics.api.data.service.TextService;
 import net.gendercomics.api.model.Comic;
@@ -26,7 +26,7 @@ public class MigrationServiceIntegrationTest extends AbstractIntegrationTest {
     private TextService _textService;
 
     @Autowired
-    private ComicService _comicService;
+    private ComicServiceImpl _comicService;
 
     @Autowired
     private MongoTemplate _mongo;

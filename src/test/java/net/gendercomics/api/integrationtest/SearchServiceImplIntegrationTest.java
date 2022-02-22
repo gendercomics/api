@@ -1,6 +1,6 @@
 package net.gendercomics.api.integrationtest;
 
-import net.gendercomics.api.data.service.SearchService;
+import net.gendercomics.api.data.service.impl.SearchServiceImpl;
 import net.gendercomics.api.model.Comic;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,13 +11,13 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SearchServiceIntegrationTest extends AbstractIntegrationTest {
+public class SearchServiceImplIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private MongoTemplate _mongoTemplate;
 
     @Autowired
-    private SearchService _searchService;
+    private SearchServiceImpl _searchServiceImpl;
 
     @BeforeEach
     private void setup() {
@@ -41,7 +41,7 @@ public class SearchServiceIntegrationTest extends AbstractIntegrationTest {
         comic.setTitle("hallo");
         comic.setSubTitle("welt");
 
-        assertThat(_searchService.search("hallo").getComics())
+        assertThat(_searchServiceImpl.search("hallo").getComics())
                 .isNotNull()
                 .hasSize(1)
                 .contains(comic);
@@ -54,7 +54,7 @@ public class SearchServiceIntegrationTest extends AbstractIntegrationTest {
         comic.setTitle("hallo");
         comic.setSubTitle("welt");
 
-        assertThat(_searchService.search("welt").getComics())
+        assertThat(_searchServiceImpl.search("welt").getComics())
                 .isNotNull()
                 .hasSize(1)
                 .contains(comic);
@@ -67,7 +67,7 @@ public class SearchServiceIntegrationTest extends AbstractIntegrationTest {
         comic.setTitle("hallo");
         comic.setSubTitle("welt");
 
-        assertThat(_searchService.search("Hallo").getComics())
+        assertThat(_searchServiceImpl.search("Hallo").getComics())
                 .isNotNull()
                 .hasSize(1)
                 .contains(comic);
@@ -80,12 +80,12 @@ public class SearchServiceIntegrationTest extends AbstractIntegrationTest {
         comic.setTitle("hallo");
         comic.setSubTitle("welt");
 
-        assertThat(_searchService.search("ha").getComics())
+        assertThat(_searchServiceImpl.search("ha").getComics())
                 .isNotNull()
                 .hasSize(1)
                 .contains(comic);
 
-        assertThat(_searchService.search("elt").getComics())
+        assertThat(_searchServiceImpl.search("elt").getComics())
                 .isNotNull()
                 .hasSize(1)
                 .contains(comic);

@@ -3,7 +3,7 @@ package net.gendercomics.api.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.data.service.KeywordService;
 import net.gendercomics.api.data.service.PersonService;
 import net.gendercomics.api.data.service.PublisherService;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommonController {
 
     private final BuildProperties _buildProperties;
-    private final ComicService _comicService;
+    private final ComicServiceImpl _comicService;
     private final PersonService _personService;
     private final PublisherService _publisherService;
     private final RoleService _roleService;
