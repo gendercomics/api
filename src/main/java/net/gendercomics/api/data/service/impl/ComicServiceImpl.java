@@ -154,13 +154,14 @@ public class ComicServiceImpl implements ComicService {
     }
 
     @Override
-    public Collection<? extends Comic> getByAnthologies(List<Comic> anthologyList) {
+    public Collection<? extends Comic> getByPartOf(List<Comic> partOfList) {
         Set<Comic> comicSet = new HashSet<>();
 
-        anthologyList.stream().forEach(anthology -> {
-            comicSet.addAll(_comicRepository.getByAnthology(anthology.getId()));
+        partOfList.stream().forEach(partOf -> {
+            comicSet.addAll(_comicRepository.getByPartOf(partOf.getId()));
         });
 
         return comicSet;
     }
+
 }

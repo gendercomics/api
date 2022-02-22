@@ -36,5 +36,6 @@ public interface ComicService {
 
     List<Comic> getBySeries(List<Comic> seriesList);
 
-    Collection<? extends Comic> getByAnthologies(List<Comic> anthologyList);
+    Collection<? extends Comic> getByPartOf(List<Comic> partOfList);
+
 }
