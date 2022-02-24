@@ -93,10 +93,6 @@ public class ComicServiceImpl implements ComicService {
         _comicRepository.deleteById(comicId);
     }
 
-    private Map<String, List<Relation>> loadRelations(String comicId) {
-        return _relationService.findAllRelationsGroupedByType(comicId);
-    }
-
     @Override
     public List<Comic> findAllForList() {
         List<Comic> comics = _comicRepository.findAllLimitFields();
