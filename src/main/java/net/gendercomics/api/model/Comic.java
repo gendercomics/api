@@ -124,9 +124,10 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @Override
     public String getComparableNameForWebAppList() {
         String comparableName = "";
-        if (this.seriesList != null) {
+        if (this.seriesList != null && !seriesList.isEmpty()) {
             List<Series> seriesList = this.seriesList.stream()
-                    .filter(series -> series.getComic().getType().equals(ComicType.comic_series))
+                    .filter(series -> series != null && series.getComic() != null)
+                    .filter(series -> ComicType.comic_series.equals(series.getComic().getType()))
                     .collect(Collectors.toList());
             if (!seriesList.isEmpty()) {
                 comparableName += seriesList.get(0).getComic().getTitle();
