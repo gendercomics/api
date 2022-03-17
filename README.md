@@ -9,6 +9,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 ## Release Notes
 
 ---
+### gendercomics-api-1.15.1
+- hotfix for nullpointer exception on getComparableNameForWebAppList
+
+---
 ### gendercomics-api-1.15.0
 - regex search service fully implemented
 

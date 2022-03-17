@@ -31,7 +31,6 @@ public class Comic implements Comparable<Comic>, DisplayName {
     private String id;
 
     @ApiModelProperty(value = "metadata", required = true)
-    @EqualsAndHashCode.Exclude
     private MetaData metaData;
 
     @ApiModelProperty(value = "comic book title", required = true)
@@ -124,7 +123,7 @@ public class Comic implements Comparable<Comic>, DisplayName {
     @Override
     public String getComparableNameForWebAppList() {
         String comparableName = "";
-        if (this.seriesList != null) {
+        if (this.seriesList != null && !seriesList.isEmpty()) {
             List<Series> seriesList = this.seriesList.stream()
                     .filter(series -> series.getComic().getType().equals(ComicType.comic_series))
                     .collect(Collectors.toList());
