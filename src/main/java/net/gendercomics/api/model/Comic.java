@@ -125,6 +125,7 @@ public class Comic implements Comparable<Comic>, DisplayName {
         String comparableName = "";
         if (this.seriesList != null && !seriesList.isEmpty()) {
             List<Series> seriesList = this.seriesList.stream()
+                    .filter(series -> series.getComic() != null)
                     .filter(series -> ComicType.comic_series.equals(series.getComic().getType()))
                     .collect(Collectors.toList());
             if (!seriesList.isEmpty()) {
