@@ -16,7 +16,6 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Api(tags = {"relations"})
@@ -26,18 +25,6 @@ import java.util.Map;
 public class RelationController {
 
     private final RelationService _relationService;
-
-    @ApiOperation("get a map of relations for specified object id")
-    @GetMapping(path = "/relations/{id}")
-    public Map<String, List<Relation>> getRelationsForObject(@ApiParam(required = true) @PathVariable String id) {
-        return _relationService.findAllRelationsGroupedByType(id);
-    }
-
-    @ApiOperation("get a map of relations for specified relation type and object id")
-    @GetMapping(path = "/relations/{relationType}/{id}")
-    public List getRelationsForObject(@ApiParam(required = true) @PathVariable String relationType, @ApiParam(required = true) @PathVariable String id) {
-        return _relationService.findAllRelationsForType(relationType, id);
-    }
 
     /*** admin endpoints - secured, only authorized access allowed ***/
 
@@ -57,12 +44,6 @@ public class RelationController {
     @DeleteMapping(path = "/relations/{id}")
     public void deleteRelation(@ApiParam(required = true) @PathVariable String id) {
         _relationService.delete(id);
-    }
-
-    @ApiOperation("delete a relation with specifed source id")
-    @DeleteMapping(path = "/relations/sourceid/{id}")
-    public void deleteRelationBySourceId(@ApiParam(required = true) @PathVariable String id) {
-        _relationService.deleteBySourceId(id);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
