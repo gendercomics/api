@@ -13,8 +13,10 @@ import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
@@ -141,5 +143,11 @@ public class Comic implements Comparable<Comic>, DisplayName {
         }
 
         return comparableName + getNameForWebAppList();
+    }
+
+    @Transient
+    public Map<String, Series> getSeriesAsMap() {
+        return this.getSeriesList().stream()
+                .collect(Collectors.toMap(Series::getComicId, Function.identity()));
     }
 }
