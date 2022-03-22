@@ -7,6 +7,10 @@ API for accessing the gendercomics.net database
 Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
+---
+### gendercomics-api-1.16.0
+- when deleting a comic of type *_series, then the entries in the related comics are deleted
+- Comic.getSeriesAsMap() made null-safe and ignored in JSON serialization
 
 ---
 ### gendercomics-api-1.15.2

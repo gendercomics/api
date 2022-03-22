@@ -41,6 +41,10 @@ spring:
   data:
     mongodb:
       uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 10MB
 
 keycloak:
   realm: gendercomics
@@ -68,6 +72,10 @@ spring:
   data:
     mongodb:
       uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/gendercomics?authSource=admin&authMechanism=SCRAM-SHA-1
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 10MB
 
 keycloak:
   realm: gendercomics

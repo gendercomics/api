@@ -1,5 +1,6 @@
 package net.gendercomics.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -13,8 +14,10 @@ import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
@@ -141,5 +144,12 @@ public class Comic implements Comparable<Comic>, DisplayName {
         }
 
         return comparableName + getNameForWebAppList();
+    }
+
+    @Transient
+    @JsonIgnore
+    public Map<String, Series> getSeriesAsMap() {
+        return (this.getSeriesList() == null || this.getSeriesList().isEmpty()) ? Collections.emptyMap() : this.getSeriesList().stream()
+                .collect(Collectors.toMap(Series::getComicId, Function.identity()));
     }
 }

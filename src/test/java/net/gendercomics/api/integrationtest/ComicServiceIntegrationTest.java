@@ -2,7 +2,9 @@ package net.gendercomics.api.integrationtest;
 
 import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Comic;
+import net.gendercomics.api.model.ComicType;
 import net.gendercomics.api.model.Publisher;
+import net.gendercomics.api.model.Series;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,7 @@ public class ComicServiceIntegrationTest extends AbstractIntegrationTest {
     private void setup() {
         Comic comic = new Comic();
         comic.setId("comicId");
+        _mongoTemplate.dropCollection(Comic.class); // why ist this needed?
         _mongoTemplate.createCollection(Comic.class);
         _mongoTemplate.insert(comic, "comics");
     }
@@ -103,6 +106,57 @@ public class ComicServiceIntegrationTest extends AbstractIntegrationTest {
                 .isNotNull()
                 .hasSize(1)
                 .containsEntry("publisherId", "new location");
+    }
+
+    @Test
+    public void whenDeleteComic_ThenNotFound() {
+        _comicService.delete("comicId");
+        assertThat(_comicService.getComic("comicId")).isNull();
+    }
+
+    @Test
+    public void whenDeleteSeries_ThenDeleteEntriesInComics() {
+        // data preparation
+        Comic publishingSeries = new Comic();
+        publishingSeries.setId("publishing-series-id");
+        publishingSeries.setType(ComicType.publishing_series);
+        publishingSeries = _comicService.save(publishingSeries, "integration-test");
+
+        assertThat(publishingSeries.getId()).isNotNull();
+
+        Comic comicSeries = new Comic();
+        comicSeries.setId("comic-series-id");
+        comicSeries.setType(ComicType.comic_series);
+        comicSeries = _comicService.save(comicSeries, "integration-test");
+
+        assertThat(comicSeries.getId()).isNotNull();
+
+        Comic comicInSeries = new Comic();
+        comicInSeries.setId("comicInSeries-Id");
+        comicInSeries.setSeriesList(new ArrayList<>());
+        comicInSeries.getSeriesList().add(new Series());
+        comicInSeries.getSeriesList().get(0).setComic(publishingSeries);
+
+        comicInSeries.getSeriesList().add(new Series());
+        comicInSeries.getSeriesList().get(1).setComic(comicSeries);
+
+        comicInSeries = _comicService.save(comicInSeries, "integration-test");
+
+        assertThat(comicInSeries.getId()).isNotNull();
+        assertThat(comicInSeries.getSeriesList().get(0).getComic().getId()).isEqualTo("publishing-series-id");
+        assertThat(comicInSeries.getSeriesList().get(1).getComic().getId()).isEqualTo("comic-series-id");
+
+        // execute
+        _comicService.delete("publishing-series-id");
+
+        assertThat(_comicService.getComic("publishing-series-id")).isNull();
+        assertThat(_comicService.getComic("comic-series-id")).isNotNull();
+
+        assertThat(_comicService.getComic("comicInSeries-Id")).isNotNull();
+        assertThat(_comicService.getComic("comicInSeries-Id").getSeriesList())
+                .isNotEmpty()
+                .hasSize(1);
+        assertThat(_comicService.getComic("comicInSeries-Id").getSeriesList().get(0).getComicId()).isEqualTo("comic-series-id");
     }
 
 }

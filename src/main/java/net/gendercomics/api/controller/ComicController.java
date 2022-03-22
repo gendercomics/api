@@ -99,7 +99,7 @@ public class ComicController {
 
     @ApiOperation("delete a comic")
     @DeleteMapping(path = "/comics/{id}")
-    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
+    public void deleteComic(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
         _comicService.delete(id);
     }
 

@@ -90,11 +90,22 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public void delete(String comicId) {
+        Comic comicToDelete = _comicRepository.findById(comicId).get();
+        if (isSeries(comicToDelete)) {
+            // if comic is series, delete related
+            for (Comic comic : _comicRepository.getBySeriesId(comicId)) {
+                Map<String, Series> seriesMap = comic.getSeriesAsMap();
+                Series series = seriesMap.get(comicId);
+                comic.getSeriesList().remove(series);
+                _comicRepository.save(comic);
+            }
+        }
+        // TODO if comicToDelete is anthology?
         _comicRepository.deleteById(comicId);
     }
 
-    private Map<String, List<Relation>> loadRelations(String comicId) {
-        return _relationService.findAllRelationsGroupedByType(comicId);
+    private boolean isSeries(Comic comic) {
+        return ComicType.publishing_series.equals(comic.getType()) || ComicType.comic_series.equals(comic.getType());
     }
 
     @Override
