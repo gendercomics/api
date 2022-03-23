@@ -11,20 +11,20 @@ import java.util.Map;
 @Getter
 @Setter
 @Document("predicates")
-public class Predicate implements Comparable<Predicate> {
+public class Predicate implements DisplayNameI18n {
 
     private String id;
-
-    @Indexed(name = "predicate_name_index", unique = true, sparse = true)
-    @ApiModelProperty(value = "name value")
-    private String name;
 
     @ApiModelProperty(value = "list of predicate values (one list entry per language)", required = true)
     private Map<Language, String> values;
 
+    @Override
+    public String getNameForWebAppList(Language language) {
+        return values.get(language);
+    }
 
     @Override
-    public int compareTo(Predicate o) {
-        return this.getName().compareTo(o.getName());
+    public String getComparableNameForWebAppList(Language language) {
+        return this.getNameForWebAppList(language);
     }
 }

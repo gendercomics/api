@@ -26,7 +26,7 @@ public class PredicateServiceImpl implements PredicateService {
     @Override
     public List<Predicate> findAll() {
         List<Predicate> predicateList = _predicateRepository.findAll();
-        Collections.sort(predicateList);
+        //Collections.sort(predicateList);
         return predicateList;
     }
 

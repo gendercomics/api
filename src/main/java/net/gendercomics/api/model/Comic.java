@@ -143,4 +143,5 @@ public class Comic implements Comparable<Comic>, DisplayName {
 
         return comparableName + getNameForWebAppList();
     }
+
 }
