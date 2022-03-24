@@ -18,6 +18,9 @@ public class Predicate implements DisplayNameI18n {
     @ApiModelProperty(value = "list of predicate values (one list entry per language)", required = true)
     private Map<Language, String> values;
 
+    @ApiModelProperty(value = "metadata", required = true)
+    private MetaData metaData;
+
     @Override
     public String getNameForWebAppList(Language language) {
         return values.get(language);
