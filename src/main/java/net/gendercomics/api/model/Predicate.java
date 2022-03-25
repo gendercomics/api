@@ -3,7 +3,7 @@ package net.gendercomics.api.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
@@ -22,12 +22,7 @@ public class Predicate implements DisplayNameI18n {
     private MetaData metaData;
 
     @Override
-    public String getNameForWebAppList(Language language) {
-        return values.get(language);
-    }
-
-    @Override
-    public String getComparableNameForWebAppList(Language language) {
-        return this.getNameForWebAppList(language);
+    public Map<Language, String> getDisplayNames() {
+        return getValues();
     }
 }

@@ -1,9 +1,12 @@
 package net.gendercomics.api.model;
 
+import org.springframework.data.annotation.Transient;
+
+import java.util.Map;
+
 public interface DisplayNameI18n {
 
-    String getNameForWebAppList(Language language);
-
-    String getComparableNameForWebAppList(Language language);
+    @Transient
+    Map<Language, String> getDisplayNames();
 
 }

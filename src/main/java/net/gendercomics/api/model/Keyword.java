@@ -4,17 +4,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Document(collection = "keywords")
 @ApiModel(description = "keyword")
-public class Keyword implements DisplayName {
+public class Keyword implements DisplayNameI18n {
 
     private String id;
 
@@ -30,15 +30,10 @@ public class Keyword implements DisplayName {
     @ApiModelProperty(value = "list of relations")
     private List<String> relations;
 
-    @Transient
     @Override
-    public String getNameForWebAppList() {
-        return values.get(Language.de).getName();
-    }
-
-    @Transient
-    @Override
-    public String getComparableNameForWebAppList() {
-        return getNameForWebAppList();
+    public Map<Language, String> getDisplayNames() {
+        Map<Language, String> map = getValues().values().stream()
+                .collect(Collectors.toMap(KeywordValue::getLanguage, KeywordValue::getName, (a, b) -> b));
+        return map;
     }
 }
