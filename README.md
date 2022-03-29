@@ -8,8 +8,8 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
-### gendercomics-api-1.17.0
-- TODO
+### gendercomics-api-1.16.1
+- JsonMapping-NullPointer FIX for Series.getComicId()
 
 ---
 ### gendercomics-api-1.16.0
