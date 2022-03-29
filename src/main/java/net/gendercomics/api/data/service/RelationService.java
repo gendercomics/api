@@ -18,6 +18,7 @@ public class RelationService {
 
     private final RelationRepository _relationRepository;
 
+    /**
     public Relation save(Relation relation, String userName) {
         if (relationExists(relation.getSourceId(), relation.getTargetId())) {
             relation = _relationRepository.findBySourceIdAndTargetId(relation.getSourceId(), relation.getTargetId());
@@ -31,6 +32,7 @@ public class RelationService {
         relation.getMetaData().setCreatedBy(userName);
         return _relationRepository.insert(relation);
     }
+     */
 
     public void delete(String relationId) {
         _relationRepository.deleteById(relationId);

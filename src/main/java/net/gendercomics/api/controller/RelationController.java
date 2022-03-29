@@ -28,6 +28,8 @@ public class RelationController {
 
     /*** admin endpoints - secured, only authorized access allowed ***/
 
+
+    /**
     @ApiOperation("insert a relation")
     @PostMapping(path = "/relations")
     public Relation insertRelation(@ApiIgnore Principal principal, @ApiParam(required = true) @Valid @RequestBody Relation relation) {
@@ -39,6 +41,8 @@ public class RelationController {
     public Relation updateRelation(@ApiIgnore Principal principal, @ApiParam(required = true) @Valid @RequestBody Relation relation) {
         return _relationService.save(relation, principal.getName());
     }
+
+     */
 
     @ApiOperation("delete a relation")
     @DeleteMapping(path = "/relations/{id}")

@@ -109,7 +109,7 @@ public class KeywordServiceTest {
 
         when(_keywordRepository.insert(any(Keyword.class))).thenReturn(keyword);
 
-        Keyword insertedKeyword = _keywordService.insert(keyword, "username");
+        Keyword insertedKeyword = _keywordService.save(keyword, "username");
         assertNotNull(insertedKeyword);
         assertEquals("id", insertedKeyword.getId());
         assertEquals(KeywordType.content, insertedKeyword.getType());

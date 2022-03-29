@@ -1,9 +1,12 @@
 package net.gendercomics.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -28,7 +31,12 @@ public class Keyword implements DisplayNameI18n {
     private Map<Language, KeywordValue> values;
 
     @ApiModelProperty(value = "list of relations")
-    private List<String> relations;
+    @Transient
+    private List<Relation> relations;
+
+    @ApiModelProperty(hidden = true)
+    @JsonIgnore
+    private List<RelationIds> relationIds;
 
     @Override
     public Map<Language, String> getDisplayNames() {
