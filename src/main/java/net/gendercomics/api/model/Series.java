@@ -1,5 +1,6 @@
 package net.gendercomics.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -22,7 +23,8 @@ public class Series {
     private String volume;
 
     @Transient
+    @JsonIgnore
     public String getComicId() {
-        return comic.getId();
+        return comic == null ? null : comic.getId();
     }
 }
