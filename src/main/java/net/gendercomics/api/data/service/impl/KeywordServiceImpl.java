@@ -34,6 +34,8 @@ public class KeywordServiceImpl implements KeywordService {
     public Keyword save(Keyword keyword, String userName) {
         if (keyword.getMetaData() == null) {
             keyword.setMetaData(new MetaData());
+        }
+        if (keyword.getMetaData().getCreatedOn() == null) {
             keyword.getMetaData().setCreatedOn(new Date());
             keyword.getMetaData().setCreatedBy(userName);
             return _keywordRepository.insert(keyword);
