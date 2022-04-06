@@ -70,4 +70,12 @@ public class Keyword implements DisplayNameI18n {
             this.relationIds.add(relationIds);
         }
     }
+
+    @Transient
+    @JsonIgnore
+    public void removeRelationIds(RelationIds relationIds) {
+        if (this.relationIds != null) {
+            this.relationIds.remove(relationIds);
+        }
+    }
 }

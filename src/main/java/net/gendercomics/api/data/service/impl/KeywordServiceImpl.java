@@ -48,25 +48,45 @@ public class KeywordServiceImpl implements KeywordService {
         keyword.getMetaData().setChangedOn(new Date());
         keyword.getMetaData().setChangedBy(userName);
 
+        List<RelationIds> storedRelationIds = _keywordRepository.findById(keyword.getId()).get().getRelationIds();
+
         keyword = _keywordRepository.save(keyword);
-        this.saveRelationsInRelatedObjects(keyword.getId(), keyword.getRelationIds());
+        this.saveRelationsInRelatedObjects(keyword.getId(), keyword.getRelationIds(), storedRelationIds);
 
         keyword.setRelations(loadRelations(keyword.getRelationIds()));
 
         return keyword;
     }
 
-    private void saveRelationsInRelatedObjects(@NonNull String id, List<RelationIds> relationIds) {
-        if (!isRelationIdsEmpty(relationIds)) {
-            relationIds.stream().forEach(rIds -> {
-                Keyword kw = null;
-                if (rIds.getSourceId().equals(id)) {
-                    kw = this.getKeyword(rIds.getTargetId());
-                } else if (rIds.getTargetId().equals(id)) {
-                    kw = this.getKeyword(rIds.getSourceId());
+    private void saveRelationsInRelatedObjects(@NonNull String id, List<RelationIds> relationIds, List<RelationIds> storedRelationIds) {
+        if (!isRelationIdsEmpty(storedRelationIds)) {
+            // was a relation deleted or updated?
+            storedRelationIds.forEach(sRId -> {
+                if (!relationIds.contains(sRId)) {
+                    Keyword kw = null;
+                    if (sRId.getSourceId().equals(id)) {
+                        kw = this.getKeyword(sRId.getTargetId());
+                    } else if (sRId.getTargetId().equals(id)) {
+                        kw = this.getKeyword(sRId.getSourceId());
+                    }
+                    kw.removeRelationIds(sRId);
+                    _keywordRepository.save(kw);
                 }
-                kw.addRelationIds(rIds);
-                _keywordRepository.save(kw);
+            });
+        }
+
+        if (!isRelationIdsEmpty(relationIds)) {
+            relationIds.forEach(rIds -> {
+                if (!storedRelationIds.contains(rIds)) {
+                    Keyword kw = null;
+                    if (rIds.getSourceId().equals(id)) {
+                        kw = this.getKeyword(rIds.getTargetId());
+                    } else if (rIds.getTargetId().equals(id)) {
+                        kw = this.getKeyword(rIds.getSourceId());
+                    }
+                    kw.addRelationIds(rIds);
+                    _keywordRepository.save(kw);
+                }
             });
         }
     }
