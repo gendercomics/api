@@ -3,6 +3,7 @@ package net.gendercomics.api.data.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.KeywordRepository;
+import net.gendercomics.api.data.repository.PredicateRepository;
 import net.gendercomics.api.data.service.KeywordService;
 import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class KeywordServiceImpl implements KeywordService {
 
     private final KeywordRepository _keywordRepository;
+    private final PredicateRepository _predicateRepository;
 
     public List<Keyword> findAll() {
         return _keywordRepository.findAll();
@@ -28,7 +30,9 @@ public class KeywordServiceImpl implements KeywordService {
     }
 
     public Keyword getKeyword(String id) {
-        return _keywordRepository.findById(id).orElse(null);
+        Keyword keyword = _keywordRepository.findById(id).orElse(null);
+        keyword.setRelations(loadRelations(keyword.getRelationIds()));
+        return keyword;
     }
 
     public Keyword save(Keyword keyword, String userName) {
@@ -46,12 +50,11 @@ public class KeywordServiceImpl implements KeywordService {
         return _keywordRepository.save(keyword);
     }
 
-    private List<RelationIds> processRelations(String sourceId, List<Relation> relations) {
-        if (relations == null || relations.isEmpty()) {
-            return null;
-        }
-        return relations.stream()
-                .map(relation -> new RelationIds(sourceId, relation.getPredicate().getId(), ((Keyword) relation.getTarget()).getId())).collect(Collectors.toList());
+    private List<Relation> loadRelations(List<RelationIds> relationIds) {
+        return relationIds.stream()
+                .map(relationId -> new Relation(_predicateRepository.findById(relationId.getPredicateId()).orElse(null),
+                        _keywordRepository.findById(relationId.getTargetId()).get()))
+                .collect(Collectors.toList());
     }
 
     public long getKeywordCount() {
