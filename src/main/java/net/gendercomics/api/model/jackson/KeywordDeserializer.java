@@ -44,7 +44,10 @@ public class KeywordDeserializer extends StdDeserializer<Keyword> {
 
         List<RelationIds> relationIds = new ArrayList<>();
         node.get("relations").elements().forEachRemaining(r -> {
-            relationIds.add(new RelationIds(id, r.get("predicate").get("id").asText(), r.get("target").get("id").asText()));
+            relationIds.add(new RelationIds(
+                    r.get("source").get("id").asText(),
+                    r.get("predicate").get("id").asText(),
+                    r.get("target").get("id").asText()));
         });
 
         return new Keyword(id, metaData, type, values, relationIds);

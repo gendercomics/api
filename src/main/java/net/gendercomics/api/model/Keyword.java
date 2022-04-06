@@ -9,6 +9,7 @@ import net.gendercomics.api.model.jackson.KeywordDeserializer;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,5 +58,16 @@ public class Keyword implements DisplayNameI18n {
         Map<Language, String> map = getValues().values().stream()
                 .collect(Collectors.toMap(KeywordValue::getLanguage, KeywordValue::getName, (a, b) -> b));
         return map;
+    }
+
+    @Transient
+    @JsonIgnore
+    public void addRelationIds(RelationIds relationIds) {
+        if (this.relationIds == null) {
+            this.relationIds = new ArrayList<>();
+        }
+        if (!this.relationIds.contains(relationIds)) {
+            this.relationIds.add(relationIds);
+        }
     }
 }

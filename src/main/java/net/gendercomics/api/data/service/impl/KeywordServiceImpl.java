@@ -1,5 +1,6 @@
 package net.gendercomics.api.data.service.impl;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.KeywordRepository;
@@ -42,19 +43,48 @@ public class KeywordServiceImpl implements KeywordService {
         if (keyword.getMetaData().getCreatedOn() == null) {
             keyword.getMetaData().setCreatedOn(new Date());
             keyword.getMetaData().setCreatedBy(userName);
-            return _keywordRepository.insert(keyword);
+            keyword = _keywordRepository.insert(keyword);
         }
         keyword.getMetaData().setChangedOn(new Date());
         keyword.getMetaData().setChangedBy(userName);
 
-        return _keywordRepository.save(keyword);
+        keyword = _keywordRepository.save(keyword);
+        this.saveRelationsInRelatedObjects(keyword.getId(), keyword.getRelationIds());
+
+        keyword.setRelations(loadRelations(keyword.getRelationIds()));
+
+        return keyword;
+    }
+
+    private void saveRelationsInRelatedObjects(@NonNull String id, List<RelationIds> relationIds) {
+        if (!isRelationIdsEmpty(relationIds)) {
+            relationIds.stream().forEach(rIds -> {
+                Keyword kw = null;
+                if (rIds.getSourceId().equals(id)) {
+                    kw = this.getKeyword(rIds.getTargetId());
+                } else if (rIds.getTargetId().equals(id)) {
+                    kw = this.getKeyword(rIds.getSourceId());
+                }
+                kw.addRelationIds(rIds);
+                _keywordRepository.save(kw);
+            });
+        }
     }
 
     private List<Relation> loadRelations(List<RelationIds> relationIds) {
+        if (isRelationIdsEmpty(relationIds)) {
+            return null;
+        }
         return relationIds.stream()
-                .map(relationId -> new Relation(_predicateRepository.findById(relationId.getPredicateId()).orElse(null),
+                .map(relationId -> new Relation(
+                        _keywordRepository.findById(relationId.getSourceId()).get(),
+                        _predicateRepository.findById(relationId.getPredicateId()).orElse(null),
                         _keywordRepository.findById(relationId.getTargetId()).get()))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isRelationIdsEmpty(List<RelationIds> relationIds) {
+        return relationIds == null || relationIds.isEmpty();
     }
 
     public long getKeywordCount() {
