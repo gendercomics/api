@@ -43,17 +43,15 @@ public class KeywordServiceImpl implements KeywordService {
         keyword.getMetaData().setChangedOn(new Date());
         keyword.getMetaData().setChangedBy(userName);
 
-        keyword.setRelationIds(this.processRelations(keyword.getRelations()));
-
         return _keywordRepository.save(keyword);
     }
 
-    private List<RelationIds> processRelations(List<Relation> relations) {
+    private List<RelationIds> processRelations(String sourceId, List<Relation> relations) {
         if (relations == null || relations.isEmpty()) {
             return null;
         }
         return relations.stream()
-                .map(relation -> new RelationIds(relation.getPredicate().getId(), ((Keyword) relation.getTarget()).getId())).collect(Collectors.toList());
+                .map(relation -> new RelationIds(sourceId, relation.getPredicate().getId(), ((Keyword) relation.getTarget()).getId())).collect(Collectors.toList());
     }
 
     public long getKeywordCount() {

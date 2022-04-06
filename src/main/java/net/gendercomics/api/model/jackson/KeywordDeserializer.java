@@ -1,7 +1,6 @@
 package net.gendercomics.api.model.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -45,7 +44,7 @@ public class KeywordDeserializer extends StdDeserializer<Keyword> {
 
         List<RelationIds> relationIds = new ArrayList<>();
         node.get("relations").elements().forEachRemaining(r -> {
-            relationIds.add(new RelationIds(r.get("predicate").get("id").asText(), r.get("target").get("id").asText()));
+            relationIds.add(new RelationIds(id, r.get("predicate").get("id").asText(), r.get("target").get("id").asText()));
         });
 
         return new Keyword(id, metaData, type, values, relationIds);

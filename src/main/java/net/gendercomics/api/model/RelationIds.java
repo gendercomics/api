@@ -13,6 +13,9 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 @AllArgsConstructor
 public class RelationIds {
 
+    @ApiModelProperty(value = "the relation target object id", required = true)
+    private String sourceId;
+
     @ApiModelProperty(value = "the relation predicate object id", required = true)
     private String predicateId;
 
