@@ -78,4 +78,20 @@ public class Keyword implements DisplayNameI18n {
             this.relationIds.remove(relationIds);
         }
     }
+
+    @Transient
+    public int getRelationsOut() {
+        if (this.relationIds != null) {
+            return Math.toIntExact(this.relationIds.stream().filter(relationIds -> relationIds.getSourceId().equals(this.id)).count());
+        }
+        return 0;
+    }
+
+    @Transient
+    public int getRelationsIn() {
+        if (this.relationIds != null) {
+            return Math.toIntExact(this.relationIds.stream().filter(relationIds -> relationIds.getTargetId().equals(this.id)).count());
+        }
+        return 0;
+    }
 }
