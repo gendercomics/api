@@ -11,4 +11,6 @@ public interface PredicateService {
     Predicate save(String de, String en, String userName);
 
     List<Predicate> findAll();
+
+    void delete(String predicateId);
 }

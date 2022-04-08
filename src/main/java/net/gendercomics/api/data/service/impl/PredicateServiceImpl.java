@@ -52,4 +52,8 @@ public class PredicateServiceImpl implements PredicateService {
         return predicateList;
     }
 
+    @Override
+    public void delete(String predicateId) {
+        _predicateRepository.deleteById(predicateId);
+    }
 }

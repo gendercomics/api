@@ -48,4 +48,10 @@ public class PredicateController {
         }
         return _predicateService.save(predicate, principal.getName());
     }
+
+    @ApiOperation("delete a predicate")
+    @DeleteMapping(path = "/predicates/{id}")
+    public void deletePredicate(@ApiParam(required = true) @PathVariable("id") String id) {
+        _predicateService.delete(id);
+    }
 }
