@@ -9,11 +9,14 @@ import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
 @Setter
 @Document("publishers")
 @ApiModel(description = "comic book publisher")
-public class Publisher implements Comparable<Publisher>, DisplayName {
+public class Publisher implements Comparable<Publisher>, DisplayNameI18n {
 
     private String id;
     @Indexed(name = "publisher_name_index", unique = true, direction = IndexDirection.ASCENDING)
@@ -34,15 +37,11 @@ public class Publisher implements Comparable<Publisher>, DisplayName {
         return this.name.compareToIgnoreCase(o.name);
     }
 
-    @Transient
     @Override
-    public String getNameForWebAppList() {
-        return this.name;
-    }
-
-    @Transient
-    @Override
-    public String getComparableNameForWebAppList() {
-        return this.name;
+    public Map<Language, String> getDisplayNames() {
+        Map<Language, String> map = new HashMap<>();
+        map.put(Language.de, this.name);
+        map.put(Language.en, this.name);
+        return map;
     }
 }
