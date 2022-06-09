@@ -10,6 +10,7 @@ import net.gendercomics.api.model.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,7 @@ public class PredicateServiceImpl implements PredicateService {
     @Override
     public List<Predicate> findAll() {
         List<Predicate> predicateList = _predicateRepository.findAll();
-        //Collections.sort(predicateList);
+        Collections.sort(predicateList);
         return predicateList;
     }
 
