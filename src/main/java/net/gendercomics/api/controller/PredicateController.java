@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.service.PredicateService;
 import net.gendercomics.api.model.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +43,9 @@ public class PredicateController {
     @PutMapping(path = "/predicates/{id}")
     public Predicate savePredicate(@ApiIgnore Principal principal,
                                    @ApiParam(required = true) @PathVariable("id") String id,
-                                   @ApiParam(required = true) @RequestBody Predicate predicate) {
-        if (!id.equals(predicate.getId())) {
-            throw new IllegalArgumentException("IDs do not match");
-        }
-        return _predicateService.save(predicate, principal.getName());
+                                   @ApiParam(required = true) @RequestParam("de") String de,
+                                   @ApiParam(required = true) @RequestParam("en") String en) throws NotFoundException {
+        return _predicateService.save(id, de, en, principal.getName());
     }
 
     @ApiOperation("delete a predicate")

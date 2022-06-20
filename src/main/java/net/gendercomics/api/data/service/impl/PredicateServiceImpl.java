@@ -2,6 +2,7 @@ package net.gendercomics.api.data.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.PredicateRepository;
 import net.gendercomics.api.data.service.PredicateService;
 import net.gendercomics.api.model.Language;
@@ -56,5 +57,14 @@ public class PredicateServiceImpl implements PredicateService {
     @Override
     public void delete(String predicateId) {
         _predicateRepository.deleteById(predicateId);
+    }
+
+    @Override
+    public Predicate save(String id, String de, String en, String userName) throws NotFoundException {
+        Predicate predicate = _predicateRepository.findById(id).orElseThrow(NotFoundException::new);
+        predicate.getValues().put(Language.de, de);
+        predicate.getValues().put(Language.en, en);
+
+        return save(predicate, userName);
     }
 }
