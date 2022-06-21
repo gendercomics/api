@@ -8,6 +8,11 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
+### gendercomics-api-2.0.0
+- relations refactoring
+- predicates to describe relations (RDF)
+
+---
 ### gendercomics-api-1.16.1
 - JsonMapping-NullPointer FIX for Series.getComicId()
 

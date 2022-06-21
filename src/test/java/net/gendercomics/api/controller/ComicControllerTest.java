@@ -3,7 +3,10 @@ package net.gendercomics.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.gendercomics.api.data.NotFoundException;
 import net.gendercomics.api.data.repository.*;
-import net.gendercomics.api.data.service.*;
+import net.gendercomics.api.data.service.KeywordService;
+import net.gendercomics.api.data.service.PersonService;
+import net.gendercomics.api.data.service.PublisherService;
+import net.gendercomics.api.data.service.RoleService;
 import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.ComicType;
@@ -90,9 +93,6 @@ public class ComicControllerTest {
     private TextRepository _textRepository;
 
     @MockBean
-    private RelationService _relationService;
-
-    @MockBean
     private RelationRepository _relationRepository;
 
     /**
@@ -130,7 +130,7 @@ public class ComicControllerTest {
         when(_comicService.findAll()).thenReturn(comicList);
 
         _mockMvc.perform(get("/comics")
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0].title", is("Wonderwoman")))
@@ -177,9 +177,9 @@ public class ComicControllerTest {
         when(_comicService.save(any(), any())).thenReturn(insertedComic);
 
         _mockMvc.perform(post("/comics/")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(_objectMapper.writeValueAsString(comic)))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(_objectMapper.writeValueAsString(comic)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is("4711")))
@@ -194,9 +194,9 @@ public class ComicControllerTest {
         comic.setTitle("testComic");
 
         _mockMvc.perform(post("/comics/")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(_objectMapper.writeValueAsString(comic)))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(_objectMapper.writeValueAsString(comic)))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
@@ -217,9 +217,9 @@ public class ComicControllerTest {
         when(_comicService.save(any(), any())).thenReturn(savedComic);
 
         _mockMvc.perform(put("/comics/4711")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(_objectMapper.writeValueAsString(comic)))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(_objectMapper.writeValueAsString(comic)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is("4711")))
@@ -248,7 +248,7 @@ public class ComicControllerTest {
         when(_comicService.findByTypes(ComicType.anthology, ComicType.magazine)).thenReturn(comicList);
 
         _mockMvc.perform(get("/comics/parents")
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$.[0].type", is(ComicType.anthology.name())));
@@ -266,7 +266,7 @@ public class ComicControllerTest {
         when(_comicService.findByTitle(title)).thenReturn(comicList);
 
         _mockMvc.perform(get("/comics/title/" + title)
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].title", is(title)));
     }

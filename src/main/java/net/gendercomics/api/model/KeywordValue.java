@@ -2,13 +2,17 @@ package net.gendercomics.api.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(description = "keyword value per language")
 @CompoundIndexes(value = {
         @CompoundIndex(name = "keyword_value_index", def = "{'name':1, 'language':1}", unique = true, sparse = true)
