@@ -40,7 +40,7 @@ public class KeywordController {
     @ApiOperation("insert a keyword")
     @PostMapping(path = "/keywords")
     public Keyword insertRole(@ApiIgnore Principal principal, @ApiParam(required = true) @RequestBody Keyword keyword) {
-        return _keywordService.insert(keyword, principal.getName());
+        return _keywordService.save(keyword, principal.getName());
     }
 
     @ApiOperation("update a keyword")

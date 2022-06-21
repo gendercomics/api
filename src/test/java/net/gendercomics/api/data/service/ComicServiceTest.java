@@ -29,9 +29,6 @@ public class ComicServiceTest {
     private ComicRepository _comicRepository;
 
     @MockBean
-    private RelationService _relationService;
-
-    @MockBean
     private TextService _textService;
 
     @Test

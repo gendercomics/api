@@ -5,4 +5,5 @@ public interface DisplayName {
     String getNameForWebAppList();
 
     String getComparableNameForWebAppList();
+
 }

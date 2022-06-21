@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 @CompoundIndexes(value = {
         @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", sparse = true)
 })
-public class Comic implements Comparable<Comic>, DisplayName {
+public class Comic implements Comparable<Comic>, DisplayName, DisplayNameI18n {
 
     @EqualsAndHashCode.Include
     private String id;
@@ -144,6 +145,14 @@ public class Comic implements Comparable<Comic>, DisplayName {
         }
 
         return comparableName + getNameForWebAppList();
+    }
+
+    @Override
+    public Map<Language, String> getDisplayNames() {
+        Map<Language, String> map = new HashMap<>();
+        map.put(Language.de, this.getNameForWebAppList());
+        map.put(Language.en, this.getNameForWebAppList());
+        return map;
     }
 
     @Transient

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.data.service.ComicService;
-import net.gendercomics.api.data.service.RelationService;
 import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.util.*;
 public class ComicServiceImpl implements ComicService {
 
     private final ComicRepository _comicRepository;
-    private final RelationService _relationService;
 
     @Override
     public List<Comic> findAll() {

@@ -1,7 +1,10 @@
 package net.gendercomics.api.controller;
 
 import net.gendercomics.api.data.repository.*;
-import net.gendercomics.api.data.service.*;
+import net.gendercomics.api.data.service.KeywordService;
+import net.gendercomics.api.data.service.PersonService;
+import net.gendercomics.api.data.service.PublisherService;
+import net.gendercomics.api.data.service.RoleService;
 import net.gendercomics.api.data.service.impl.ComicServiceImpl;
 import net.gendercomics.api.model.Role;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,9 +81,6 @@ public class RoleControllerTest {
     private TextRepository _textRepository;
 
     @MockBean
-    private RelationService _relationService;
-
-    @MockBean
     private RelationRepository _relationRepository;
 
     /**
@@ -110,7 +110,7 @@ public class RoleControllerTest {
         when(_roleService.findAll()).thenReturn(roles);
 
         _mockMvc.perform(get("/roles")
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
     }
 
@@ -120,7 +120,7 @@ public class RoleControllerTest {
         String id = "role_id";
 
         _mockMvc.perform(get("/roles/" + id)
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
     }
 
