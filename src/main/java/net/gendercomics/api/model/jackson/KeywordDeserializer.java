@@ -24,7 +24,10 @@ public class KeywordDeserializer extends StdDeserializer<Keyword> {
     public Keyword deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         JsonNode node = jp.getCodec().readTree(jp);
 
-        String id = node.get("id").asText();
+        String id = null;
+        if (node.get("id") != null) {
+            id = node.get("id").asText();
+        }
 
         JsonNode metaDataJson = node.get("metaData");
         MetaData metaData = new MetaData(dateFromJson(metaDataJson, "createdOn"),
