@@ -8,6 +8,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
+### gendercomics-api-2.1.0
+- TODO
+
+---
 ### gendercomics-api-2.0.2
 - Another NullPointer-Fix for KeywordDeserializer
 
