@@ -6,10 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.KeywordRepository;
 import net.gendercomics.api.data.repository.PredicateRepository;
 import net.gendercomics.api.data.service.KeywordService;
-import net.gendercomics.api.model.*;
+import net.gendercomics.api.model.Keyword;
+import net.gendercomics.api.model.KeywordType;
+import net.gendercomics.api.model.Relation;
+import net.gendercomics.api.model.RelationIds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,9 +41,11 @@ public class KeywordServiceImpl implements KeywordService {
     }
 
     public Keyword save(Keyword keyword, String userName) {
-        if (keyword.getMetaData() == null) {
-            keyword.setMetaData(new MetaData());
+        List<RelationIds> storedRelationIds = Collections.emptyList();
+        if (keyword.getId() != null) {
+            storedRelationIds = _keywordRepository.findById(keyword.getId()).get().getRelationIds();
         }
+
         if (keyword.getMetaData().getCreatedOn() == null) {
             keyword.getMetaData().setCreatedOn(new Date());
             keyword.getMetaData().setCreatedBy(userName);
@@ -51,23 +57,24 @@ public class KeywordServiceImpl implements KeywordService {
                 keyword.getRelationIds().stream().filter(relationId -> relationId.getSourceId() == null).forEach(relationId -> relationId.setSourceId(finalKeyword.getId()));
                 keyword.getRelationIds().stream().filter(relationId -> relationId.getTargetId() == null).forEach(relationId -> relationId.setTargetId(finalKeyword.getId()));
             }
-
-            keyword = _keywordRepository.save(keyword);
         }
         keyword.getMetaData().setChangedOn(new Date());
         keyword.getMetaData().setChangedBy(userName);
 
-        List<RelationIds> storedRelationIds = _keywordRepository.findById(keyword.getId()).get().getRelationIds();
-
         keyword = _keywordRepository.save(keyword);
-        this.saveRelationsInRelatedObjects(keyword.getId(), keyword.getRelationIds(), storedRelationIds);
+        this.updateRelationsInRelatedObjects(keyword.getId(), keyword.getRelationIds(), storedRelationIds);
 
         keyword.setRelations(loadRelations(keyword.getRelationIds()));
 
         return keyword;
     }
 
-    private void saveRelationsInRelatedObjects(@NonNull String id, List<RelationIds> relationIds, List<RelationIds> storedRelationIds) {
+    private void updateRelationsInRelatedObjects(@NonNull String id, List<RelationIds> relationIds, List<RelationIds> storedRelationIds) {
+        removeRelatedKeyword(id, relationIds, storedRelationIds);
+        addRelatedKeyword(id, relationIds, storedRelationIds);
+    }
+
+    private void removeRelatedKeyword(String id, List<RelationIds> relationIds, List<RelationIds> storedRelationIds) {
         if (!isRelationIdsEmpty(storedRelationIds)) {
             // was a relation deleted or updated?
             storedRelationIds.forEach(sRId -> {
@@ -78,12 +85,14 @@ public class KeywordServiceImpl implements KeywordService {
                     } else if (sRId.getTargetId().equals(id)) {
                         kw = this.getKeyword(sRId.getSourceId());
                     }
-                    kw.removeRelationIds(sRId);
+                   kw.removeRelationIds(sRId);
                     _keywordRepository.save(kw);
                 }
             });
         }
+    }
 
+    private void addRelatedKeyword(String id, List<RelationIds> relationIds, List<RelationIds> storedRelationIds) {
         if (!isRelationIdsEmpty(relationIds)) {
             relationIds.forEach(rIds -> {
                 if (!storedRelationIds.contains(rIds)) {
