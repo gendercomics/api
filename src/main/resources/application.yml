@@ -27,7 +27,7 @@ keycloak:
   principal-attribute: preferred_username
 
 images:
-  path: /Users/mike/projects/gendercomics/images/
+  path: /Users/michael.litschauer/projects/gendercomics/images/
 
 logging:
   level:
