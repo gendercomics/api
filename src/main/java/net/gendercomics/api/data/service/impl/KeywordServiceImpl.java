@@ -44,6 +44,15 @@ public class KeywordServiceImpl implements KeywordService {
             keyword.getMetaData().setCreatedOn(new Date());
             keyword.getMetaData().setCreatedBy(userName);
             keyword = _keywordRepository.insert(keyword);
+
+            if (!isRelationIdsEmpty(keyword.getRelationIds())) {
+                // set relation ids of source or target
+                Keyword finalKeyword = keyword;
+                keyword.getRelationIds().stream().filter(relationId -> relationId.getSourceId() == null).forEach(relationId -> relationId.setSourceId(finalKeyword.getId()));
+                keyword.getRelationIds().stream().filter(relationId -> relationId.getTargetId() == null).forEach(relationId -> relationId.setTargetId(finalKeyword.getId()));
+            }
+
+            keyword = _keywordRepository.save(keyword);
         }
         keyword.getMetaData().setChangedOn(new Date());
         keyword.getMetaData().setChangedBy(userName);
