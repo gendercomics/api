@@ -36,9 +36,7 @@ public class KeywordServiceImpl implements KeywordService {
 
     public Keyword getKeyword(String id) {
         Keyword keyword = _keywordRepository.findById(id).orElse(null);
-        if (keyword != null) {
-            keyword.setRelations(loadRelations(keyword.getRelationIds()));
-        }
+        keyword.setRelations(loadRelations(keyword.getRelationIds()));
         return keyword;
     }
 
@@ -87,7 +85,7 @@ public class KeywordServiceImpl implements KeywordService {
                     } else if (sRId.getTargetId().equals(id)) {
                         kw = this.getKeyword(sRId.getSourceId());
                     }
-                   kw.removeRelationIds(sRId);
+                    kw.removeRelationIds(sRId);
                     _keywordRepository.save(kw);
                 }
             });
@@ -119,16 +117,18 @@ public class KeywordServiceImpl implements KeywordService {
         // TODO check if ids are present in relationIds - make the statement more robust or fault tolerant
 
         relationIds.forEach(relationId -> {
-            _keywordRepository.findById(relationId.getSourceId()).ifPresent(sourceKeyword -> {});
-            _keywordRepository.findById(relationId.getTargetId()).ifPresent(targetKeyword -> {});
+                    _keywordRepository.findById(relationId.getSourceId()).ifPresent(sourceKeyword -> {
+                    });
+                    _keywordRepository.findById(relationId.getTargetId()).ifPresent(targetKeyword -> {
+                    });
                 }
         );
-        
+
         return relationIds.stream()
                 .map(relationId -> new Relation(
-                        _keywordRepository.findById(relationId.getSourceId()).orElse(null),
+                        _keywordRepository.findById(relationId.getSourceId()).get(),
                         _predicateRepository.findById(relationId.getPredicateId()).orElse(null),
-                        _keywordRepository.findById(relationId.getTargetId()).orElse(null)))
+                        _keywordRepository.findById(relationId.getTargetId()).get()))
                 .collect(Collectors.toList());
     }
 
