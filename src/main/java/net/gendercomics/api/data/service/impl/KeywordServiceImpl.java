@@ -113,11 +113,20 @@ public class KeywordServiceImpl implements KeywordService {
         if (isRelationIdsEmpty(relationIds)) {
             return null;
         }
+
+        // TODO check if ids are present in relationIds - make the statement more robust or fault tolerant
+
+        relationIds.forEach(relationId -> {
+            _keywordRepository.findById(relationId.getSourceId()).ifPresent(sourceKeyword -> {});
+            _keywordRepository.findById(relationId.getTargetId()).ifPresent(targetKeyword -> {});
+                }
+        );
+        
         return relationIds.stream()
                 .map(relationId -> new Relation(
-                        _keywordRepository.findById(relationId.getSourceId()).get(),
+                        _keywordRepository.findById(relationId.getSourceId()).orElse(null),
                         _predicateRepository.findById(relationId.getPredicateId()).orElse(null),
-                        _keywordRepository.findById(relationId.getTargetId()).get()))
+                        _keywordRepository.findById(relationId.getTargetId()).orElse(null)))
                 .collect(Collectors.toList());
     }
 
@@ -130,6 +139,9 @@ public class KeywordServiceImpl implements KeywordService {
     }
 
     public void delete(String id) {
+        // TODO find RelationIds where Keyword is used -> better: method to find relation ids, ask user, delete on confirmation
+        // TODO delete relation
         _keywordRepository.deleteById(id);
     }
+
 }
