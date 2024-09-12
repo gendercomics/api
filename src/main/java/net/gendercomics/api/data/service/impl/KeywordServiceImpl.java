@@ -36,7 +36,9 @@ public class KeywordServiceImpl implements KeywordService {
 
     public Keyword getKeyword(String id) {
         Keyword keyword = _keywordRepository.findById(id).orElse(null);
-        keyword.setRelations(loadRelations(keyword.getRelationIds()));
+        if (keyword != null) {
+            keyword.setRelations(loadRelations(keyword.getRelationIds()));
+        }
         return keyword;
     }
 
