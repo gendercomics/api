@@ -142,8 +142,18 @@ public class KeywordServiceImpl implements KeywordService {
 
     public void delete(String id) {
         // TODO find RelationIds where Keyword is used -> better: method to find relation ids, ask user, delete on confirmation
+        List<Keyword> keywords = getUsedInRelation(id);
+        deleteRelationIdsInRelatedKeywords(id, keywords);
         // TODO delete relation
         _keywordRepository.deleteById(id);
     }
 
+    private List<Keyword> getUsedInRelation(final String id) {
+        // TODO find all Relations where the id is used in RelationIds
+        return Collections.emptyList();
+    }
+
+    private void deleteRelationIdsInRelatedKeywords(String id, List<Keyword> keywords) {
+        // TODO implement method
+    }
 }
