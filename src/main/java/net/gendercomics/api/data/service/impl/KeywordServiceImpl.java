@@ -33,7 +33,9 @@ public class KeywordServiceImpl implements KeywordService {
     }
 
     public List<Keyword> findByType(String type) {
-        return _keywordRepository.findByType(KeywordType.valueOf(type));
+        List<Keyword> keywordList = _keywordRepository.findByType(KeywordType.valueOf(type));
+        Collections.sort(keywordList);
+        return keywordList;
     }
 
     public Keyword getKeyword(String id) {
