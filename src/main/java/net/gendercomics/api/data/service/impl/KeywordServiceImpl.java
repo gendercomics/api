@@ -27,7 +27,9 @@ public class KeywordServiceImpl implements KeywordService {
     private final PredicateRepository _predicateRepository;
 
     public List<Keyword> findAll() {
-        return _keywordRepository.findAll();
+        List<Keyword> keywordList = _keywordRepository.findAll();
+        Collections.sort(keywordList);
+        return keywordList;
     }
 
     public List<Keyword> findByType(String type) {

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Document(collection = "keywords")
 @ApiModel(description = "keyword")
 @JsonDeserialize(using = KeywordDeserializer.class)
-public class Keyword implements DisplayNameI18n {
+public class Keyword implements DisplayNameI18n, Comparable<Keyword> {
 
     @NonNull
     private String id;
@@ -44,6 +44,10 @@ public class Keyword implements DisplayNameI18n {
 
     @ApiModelProperty(hidden = true)
     private List<RelationIds> relationIds;
+
+    @ApiModelProperty(hidden = true)
+    @Transient
+    private Language currentLanguage = Language.de;
 
     public Keyword(String id, MetaData metaData, KeywordType type, Map<Language, KeywordValue> values, List<RelationIds> relationIds) {
         this.id = id;
@@ -93,5 +97,10 @@ public class Keyword implements DisplayNameI18n {
             return Math.toIntExact(this.relationIds.stream().filter(relationIds -> relationIds.getTargetId().equals(this.id)).count());
         }
         return 0;
+    }
+
+    @Override
+    public int compareTo(Keyword o) {
+        return this.getValues().get(getCurrentLanguage()).getName().compareToIgnoreCase(o.getValues().get(getCurrentLanguage()).getName());
     }
 }
