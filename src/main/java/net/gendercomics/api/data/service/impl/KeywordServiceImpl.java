@@ -27,11 +27,15 @@ public class KeywordServiceImpl implements KeywordService {
     private final PredicateRepository _predicateRepository;
 
     public List<Keyword> findAll() {
-        return _keywordRepository.findAll();
+        List<Keyword> keywordList = _keywordRepository.findAll();
+        Collections.sort(keywordList);
+        return keywordList;
     }
 
     public List<Keyword> findByType(String type) {
-        return _keywordRepository.findByType(KeywordType.valueOf(type));
+        List<Keyword> keywordList = _keywordRepository.findByType(KeywordType.valueOf(type));
+        Collections.sort(keywordList);
+        return keywordList;
     }
 
     public Keyword getKeyword(String id) {
@@ -85,7 +89,7 @@ public class KeywordServiceImpl implements KeywordService {
                     } else if (sRId.getTargetId().equals(id)) {
                         kw = this.getKeyword(sRId.getSourceId());
                     }
-                   kw.removeRelationIds(sRId);
+                    kw.removeRelationIds(sRId);
                     _keywordRepository.save(kw);
                 }
             });
@@ -113,6 +117,17 @@ public class KeywordServiceImpl implements KeywordService {
         if (isRelationIdsEmpty(relationIds)) {
             return null;
         }
+
+        // TODO check if ids are present in relationIds - make the statement more robust or fault tolerant
+
+        relationIds.forEach(relationId -> {
+                    _keywordRepository.findById(relationId.getSourceId()).ifPresent(sourceKeyword -> {
+                    });
+                    _keywordRepository.findById(relationId.getTargetId()).ifPresent(targetKeyword -> {
+                    });
+                }
+        );
+
         return relationIds.stream()
                 .map(relationId -> new Relation(
                         _keywordRepository.findById(relationId.getSourceId()).get(),
@@ -130,6 +145,19 @@ public class KeywordServiceImpl implements KeywordService {
     }
 
     public void delete(String id) {
+        // TODO find RelationIds where Keyword is used -> better: method to find relation ids, ask user, delete on confirmation
+        List<Keyword> keywords = getUsedInRelation(id);
+        deleteRelationIdsInRelatedKeywords(id, keywords);
+        // TODO delete relation
         _keywordRepository.deleteById(id);
+    }
+
+    private List<Keyword> getUsedInRelation(final String id) {
+        // TODO find all Relations where the id is used in RelationIds
+        return Collections.emptyList();
+    }
+
+    private void deleteRelationIdsInRelatedKeywords(String id, List<Keyword> keywords) {
+        // TODO implement method
     }
 }
