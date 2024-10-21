@@ -45,7 +45,7 @@ public class SearchServiceImpl implements SearchService {
         comicSet.addAll(_comicService.getByPartOf(anthologyList));
 
         // search names, add comic results
-        result.setNames(findNames(regex));
+        result.setNames(findNames(searchTerm));
         comicSet.addAll(findComicsByNames(result.getNames()));
 
         // search publisher, add comic results
@@ -75,14 +75,38 @@ public class SearchServiceImpl implements SearchService {
         return _comicService.getByCreatorNames(nameList);
     }
 
-    private List<Name> findNames(Pattern regex) {
+    private List<Name> findNames(String searchTerm) {
+        List<Name> names = new ArrayList<>();
         Query creatorQuery = new Query();
-        creatorQuery.addCriteria(new Criteria().orOperator(
-                Criteria.where("firstName").regex(regex),
-                Criteria.where("lastName").regex(regex)
+        String[] split = searchTerm.trim().split("\\s+");
+
+
+        if (split.length > 1) {
+            creatorQuery.addCriteria(new Criteria().andOperator(
+                    Criteria.where("firstName").regex(Pattern.compile(split[0], Pattern.CASE_INSENSITIVE)),
+                    Criteria.where("lastName").regex(Pattern.compile(split[1], Pattern.CASE_INSENSITIVE)),
+                    Criteria.where("searchable").is(true)
+            ));
+
+            names.addAll(_mongoTemplate.find(creatorQuery, Name.class));
+        } else {
+            creatorQuery.addCriteria(new Criteria().orOperator(
+                    Criteria.where("firstName").regex(Pattern.compile(split[0], Pattern.CASE_INSENSITIVE)),
+                    Criteria.where("lastName").regex(Pattern.compile(split[0], Pattern.CASE_INSENSITIVE))
+            ));
+
+            names.addAll(_mongoTemplate.find(creatorQuery, Name.class));
+        }
+
+        creatorQuery = new Query();
+        creatorQuery.addCriteria(new Criteria().andOperator(
+                Criteria.where("name").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE)),
+                Criteria.where("searchable").is(true)
         ));
 
-        return _mongoTemplate.find(creatorQuery, Name.class);
+        names.addAll(_mongoTemplate.find(creatorQuery, Name.class));
+
+        return names;
     }
 
     private List<Comic> findComicsByPublishers(List<Publisher> publishers) {
