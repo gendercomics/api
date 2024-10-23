@@ -32,3 +32,4 @@ out/
 .vscode/
 deploy-key
 /requests/http-client.private.env.json
+src/main/java/net/.DS_Store

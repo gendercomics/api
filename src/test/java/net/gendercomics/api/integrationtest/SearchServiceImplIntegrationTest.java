@@ -20,7 +20,7 @@ public class SearchServiceImplIntegrationTest extends AbstractIntegrationTest {
     private SearchServiceImpl _searchServiceImpl;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
         Comic comic = new Comic();
         comic.setId("comicId");
         comic.setTitle("hallo");
@@ -30,7 +30,7 @@ public class SearchServiceImplIntegrationTest extends AbstractIntegrationTest {
     }
 
     @AfterEach
-    private void cleanup() {
+    public void cleanup() {
         _mongoTemplate.remove(new Query(), "comics");
     }
 
