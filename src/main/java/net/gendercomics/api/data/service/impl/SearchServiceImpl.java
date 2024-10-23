@@ -3,6 +3,7 @@ package net.gendercomics.api.data.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.KeywordService;
 import net.gendercomics.api.data.service.SearchService;
 import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class SearchServiceImpl implements SearchService {
 
     private final MongoTemplate _mongoTemplate;
     private final ComicService _comicService;
+    private final KeywordService _keywordService;
 
     @Override
     public SearchResult search(String searchTerm) {
@@ -29,7 +31,61 @@ public class SearchServiceImpl implements SearchService {
         Pattern regex = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE);
 
         // search comics
-        List<Comic> comicList = findComics(regex);
+        SearchInput searchInput = new SearchInput(searchTerm, new SearchFilter(true, true, true, true), "de");
+        Set<Comic> comicSet = new HashSet<>(searchComics(searchInput));
+
+        // search names, add comic results
+        result.setNames(findNames(searchTerm));
+        comicSet.addAll(findComicsByNames(result.getNames()));
+
+        // search publisher, add comic results
+        result.setPublishers(findPublishers(searchInput));
+        comicSet.addAll(findComicsByPublishers(result.getPublishers()));
+
+        if (!comicSet.isEmpty()) {
+            ArrayList<Comic> comics = new ArrayList<>(comicSet);
+            Collections.sort(comics);
+            result.setComics(comics);
+        }
+
+        return result;
+    }
+
+    @Override
+    public SearchResult search(SearchInput searchInput) {
+        SearchResult result = new SearchResult();
+        Pattern searchTermRegex = Pattern.compile(searchInput.getSearchTerm(), Pattern.CASE_INSENSITIVE);
+
+        // search in comics
+        Set<Comic> comicSet = new HashSet<>(searchComics(searchInput));
+
+        // search in persons
+        result.setNames(findNames(searchInput));
+        comicSet.addAll(findComicsByNames(result.getNames()));
+
+        // search in publishers
+        result.setPublishers(findPublishers(searchInput));
+        comicSet.addAll(findComicsByPublishers(result.getPublishers()));
+
+        // search in keywords
+        comicSet.addAll(findComicsByKeyword(searchInput));
+
+        if (!comicSet.isEmpty()) {
+            ArrayList<Comic> comics = new ArrayList<>(comicSet);
+            Collections.sort(comics);
+            result.setComics(comics);
+        }
+
+        return result;
+    }
+
+    private Set<Comic> searchComics(SearchInput searchInput) {
+        if (!searchInput.getSearchFilter().isComics()) {
+            return Collections.emptySet();
+        }
+
+        Pattern searchTermRegex = Pattern.compile(searchInput.getSearchTerm(), Pattern.CASE_INSENSITIVE);
+        List<Comic> comicList = findComics(searchTermRegex);
         Set<Comic> comicSet = new HashSet<>(comicList);
 
         // find all comics in a series found by previous search
@@ -44,21 +100,7 @@ public class SearchServiceImpl implements SearchService {
                 .collect(Collectors.toList());
         comicSet.addAll(_comicService.getByPartOf(anthologyList));
 
-        // search names, add comic results
-        result.setNames(findNames(regex));
-        comicSet.addAll(findComicsByNames(result.getNames()));
-
-        // search publisher, add comic results
-        result.setPublishers(findPublishers(regex));
-        comicSet.addAll(findComicsByPublishers(result.getPublishers()));
-
-        if (!comicSet.isEmpty()) {
-            ArrayList<Comic> comics = new ArrayList<>(comicSet);
-            Collections.sort(comics);
-            result.setComics(comics);
-        }
-
-        return result;
+        return comicSet;
     }
 
     private List<Comic> findComics(Pattern regex) {
@@ -75,22 +117,57 @@ public class SearchServiceImpl implements SearchService {
         return _comicService.getByCreatorNames(nameList);
     }
 
-    private List<Name> findNames(Pattern regex) {
+    private List<Name> findNames(SearchInput searchInput) {
+        if (!searchInput.getSearchFilter().isPersons()) {
+            return Collections.emptyList();
+        }
+        return findNames(searchInput.getSearchTerm());
+    }
+
+    private List<Name> findNames(String searchTerm) {
+        List<Name> names = new ArrayList<>();
         Query creatorQuery = new Query();
-        creatorQuery.addCriteria(new Criteria().orOperator(
-                Criteria.where("firstName").regex(regex),
-                Criteria.where("lastName").regex(regex)
+        String[] split = searchTerm.trim().split("\\s+");
+
+        if (split.length > 1) {
+            creatorQuery.addCriteria(new Criteria().andOperator(
+                    Criteria.where("firstName").regex(Pattern.compile(split[0], Pattern.CASE_INSENSITIVE)),
+                    Criteria.where("lastName").regex(Pattern.compile(split[1], Pattern.CASE_INSENSITIVE)),
+                    Criteria.where("searchable").is(true)
+            ));
+
+            names.addAll(_mongoTemplate.find(creatorQuery, Name.class));
+        } else {
+            creatorQuery.addCriteria(new Criteria().orOperator(
+                    Criteria.where("firstName").regex(Pattern.compile(split[0], Pattern.CASE_INSENSITIVE)),
+                    Criteria.where("lastName").regex(Pattern.compile(split[0], Pattern.CASE_INSENSITIVE))
+            ));
+
+            names.addAll(_mongoTemplate.find(creatorQuery, Name.class));
+        }
+
+        creatorQuery = new Query();
+        creatorQuery.addCriteria(new Criteria().andOperator(
+                Criteria.where("name").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE)),
+                Criteria.where("searchable").is(true)
         ));
 
-        return _mongoTemplate.find(creatorQuery, Name.class);
+        names.addAll(_mongoTemplate.find(creatorQuery, Name.class));
+
+        return names;
     }
 
     private List<Comic> findComicsByPublishers(List<Publisher> publishers) {
         return _comicService.getByPublisherNames(publishers);
     }
 
-    private List<Publisher> findPublishers(Pattern regex) {
+    private List<Publisher> findPublishers(SearchInput searchInput) {
+        if (!searchInput.getSearchFilter().isPublishers()) {
+            return Collections.emptyList();
+        }
+
         Query publisherQuery = new Query();
+        Pattern regex = Pattern.compile(searchInput.getSearchTerm(), Pattern.CASE_INSENSITIVE);
         publisherQuery.addCriteria(new Criteria().orOperator(
                 Criteria.where("name").regex(regex)
         ));
@@ -98,9 +175,23 @@ public class SearchServiceImpl implements SearchService {
         return _mongoTemplate.find(publisherQuery, Publisher.class);
     }
 
+    private List<Comic> findComicsByKeyword(SearchInput searchInput) {
+        if (!searchInput.getSearchFilter().isKeywords()) {
+            return Collections.emptyList();
+        }
+
+        List<Keyword> keywordList = _keywordService.findBySearchTerm(searchInput.getSearchTerm(), Language.valueOf(searchInput.getLanguage()));
+        return _comicService.findByKeywords(keywordList);
+    }
+
     @Override
     public List<Comic> searchAndReturnComics(String searchTerm) {
         return search(searchTerm).getComics();
+    }
+
+    @Override
+    public List<Comic> searchAndReturnComics(SearchInput searchInput) {
+        return search(searchInput).getComics();
     }
 
 }

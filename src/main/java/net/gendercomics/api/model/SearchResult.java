@@ -25,9 +25,4 @@ public class SearchResult {
                 Collections.emptyList(),
                 Collections.emptyList());
     }
-
-    public void setPublishers(List<Publisher> publishers) {
-        this.publishers = publishers;
-    }
-
 }

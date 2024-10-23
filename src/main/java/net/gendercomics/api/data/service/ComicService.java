@@ -1,10 +1,7 @@
 package net.gendercomics.api.data.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import net.gendercomics.api.model.Comic;
-import net.gendercomics.api.model.ComicType;
-import net.gendercomics.api.model.Name;
-import net.gendercomics.api.model.Publisher;
+import net.gendercomics.api.model.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,4 +35,5 @@ public interface ComicService {
 
     Collection<? extends Comic> getByPartOf(List<Comic> partOfList);
 
+    List<Comic> findByKeywords(List<Keyword> keywordList);
 }

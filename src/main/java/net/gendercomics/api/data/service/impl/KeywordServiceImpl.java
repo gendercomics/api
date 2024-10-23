@@ -6,16 +6,17 @@ import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.KeywordRepository;
 import net.gendercomics.api.data.repository.PredicateRepository;
 import net.gendercomics.api.data.service.KeywordService;
-import net.gendercomics.api.model.Keyword;
-import net.gendercomics.api.model.KeywordType;
-import net.gendercomics.api.model.Relation;
-import net.gendercomics.api.model.RelationIds;
+import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class KeywordServiceImpl implements KeywordService {
 
+    private final MongoTemplate _mongoTemplate;
     private final KeywordRepository _keywordRepository;
     private final PredicateRepository _predicateRepository;
 
@@ -36,6 +38,17 @@ public class KeywordServiceImpl implements KeywordService {
         List<Keyword> keywordList = _keywordRepository.findByType(KeywordType.valueOf(type));
         Collections.sort(keywordList);
         return keywordList;
+    }
+
+    @Override
+    public List<Keyword> findBySearchTerm(String searchTerm, Language language) {
+        Pattern regex = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE);
+        Query query = new Query();
+        query.addCriteria(new Criteria().orOperator(
+                Criteria.where("values." + language + ".name").regex(regex)
+        ));
+
+        return _mongoTemplate.find(query, Keyword.class);
     }
 
     public Keyword getKeyword(String id) {
