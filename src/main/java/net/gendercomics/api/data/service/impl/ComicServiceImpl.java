@@ -8,6 +8,9 @@ import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,6 +20,7 @@ import java.util.*;
 @Slf4j
 public class ComicServiceImpl implements ComicService {
 
+    private final MongoTemplate _mongoTemplate;
     private final ComicRepository _comicRepository;
 
     @Override
@@ -171,6 +175,21 @@ public class ComicServiceImpl implements ComicService {
         });
 
         return comicSet;
+    }
+
+    @Override
+    public List<Comic> findByKeywords(List<Keyword> keywordList) {
+        Set<Comic> comicSet = new HashSet<>();
+
+        keywordList.forEach(keyword -> {
+            Query query = new Query();
+            query.addCriteria(new Criteria().orOperator(
+                    Criteria.where("keywords.id").is(keyword.getId())
+            ));
+            comicSet.addAll(_mongoTemplate.find(query, Comic.class));
+        });
+
+        return new ArrayList<>(comicSet);
     }
 
 }

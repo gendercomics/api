@@ -14,4 +14,5 @@ import lombok.Setter;
 public class SearchInput {
     private String searchTerm;
     private SearchFilter searchFilter;
+    private String language;
 }

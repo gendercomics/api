@@ -3,6 +3,7 @@ package net.gendercomics.api.data.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.KeywordService;
 import net.gendercomics.api.data.service.SearchService;
 import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class SearchServiceImpl implements SearchService {
 
     private final MongoTemplate _mongoTemplate;
     private final ComicService _comicService;
+    private final KeywordService _keywordService;
 
     @Override
     public SearchResult search(String searchTerm) {
@@ -29,7 +31,7 @@ public class SearchServiceImpl implements SearchService {
         Pattern regex = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE);
 
         // search comics
-        SearchInput searchInput = new SearchInput(searchTerm, new SearchFilter(true, true, true, true));
+        SearchInput searchInput = new SearchInput(searchTerm, new SearchFilter(true, true, true, true), "de");
         Set<Comic> comicSet = new HashSet<>(searchComics(searchInput));
 
         // search names, add comic results
@@ -65,7 +67,8 @@ public class SearchServiceImpl implements SearchService {
         result.setPublishers(findPublishers(searchInput));
         comicSet.addAll(findComicsByPublishers(result.getPublishers()));
 
-        // TODO search in keywords
+        // search in keywords
+        comicSet.addAll(findComicsByKeyword(searchInput));
 
         if (!comicSet.isEmpty()) {
             ArrayList<Comic> comics = new ArrayList<>(comicSet);
@@ -170,6 +173,15 @@ public class SearchServiceImpl implements SearchService {
         ));
 
         return _mongoTemplate.find(publisherQuery, Publisher.class);
+    }
+
+    private List<Comic> findComicsByKeyword(SearchInput searchInput) {
+        if (!searchInput.getSearchFilter().isKeywords()) {
+            return Collections.emptyList();
+        }
+
+        List<Keyword> keywordList = _keywordService.findBySearchTerm(searchInput.getSearchTerm(), Language.valueOf(searchInput.getLanguage()));
+        return _comicService.findByKeywords(keywordList);
     }
 
     @Override
