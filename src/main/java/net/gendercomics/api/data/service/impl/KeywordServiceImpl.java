@@ -52,6 +52,15 @@ public class KeywordServiceImpl implements KeywordService {
         return _mongoTemplate.find(query, Keyword.class);
     }
 
+    @Override
+    public List<Keyword> findTopLevelKeywords() {
+        return findAll()
+                .stream()
+                .filter(keyword -> keyword.getRelationsOut() == 0 && Status.FINAL.equals(keyword.getMetaData().getStatus()))
+                .sorted()
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     public Keyword getKeyword(String id) {
         Keyword keyword = _keywordRepository.findById(id).orElse(null);
         keyword.setRelations(loadRelations(keyword.getRelationIds()));

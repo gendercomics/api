@@ -1,9 +1,5 @@
 package net.gendercomics.api.controller;
 
-import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 @Api(tags = {"keywords"})
 @RestController
@@ -35,6 +35,12 @@ public class KeywordController {
         return _keywordService.getKeyword(id);
     }
 
+    @ApiOperation("get top level keywords")
+    @GetMapping(path = "/keywords/top", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Keyword> getTopLevelKeywords() {
+        return _keywordService.findTopLevelKeywords();
+    }
+
     /*** admin endpoints - secured, only authorized access allowed ***/
 
     @ApiOperation("insert a keyword")
@@ -51,7 +57,7 @@ public class KeywordController {
 
     @ApiOperation("delete a keyword")
     @DeleteMapping(path = "/keywords/{id}")
-    public void deletePerson(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
+    public void deleteKeyword(@ApiIgnore Principal principal, @ApiParam(required = true) @PathVariable String id) {
         _keywordService.delete(id);
     }
 
