@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +50,15 @@ public class KeywordServiceImpl implements KeywordService {
         ));
 
         return _mongoTemplate.find(query, Keyword.class);
+    }
+
+    @Override
+    public List<Keyword> findTopLevelKeywords() {
+        return findAll()
+                .stream()
+                .filter(keyword -> keyword.getRelationsOut() == 0 && Status.FINAL.equals(keyword.getMetaData().getStatus()))
+                .sorted()
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Keyword getKeyword(String id) {

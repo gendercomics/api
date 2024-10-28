@@ -54,7 +54,6 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public SearchResult search(SearchInput searchInput) {
         SearchResult result = new SearchResult();
-        Pattern searchTermRegex = Pattern.compile(searchInput.getSearchTerm(), Pattern.CASE_INSENSITIVE);
 
         // search in comics
         Set<Comic> comicSet = new HashSet<>(searchComics(searchInput));
@@ -70,8 +69,11 @@ public class SearchServiceImpl implements SearchService {
         // search in keywords
         comicSet.addAll(findComicsByKeyword(searchInput));
 
+        // return only comics in Status.FINAL
+        Set<Comic> filteredSet = comicSet.stream().filter(comic -> comic.getMetaData().getStatus().equals(Status.FINAL)).collect(Collectors.toSet());
+
         if (!comicSet.isEmpty()) {
-            ArrayList<Comic> comics = new ArrayList<>(comicSet);
+            ArrayList<Comic> comics = new ArrayList<>(filteredSet);
             Collections.sort(comics);
             result.setComics(comics);
         }

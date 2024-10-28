@@ -13,6 +13,8 @@ public interface KeywordService {
 
     List<Keyword> findBySearchTerm(String searchTerm, Language language);
 
+    List<Keyword> findTopLevelKeywords();
+
     Keyword getKeyword(String id);
 
     Keyword save(Keyword keyword, String userName);
