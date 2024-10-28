@@ -54,7 +54,6 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public SearchResult search(SearchInput searchInput) {
         SearchResult result = new SearchResult();
-        Pattern searchTermRegex = Pattern.compile(searchInput.getSearchTerm(), Pattern.CASE_INSENSITIVE);
 
         // search in comics
         Set<Comic> comicSet = new HashSet<>(searchComics(searchInput));
