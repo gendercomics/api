@@ -69,8 +69,11 @@ public class SearchServiceImpl implements SearchService {
         // search in keywords
         comicSet.addAll(findComicsByKeyword(searchInput));
 
+        // return only comics in Status.FINAL
+        Set<Comic> filteredSet = comicSet.stream().filter(comic -> comic.getMetaData().getStatus().equals(Status.FINAL)).collect(Collectors.toSet());
+
         if (!comicSet.isEmpty()) {
-            ArrayList<Comic> comics = new ArrayList<>(comicSet);
+            ArrayList<Comic> comics = new ArrayList<>(filteredSet);
             Collections.sort(comics);
             result.setComics(comics);
         }
