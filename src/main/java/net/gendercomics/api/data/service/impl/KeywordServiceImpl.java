@@ -54,11 +54,19 @@ public class KeywordServiceImpl implements KeywordService {
 
     @Override
     public List<Keyword> findTopLevelKeywords() {
-        return findAll()
+
+
+        ArrayList<Keyword> keywords = findAll()
                 .stream()
                 .filter(keyword -> keyword.getRelationsOut() == 0 && Status.FINAL.equals(keyword.getMetaData().getStatus()))
                 .sorted()
                 .collect(Collectors.toCollection(ArrayList::new));
+
+        keywords.forEach(keyword -> {
+            keyword.setRelations(loadRelations(keyword.getRelationIds()));
+        });
+
+        return keywords;
     }
 
     public Keyword getKeyword(String id) {
