@@ -8,6 +8,10 @@ Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
 ---
+### gendercomics-api-2.4.0
+- TODO
+
+---
 ### gendercomics-api-2.3.0
 - new endpoint for downloading search results as txt file
 
