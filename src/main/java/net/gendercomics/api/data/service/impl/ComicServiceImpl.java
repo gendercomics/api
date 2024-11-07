@@ -203,7 +203,9 @@ public class ComicServiceImpl implements ComicService {
             if (builder.length() > 0) {
                 builder.append(", ");
             }
-            builder.append(creator.getName().getHarvardName());
+            if (creator.getName() != null) {
+                builder.append(creator.getName().getHarvardName());
+            }
         });
         // Jahr
         if (comic.getYear() != null) {

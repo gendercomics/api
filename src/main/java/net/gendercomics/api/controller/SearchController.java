@@ -34,10 +34,9 @@ public class SearchController {
         return _searchServiceImpl.searchAndReturnComics(searchInput);
     }
 
-    @PostMapping(path = "/search/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(path = "/search/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> downloadSearch(@ApiParam(required = true) @RequestBody SearchInput searchInput) {
         String harvard = _searchServiceImpl.convertResultToHarvard(_searchServiceImpl.searchAndReturnComics(searchInput));
-
         return ResponseEntity
                 .ok()
                 .header("Content-Disposition", "attachment;filename=comics-" + searchInput.getSearchTerm() + ".txt")
