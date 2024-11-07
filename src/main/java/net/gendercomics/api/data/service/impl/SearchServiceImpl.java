@@ -196,4 +196,13 @@ public class SearchServiceImpl implements SearchService {
         return search(searchInput).getComics();
     }
 
+    @Override
+    public String convertResultToHarvard(List<Comic> comicList) {
+        StringBuilder harvard = new StringBuilder();
+        comicList.forEach(comic -> {
+            harvard.append(_comicService.toHarvard(comic));
+        });
+        return harvard.toString();
+    }
+
 }

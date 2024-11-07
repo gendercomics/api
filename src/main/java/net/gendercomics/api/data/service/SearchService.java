@@ -14,4 +14,6 @@ public interface SearchService {
     List<Comic> searchAndReturnComics(String searchTerm);
 
     List<Comic> searchAndReturnComics(SearchInput searchInput);
+
+    String convertResultToHarvard(List<Comic> comicList);
 }

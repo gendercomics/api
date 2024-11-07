@@ -192,4 +192,48 @@ public class ComicServiceImpl implements ComicService {
         return new ArrayList<>(comicSet);
     }
 
+    @Override
+    /**
+     * Name, Vorname (Jahr): Titel: Untertitel, Auflage, Ort: Verlag
+     */
+    public String toHarvard(Comic comic) {
+        StringBuilder builder = new StringBuilder();
+        // Name, Vorname
+        comic.getCreators().forEach(creator -> {
+            if (builder.length() > 0) {
+                builder.append(", ");
+            }
+            builder.append(creator.getName().getHarvardName());
+        });
+        // Jahr
+        if (comic.getYear() != null) {
+            builder.append(" (").append(comic.getYear()).append(")");
+        }
+        // Titel
+        builder.append(": ").append(comic.getTitle());
+        // Untertitel
+        if (comic.getSubTitle() != null) {
+            builder.append(": ").append(comic.getSubTitle());
+        }
+        // Auflage
+        if (comic.getEdition() != null) {
+            builder.append(", ").append(comic.getEdition());
+        }
+        // Ort: Verlag
+        if (comic.getPublishers() != null) {
+            comic.getPublishers().forEach(publisher -> {
+                if (publisher.getLocationOverride() != null) {
+                    builder.append(", ").append(publisher.getLocationOverride());
+
+                } else {
+                    builder.append(", ").append(publisher.getLocation());
+                }
+                builder.append(": ").append(publisher.getName());
+            });
+        }
+
+        builder.append("\n");
+        return builder.toString();
+    }
+
 }
