@@ -42,6 +42,11 @@ public class Name implements Comparable<Name> {
     }
 
     @Transient
+    public String getHarvardName() {
+        return name != null ? name : lastName + ", " + firstName;
+    }
+
+    @Transient
     public void setEmptyStringsNull() {
         if (getName() != null && getName().isEmpty()) {
             setName(null);

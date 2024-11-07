@@ -36,4 +36,6 @@ public interface ComicService {
     Collection<? extends Comic> getByPartOf(List<Comic> partOfList);
 
     List<Comic> findByKeywords(List<Keyword> keywordList);
+
+    String toHarvard(Comic comic);
 }
