@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.repository.ComicRepository;
 import net.gendercomics.api.data.service.ComicService;
+import net.gendercomics.api.data.service.PersonService;
 import net.gendercomics.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,6 +23,7 @@ public class ComicServiceImpl implements ComicService {
 
     private final MongoTemplate _mongoTemplate;
     private final ComicRepository _comicRepository;
+    private final PersonService _personService;
 
     @Override
     public List<Comic> findAll() {
@@ -62,7 +64,13 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Comic getComic(String id) {
-        return _comicRepository.findById(id).orElse(null);
+        Comic comic = _comicRepository.findById(id).orElse(null);
+        if (comic != null) {
+            for (Creator creator : comic.getCreators()) {
+                creator.setWikiData(_personService.getPersonByNameId(creator.getName().getId()).getWikiData());
+            }
+        }
+        return comic;
     }
 
     @Override

@@ -28,20 +28,6 @@ public class PersonService {
         return persons;
     }
 
-    /*
-    public List<Person> findByName(String name) {
-
-        TextCriteria criteria = TextCriteria.forLanguage("de").matching(name);
-        Query query = TextQuery.queryText(criteria).sortByScore();
-
-        List<Person> persons = _mongoDbService.getMongoTemplate().find(query, Person.class);
-        if (persons != null) {
-            return persons;
-        }
-
-        return Collections.emptyList();
-    }
-*/
     public Person insert(Person person, String userName) {
         log.debug("userName={} tries to insert person={}", userName, person.toString());
 
@@ -86,5 +72,9 @@ public class PersonService {
         Person person = getPerson(id);
         person.getNames().forEach(_nameService::deleteName);
         _personRepository.delete(person);
+    }
+
+    public Person getPersonByNameId(String id) {
+        return _personRepository.findByNameId(id).orElse(null);
     }
 }
