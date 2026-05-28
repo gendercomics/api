@@ -85,6 +85,9 @@ public class RoleControllerTest {
     private RelationRepository _relationRepository;
 
     @MockBean
+    private PredicateRepository _predicateRepository;
+
+    @MockBean
     private MongoTemplate _mongoTemplate;
 
     @MockBean
