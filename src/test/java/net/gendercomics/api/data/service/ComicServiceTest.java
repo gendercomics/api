@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -27,6 +28,9 @@ public class ComicServiceTest {
 
     @MockBean
     private ComicRepository _comicRepository;
+
+    @MockBean
+    private MongoTemplate _mongoTemplate;
 
     @MockBean
     private TextService _textService;

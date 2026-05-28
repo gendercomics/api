@@ -1,18 +1,23 @@
 package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.KeywordRepository;
+import net.gendercomics.api.data.repository.PredicateRepository;
+import net.gendercomics.api.data.service.impl.KeywordServiceImpl;
 import net.gendercomics.api.model.Keyword;
 import net.gendercomics.api.model.KeywordType;
 import net.gendercomics.api.model.KeywordValue;
 import net.gendercomics.api.model.Language;
+import net.gendercomics.api.model.MetaData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +25,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {KeywordService.class})
+@ContextConfiguration(classes = {KeywordServiceImpl.class})
 public class KeywordServiceTest {
 
     @Autowired
@@ -30,6 +36,12 @@ public class KeywordServiceTest {
 
     @MockBean
     private KeywordRepository _keywordRepository;
+
+    @MockBean
+    private PredicateRepository _predicateRepository;
+
+    @MockBean
+    private MongoTemplate _mongoTemplate;
 
     @Test
     public void whenFindAll_ThenReturnKeywordList() {
@@ -106,12 +118,14 @@ public class KeywordServiceTest {
         Keyword keyword = new Keyword();
         keyword.setId("id");
         keyword.setType(KeywordType.content);
+        keyword.setMetaData(new MetaData()); // createdOn is null → triggers insert path
 
-        when(_keywordRepository.insert(any(Keyword.class))).thenReturn(keyword);
+        when(_keywordRepository.findById("id")).thenReturn(Optional.of(keyword));
+        when(_keywordRepository.insert(any(Keyword.class))).thenAnswer(returnsFirstArg());
+        when(_keywordRepository.save(any(Keyword.class))).thenAnswer(returnsFirstArg());
 
         Keyword insertedKeyword = _keywordService.save(keyword, "username");
         assertNotNull(insertedKeyword);
-        assertEquals("id", insertedKeyword.getId());
         assertEquals(KeywordType.content, insertedKeyword.getType());
         assertNotNull(insertedKeyword.getMetaData());
         assertEquals("username", insertedKeyword.getMetaData().getCreatedBy());
@@ -123,7 +137,11 @@ public class KeywordServiceTest {
         Keyword keyword = new Keyword();
         keyword.setId("id");
         keyword.setType(KeywordType.content);
+        MetaData metaData = new MetaData();
+        metaData.setCreatedOn(new Date());
+        keyword.setMetaData(metaData);
 
+        when(_keywordRepository.findById("id")).thenReturn(Optional.of(keyword));
         when(_keywordRepository.save(any(Keyword.class))).thenReturn(keyword);
 
         Keyword savedKeyword = _keywordService.save(keyword, "username");

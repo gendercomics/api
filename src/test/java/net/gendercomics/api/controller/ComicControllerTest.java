@@ -44,7 +44,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration")
 @AutoConfigureWebMvc
 public class ComicControllerTest {
 
@@ -95,9 +96,9 @@ public class ComicControllerTest {
     @MockBean
     private RelationRepository _relationRepository;
 
-    /**
-     * MongoDB mocks
-     **/
+    @MockBean
+    private PredicateRepository _predicateRepository;
+
     @MockBean
     private MongoTemplate _mongoTemplate;
 

@@ -32,7 +32,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration")
 @AutoConfigureWebMvc
 public class RoleControllerTest {
 
@@ -83,9 +84,9 @@ public class RoleControllerTest {
     @MockBean
     private RelationRepository _relationRepository;
 
-    /**
-     * MongoDB mocks
-     **/
+    @MockBean
+    private PredicateRepository _predicateRepository;
+
     @MockBean
     private MongoTemplate _mongoTemplate;
 
