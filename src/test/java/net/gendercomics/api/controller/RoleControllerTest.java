@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -83,10 +84,7 @@ public class RoleControllerTest {
     @MockBean
     private RelationRepository _relationRepository;
 
-    /**
-     * MongoDB mocks
-     **/
-    @MockBean
+    @MockBean(answer = Answers.RETURNS_DEEP_STUBS)
     private MongoTemplate _mongoTemplate;
 
     @MockBean

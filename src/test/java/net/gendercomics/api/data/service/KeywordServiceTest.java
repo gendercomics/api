@@ -1,6 +1,8 @@
 package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.KeywordRepository;
+import net.gendercomics.api.data.repository.PredicateRepository;
+import net.gendercomics.api.data.service.impl.KeywordServiceImpl;
 import net.gendercomics.api.model.Keyword;
 import net.gendercomics.api.model.KeywordType;
 import net.gendercomics.api.model.KeywordValue;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -22,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {KeywordService.class})
+@ContextConfiguration(classes = {KeywordServiceImpl.class})
 public class KeywordServiceTest {
 
     @Autowired
@@ -30,6 +33,12 @@ public class KeywordServiceTest {
 
     @MockBean
     private KeywordRepository _keywordRepository;
+
+    @MockBean
+    private PredicateRepository _predicateRepository;
+
+    @MockBean
+    private MongoTemplate _mongoTemplate;
 
     @Test
     public void whenFindAll_ThenReturnKeywordList() {

@@ -9,3 +9,12 @@ spring:
 
 images:
   path: /Users/mike/projects/gendercomics/images/
+
+keycloak:
+  realm: test
+  resource: test-client
+  auth-server-url: http://localhost:81/
+  ssl-required: none
+  public-client: true
+  bearer-only: true
+  principal-attribute: preferred_username

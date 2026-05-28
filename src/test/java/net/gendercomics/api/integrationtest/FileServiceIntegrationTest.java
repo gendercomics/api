@@ -2,6 +2,7 @@ package net.gendercomics.api.integrationtest;
 
 import net.gendercomics.api.data.service.FileService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled("integration test - requires local file system and external DNB HTTP calls")
 public class FileServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Value("${images.path}")
