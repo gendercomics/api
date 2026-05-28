@@ -49,7 +49,7 @@ spring:
 keycloak:
   realm: gendercomics
   resource: gendercomics-admin
-  auth-server-url: https://sso.gendercomics.net/auth/
+  auth-server-url: https://sso.gendercomics.net/
   ssl-required: external
   public-client: true
   bearer-only: true
@@ -80,7 +80,7 @@ spring:
 keycloak:
   realm: gendercomics
   resource: gendercomics-admin
-  auth-server-url: https://sso.gendercomics.net/auth/
+  auth-server-url: https://sso.gendercomics.net/
   ssl-required: external
   public-client: true
   bearer-only: true
