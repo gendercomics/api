@@ -7,6 +7,7 @@ import net.gendercomics.api.model.Keyword;
 import net.gendercomics.api.model.KeywordType;
 import net.gendercomics.api.model.KeywordValue;
 import net.gendercomics.api.model.Language;
+import net.gendercomics.api.model.MetaData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -113,10 +115,16 @@ public class KeywordServiceTest {
     @Test
     public void whenInsert_ThenReturnInsertedKeyword() {
         Keyword keyword = new Keyword();
-        keyword.setId("id");
         keyword.setType(KeywordType.content);
+        keyword.setMetaData(new MetaData());
 
-        when(_keywordRepository.insert(any(Keyword.class))).thenReturn(keyword);
+        Keyword insertedResult = new Keyword();
+        insertedResult.setId("id");
+        insertedResult.setType(KeywordType.content);
+        insertedResult.setMetaData(new MetaData());
+
+        when(_keywordRepository.insert(any(Keyword.class))).thenReturn(insertedResult);
+        when(_keywordRepository.save(any(Keyword.class))).thenReturn(insertedResult);
 
         Keyword insertedKeyword = _keywordService.save(keyword, "username");
         assertNotNull(insertedKeyword);
@@ -132,7 +140,11 @@ public class KeywordServiceTest {
         Keyword keyword = new Keyword();
         keyword.setId("id");
         keyword.setType(KeywordType.content);
+        MetaData metaData = new MetaData();
+        metaData.setCreatedOn(new Date());
+        keyword.setMetaData(metaData);
 
+        when(_keywordRepository.findById("id")).thenReturn(Optional.of(keyword));
         when(_keywordRepository.save(any(Keyword.class))).thenReturn(keyword);
 
         Keyword savedKeyword = _keywordService.save(keyword, "username");
