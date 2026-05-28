@@ -116,9 +116,11 @@ public class KeywordServiceTest {
     @Test
     public void whenInsert_ThenReturnInsertedKeyword() {
         Keyword keyword = new Keyword();
+        keyword.setId("id");
         keyword.setType(KeywordType.content);
-        keyword.setMetaData(new MetaData());
+        keyword.setMetaData(new MetaData()); // createdOn is null → triggers insert path
 
+        when(_keywordRepository.findById("id")).thenReturn(Optional.of(keyword));
         when(_keywordRepository.insert(any(Keyword.class))).thenAnswer(returnsFirstArg());
         when(_keywordRepository.save(any(Keyword.class))).thenAnswer(returnsFirstArg());
 
