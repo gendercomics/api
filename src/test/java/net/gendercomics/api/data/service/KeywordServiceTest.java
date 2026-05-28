@@ -25,6 +25,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {KeywordServiceImpl.class})
@@ -118,17 +119,11 @@ public class KeywordServiceTest {
         keyword.setType(KeywordType.content);
         keyword.setMetaData(new MetaData());
 
-        Keyword insertedResult = new Keyword();
-        insertedResult.setId("id");
-        insertedResult.setType(KeywordType.content);
-        insertedResult.setMetaData(new MetaData());
-
-        when(_keywordRepository.insert(any(Keyword.class))).thenReturn(insertedResult);
-        when(_keywordRepository.save(any(Keyword.class))).thenReturn(insertedResult);
+        when(_keywordRepository.insert(any(Keyword.class))).thenAnswer(returnsFirstArg());
+        when(_keywordRepository.save(any(Keyword.class))).thenAnswer(returnsFirstArg());
 
         Keyword insertedKeyword = _keywordService.save(keyword, "username");
         assertNotNull(insertedKeyword);
-        assertEquals("id", insertedKeyword.getId());
         assertEquals(KeywordType.content, insertedKeyword.getType());
         assertNotNull(insertedKeyword.getMetaData());
         assertEquals("username", insertedKeyword.getMetaData().getCreatedBy());
