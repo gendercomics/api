@@ -13,7 +13,7 @@ public class MongoDbContainer extends GenericContainer<MongoDbContainer> {
     }
 
     public String getUri() {
-        final String ip = this.getContainerIpAddress();
+        final String ip = this.getHost();
         final Integer port = this.getMappedPort(PORT);
         return String.format("mongodb://%s:%s/test", ip, port);
     }
