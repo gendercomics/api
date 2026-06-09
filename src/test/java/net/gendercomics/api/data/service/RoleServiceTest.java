@@ -1,6 +1,7 @@
 package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.RoleRepository;
+import net.gendercomics.api.data.service.impl.RoleServiceImpl;
 import net.gendercomics.api.model.MetaData;
 import net.gendercomics.api.model.Role;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {RoleServiceTest.TestContextConfiguration.class, RoleService.class})
+@ContextConfiguration(classes = {RoleServiceTest.TestContextConfiguration.class, RoleServiceImpl.class})
 public class RoleServiceTest {
 
     @Autowired

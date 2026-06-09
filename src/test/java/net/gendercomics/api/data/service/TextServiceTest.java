@@ -1,6 +1,7 @@
 package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.TextRepository;
+import net.gendercomics.api.data.service.impl.TextServiceImpl;
 import net.gendercomics.api.model.MetaData;
 import net.gendercomics.api.model.Text;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TextService.class)
+@ContextConfiguration(classes = TextServiceImpl.class)
 public class TextServiceTest {
 
     @Autowired

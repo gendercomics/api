@@ -1,6 +1,7 @@
 package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.PersonRepository;
+import net.gendercomics.api.data.service.impl.PersonServiceImpl;
 import net.gendercomics.api.model.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {PersonService.class})
+@ContextConfiguration(classes = {PersonServiceImpl.class})
 public class PersonServiceTest {
 
     @Autowired

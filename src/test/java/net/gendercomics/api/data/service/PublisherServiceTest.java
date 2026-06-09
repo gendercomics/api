@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.gendercomics.api.data.repository.PublisherRepository;
+import net.gendercomics.api.data.service.impl.PublisherServiceImpl;
 import net.gendercomics.api.model.Publisher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {PublisherServiceTest.TestContextConfiguration.class, PublisherService.class})
+@ContextConfiguration(classes = {PublisherServiceTest.TestContextConfiguration.class, PublisherServiceImpl.class})
 public class PublisherServiceTest {
 
     @Autowired

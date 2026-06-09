@@ -1,7 +1,7 @@
 package net.gendercomics.api.controller;
 
 import net.gendercomics.api.data.service.*;
-import net.gendercomics.api.data.service.impl.ComicServiceImpl;
+import net.gendercomics.api.data.service.ComicService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +34,7 @@ public class CommonControllerTest {
     private BuildProperties _buildProperties;
 
     @MockBean
-    private ComicServiceImpl _comicService;
+    private ComicService _comicService;
 
     @MockBean
     private PersonService _personService;

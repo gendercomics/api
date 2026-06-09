@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import net.gendercomics.api.data.service.impl.SearchServiceImpl;
+import net.gendercomics.api.data.service.SearchService;
 import net.gendercomics.api.model.Comic;
 import net.gendercomics.api.model.SearchInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +20,23 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SearchController {
 
-    private final SearchServiceImpl _searchServiceImpl;
+    private final SearchService _searchService;
 
     @ApiOperation("search for comics in comics, creator and publishers")
     @PostMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Comic> searchAndReturnComics(@ApiParam(required = true) @RequestParam("searchTerm") String searchTerm) {
-        return _searchServiceImpl.searchAndReturnComics(searchTerm);
+        return _searchService.searchAndReturnComics(searchTerm);
     }
 
     @ApiOperation("search for comics in comics, creators, publishers and keywords")
     @PostMapping(path = "/search-web", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Comic> searchAndReturnComics2(@ApiParam(required = true) @RequestBody SearchInput searchInput) {
-        return _searchServiceImpl.searchAndReturnComics(searchInput);
+        return _searchService.searchAndReturnComics(searchInput);
     }
 
     @PostMapping(path = "/search/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> downloadSearch(@ApiParam(required = true) @RequestBody SearchInput searchInput) {
-        String harvard = _searchServiceImpl.convertResultToHarvard(_searchServiceImpl.searchAndReturnComics(searchInput));
+        String harvard = _searchService.convertResultToHarvard(_searchService.searchAndReturnComics(searchInput));
         return ResponseEntity
                 .ok()
                 .header("Content-Disposition", "attachment;filename=comics-" + searchInput.getSearchTerm() + ".txt")

@@ -1,6 +1,7 @@
 package net.gendercomics.api.data.service;
 
 import net.gendercomics.api.data.repository.NameRepository;
+import net.gendercomics.api.data.service.impl.NameServiceImpl;
 import net.gendercomics.api.model.Name;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {NameService.class})
+@ContextConfiguration(classes = {NameServiceImpl.class})
 public class NameServiceTest {
 
     @Autowired
