@@ -1,8 +1,6 @@
 spring:
   profiles:
     active: dev
-  main:
-    allow-circular-references: true
 
 springdoc:
   api-docs:
@@ -24,15 +22,11 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
-keycloak:
-  realm: gendercomics
-  resource: gendercomics-admin
-  auth-server-url: http://localhost:81/
-  ssl-required: external
-  public-client: true
-  bearer-only: true
-  principal-attribute: preferred_username
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:81/realms/gendercomics
 
 images:
   path: /Users/michael.litschauer/projects/gendercomics/images/
@@ -53,15 +47,11 @@ spring:
     multipart:
       max-file-size: 2MB
       max-request-size: 10MB
-
-keycloak:
-  realm: gendercomics
-  resource: gendercomics-admin
-  auth-server-url: https://sso.gendercomics.net/
-  ssl-required: external
-  public-client: true
-  bearer-only: true
-  principal-attribute: preferred_username
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://sso.gendercomics.net/realms/gendercomics
 
 images:
   path: /images/
@@ -84,15 +74,11 @@ spring:
     multipart:
       max-file-size: 2MB
       max-request-size: 10MB
-
-keycloak:
-  realm: gendercomics
-  resource: gendercomics-admin
-  auth-server-url: https://sso.gendercomics.net/
-  ssl-required: external
-  public-client: true
-  bearer-only: true
-  principal-attribute: preferred_username
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://sso.gendercomics.net/realms/gendercomics
 
 images:
   path: /images/
