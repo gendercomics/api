@@ -1,8 +1,7 @@
 package net.gendercomics.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -11,15 +10,15 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Getter
 @Setter
-@ApiModel(description = "object containing the series information")
+@Schema(description = "object containing the series information")
 public class Series {
 
     @DBRef
     @NonNull
-    @ApiModelProperty(value = "references comic", required = true)
+    @Schema(description = "references comic", required = true)
     private Comic comic;
 
-    @ApiModelProperty(value = "volume in series")
+    @Schema(description = "volume in series")
     private String volume;
 
     @Transient

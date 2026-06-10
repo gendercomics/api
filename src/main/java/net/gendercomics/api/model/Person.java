@@ -1,7 +1,6 @@
 package net.gendercomics.api.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -16,20 +15,20 @@ import java.util.List;
 @Getter
 @Setter
 @Document("persons")
-@ApiModel(description = "persons involved in the process of creating comics")
+@Schema(description = "persons involved in the process of creating comics")
 public class Person implements Comparable<Person> {
 
     private String id;
 
     @DBRef
-    @ApiModelProperty(value = "list of names", required = true)
+    @Schema(description = "list of names", required = true)
     private List<Name> names;
 
     @Indexed(name = "wikidata_index", unique = true, sparse = true)
-    @ApiModelProperty(value = "wikidata")
+    @Schema(description = "wikidata")
     private String wikiData;
 
-    @ApiModelProperty(value = "metadata", required = true)
+    @Schema(description = "metadata", required = true)
     private MetaData metaData;
 
     @Transient

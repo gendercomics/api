@@ -1,12 +1,12 @@
 package net.gendercomics.api.model;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-@ApiModel(description = "migration result model")
+@Schema(description = "migration result model")
 public class MigrationResult {
 
     public static final String OK = "OK";

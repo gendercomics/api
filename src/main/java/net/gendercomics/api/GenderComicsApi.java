@@ -1,53 +1,38 @@
 package net.gendercomics.api;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableSwagger2
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GenderComicsApi {
 
-    @Autowired
-    private BuildProperties _buildProperties;
+    private final BuildProperties _buildProperties;
 
     public static void main(String[] args) {
         SpringApplication.run(GenderComicsApi.class, args);
     }
 
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(_buildProperties.getGroup())
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("net.gendercomics.api"))
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("gendercomics API")
-                .description("The gendercomics.net API provides access to the gendercomics database." +
-                        "The database stores the results (comics, authors, artists, publishers, articles, bolg post, etc.) " +
-                        "of the research project 'Visualities of Gender in German-language Comics'")
-                .termsOfServiceUrl("http://gendercomics.net")
-                .contact(new Contact("Michael Litschauer", "", "michael.litschauer@gmail.com"))
-                .license("Apache License Version 2.0")
-                .licenseUrl("https://gendercomics.net/LICENSE")
-                .version(_buildProperties.getVersion())
-                .build();
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("gendercomics API")
+                        .version(_buildProperties.getVersion())
+                        .description("The gendercomics.net API provides access to the gendercomics database." +
+                                "The database stores the results (comics, authors, artists, publishers, articles, blog posts, etc.) " +
+                                "of the research project 'Visualities of Gender in German-language Comics'")
+                        .termsOfService("http://gendercomics.net")
+                        .contact(new Contact().name("Michael Litschauer").email("michael.litschauer@gmail.com"))
+                        .license(new License().name("Apache License Version 2.0").url("https://gendercomics.net/LICENSE")));
     }
 
 }

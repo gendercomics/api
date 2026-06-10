@@ -1,7 +1,7 @@
 package net.gendercomics.api.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.NameService;
 import net.gendercomics.api.model.Name;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = {"names"})
+@Tag(name = "names")
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -21,13 +21,13 @@ public class NameController {
 
     private final NameService _nameService;
 
-    @ApiOperation("get all names")
+    @Operation(summary = "get all names")
     @GetMapping(path = "/names", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Name> getAllPersons() {
         return _nameService.findAll();
     }
 
-    @ApiOperation("get all creators (searchable names")
+    @Operation(summary = "get all creators (searchable names")
     @GetMapping(path = "/creators", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Name> getAllCreators() {
         return _nameService.findSearchableNames();

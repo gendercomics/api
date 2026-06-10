@@ -1,6 +1,6 @@
 package net.gendercomics.api.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -20,20 +20,20 @@ public class Name implements Comparable<Name> {
 
     private String id;
 
-    @ApiModelProperty(value = "first name")
+    @Schema(description = "first name")
     private String firstName;
 
-    @ApiModelProperty(value = "last name")
+    @Schema(description = "last name")
     private String lastName;
 
     @Indexed(name = "name_index", unique = true, sparse = true)
-    @ApiModelProperty(value = "name value")
+    @Schema(description = "name value")
     private String name;
 
-    @ApiModelProperty(value = "true if name is a pseudonym")
+    @Schema(description = "true if name is a pseudonym")
     private boolean pseudonym;
 
-    @ApiModelProperty(value = "true if name entity shall be searchable (e.g. to be referenced as comic creator)")
+    @Schema(description = "true if name entity shall be searchable (e.g. to be referenced as comic creator)")
     private boolean searchable;
 
     @Transient

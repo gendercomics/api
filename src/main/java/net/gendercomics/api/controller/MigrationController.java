@@ -1,7 +1,7 @@
 package net.gendercomics.api.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.MigrationService;
 import net.gendercomics.api.model.MigrationResult;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = {"data migration endpoints"})
+@Tag(name = "data migration endpoints")
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -20,21 +20,13 @@ public class MigrationController {
 
     private final MigrationService _migrationService;
 
-    /**
-     * @ApiOperation("execute comments migration from DbRef to relation")
-     * @PostMapping(path = "/migration/comic-comments", produces = MediaType.APPLICATION_JSON_VALUE)
-     * public MigrationResult migrateComicComments() {
-     * return _migrationService.comicCommentToRelation();
-     * }
-     */
-
-    @ApiOperation("list comics with empty hyperlinks")
+    @Operation(summary = "list comics with empty hyperlinks")
     @GetMapping(path = "/migration/list-empty-hyperlinks", produces = MediaType.APPLICATION_JSON_VALUE)
     public MigrationResult listEmptyHyperlinks() {
         return _migrationService.listEmptyHyperlink();
     }
 
-    @ApiOperation("remove empty hyperlinks")
+    @Operation(summary = "remove empty hyperlinks")
     @PostMapping(path = "/migration/remove-empty-hyperlinks", produces = MediaType.APPLICATION_JSON_VALUE)
     public MigrationResult removeEmptyHyperlinks() {
         return _migrationService.removeEmptyHyperlink();

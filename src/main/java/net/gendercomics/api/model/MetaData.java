@@ -2,8 +2,7 @@ package net.gendercomics.api.model;
 
 import java.util.Date;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,17 +12,17 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "Metadata for database entities")
+@Schema(description = "Metadata for database entities")
 public class MetaData {
 
-    @ApiModelProperty(value = "Date on which the entry was created", required = true)
+    @Schema(description = "Date on which the entry was created", required = true)
     private Date createdOn;
-    @ApiModelProperty(value = "User who created the entry", required = true)
+    @Schema(description = "User who created the entry", required = true)
     private String createdBy;
-    @ApiModelProperty(value = "Date on which the entry was modified")
+    @Schema(description = "Date on which the entry was modified")
     private Date changedOn;
-    @ApiModelProperty(value = "User who modified the entry")
+    @Schema(description = "User who modified the entry")
     private String changedBy;
-    @ApiModelProperty(value = "Status of entry: DRAFT|REVIEW|FINAL, default value = DRAFT")
+    @Schema(description = "Status of entry: DRAFT|REVIEW|FINAL, default value = DRAFT")
     private Status status = Status.DRAFT;
 }

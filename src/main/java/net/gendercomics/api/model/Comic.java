@@ -1,8 +1,7 @@
 package net.gendercomics.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Document(collection = "comics")
-@ApiModel(description = "comic book model")
+@Schema(description = "comic book model")
 @CompoundIndexes(value = {
         @CompoundIndex(name = "comic_title_issue_index", def = "{'title':1, 'issue':1}", sparse = true)
 })
@@ -34,73 +33,73 @@ public class Comic implements Comparable<Comic>, DisplayName, DisplayNameI18n {
     @EqualsAndHashCode.Include
     private String id;
 
-    @ApiModelProperty(value = "metadata", required = true)
+    @Schema(description = "metadata", required = true)
     private MetaData metaData;
 
-    @ApiModelProperty(value = "comic book title", required = true)
+    @Schema(description = "comic book title", required = true)
     @EqualsAndHashCode.Include
     @Indexed(name = "comic_title_index")
     @TextIndexed
     private String title;
 
-    @ApiModelProperty(value = "comic book subtitle")
+    @Schema(description = "comic book subtitle")
     @EqualsAndHashCode.Include
     @TextIndexed
     private String subTitle;
 
-    @ApiModelProperty(value = "magazine issue")
+    @Schema(description = "magazine issue")
     private String issue;
 
-    @ApiModelProperty(value = "magazine issue title")
+    @Schema(description = "magazine issue title")
     private String issueTitle;
 
-    @ApiModelProperty(value = "comic book type (comic, magazine, anthology, webcomic, comic-series, publishing-series)", required = true)
+    @Schema(description = "comic book type (comic, magazine, anthology, webcomic, comic-series, publishing-series)", required = true)
     private ComicType type;
 
-    @ApiModelProperty(value = "list of creators")
+    @Schema(description = "list of creators")
     private List<Creator> creators;
 
-    @ApiModelProperty(value = "list of publishers")
+    @Schema(description = "list of publishers")
     @DBRef
     private List<Publisher> publishers;
 
-    @ApiModelProperty(value = "list of location changes for publishers")
+    @Schema(description = "list of location changes for publishers")
     private Map<String, String> publisherOverrides;
 
-    @ApiModelProperty(value = "printer")
+    @Schema(description = "printer")
     private String printer;
 
-    @ApiModelProperty(value = "year of publication")
+    @Schema(description = "year of publication")
     private String year;
 
-    @ApiModelProperty(value = "edition")
+    @Schema(description = "edition")
     private String edition;
 
-    @ApiModelProperty(value = "list of hyperlinks (url, last accessed")
+    @Schema(description = "list of hyperlinks (url, last accessed")
     private List<HyperLink> hyperLinks;
 
-    @ApiModelProperty(value = "isbn")
+    @Schema(description = "isbn")
     private String isbn;
 
-    @ApiModelProperty(value = "list part of publishing or comic series")
+    @Schema(description = "list part of publishing or comic series")
     private List<Series> seriesList;
 
-    @ApiModelProperty(value = "part of publication (comic)")
+    @Schema(description = "part of publication (comic)")
     private PartOf partOf;
 
-    @ApiModelProperty(value = "list of genres (keywords)")
+    @Schema(description = "list of genres (keywords)")
     @DBRef
     private List<Keyword> genres;
 
-    @ApiModelProperty(value = "list of keywords")
+    @Schema(description = "list of keywords")
     @DBRef
     private List<Keyword> keywords;
 
-    @ApiModelProperty(value = "list of comments")
+    @Schema(description = "list of comments")
     @DBRef
     private List<Text> comments;
 
-    @ApiModelProperty(value = "cover image file name")
+    @Schema(description = "cover image file name")
     private String cover;
 
     @Override
