@@ -1,8 +1,8 @@
 package net.gendercomics.api.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.SearchService;
 import net.gendercomics.api.model.Comic;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = {"search"})
+@Tag(name = "search")
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -22,20 +22,20 @@ public class SearchController {
 
     private final SearchService _searchService;
 
-    @ApiOperation("search for comics in comics, creator and publishers")
+    @Operation(summary = "search for comics in comics, creator and publishers")
     @PostMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Comic> searchAndReturnComics(@ApiParam(required = true) @RequestParam("searchTerm") String searchTerm) {
+    public List<Comic> searchAndReturnComics(@Parameter(required = true) @RequestParam("searchTerm") String searchTerm) {
         return _searchService.searchAndReturnComics(searchTerm);
     }
 
-    @ApiOperation("search for comics in comics, creators, publishers and keywords")
+    @Operation(summary = "search for comics in comics, creators, publishers and keywords")
     @PostMapping(path = "/search-web", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Comic> searchAndReturnComics2(@ApiParam(required = true) @RequestBody SearchInput searchInput) {
+    public List<Comic> searchAndReturnComics2(@Parameter(required = true) @RequestBody SearchInput searchInput) {
         return _searchService.searchAndReturnComics(searchInput);
     }
 
     @PostMapping(path = "/search/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> downloadSearch(@ApiParam(required = true) @RequestBody SearchInput searchInput) {
+    public ResponseEntity<String> downloadSearch(@Parameter(required = true) @RequestBody SearchInput searchInput) {
         String harvard = _searchService.convertResultToHarvard(_searchService.searchAndReturnComics(searchInput));
         return ResponseEntity
                 .ok()

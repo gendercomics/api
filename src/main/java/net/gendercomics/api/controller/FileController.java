@@ -1,7 +1,7 @@
 package net.gendercomics.api.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.gendercomics.api.data.service.FileService;
@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Api(tags = {"files"})
+@Tag(name = "files")
 @RestController
 @CrossOrigin
 @Slf4j
@@ -21,25 +21,25 @@ public class FileController {
     private final FileService _fileService;
 
     @PostMapping("/files/upload")
-    public void upload(@ApiParam(required = true) @RequestParam("comicId") String comicId,
-                       @ApiParam(required = true) @RequestParam("file") MultipartFile file) {
+    public void upload(@Parameter(required = true) @RequestParam("comicId") String comicId,
+                       @Parameter(required = true) @RequestParam("file") MultipartFile file) {
         _fileService.save(comicId, file);
     }
 
     @DeleteMapping("/files/{comicId}/{fileName}")
-    public void delete(@ApiParam(required = true) @PathVariable("comicId") String comicId,
-                       @ApiParam(required = true) @PathVariable("fileName") String fileName) {
+    public void delete(@Parameter(required = true) @PathVariable("comicId") String comicId,
+                       @Parameter(required = true) @PathVariable("fileName") String fileName) {
         _fileService.delete(comicId, fileName);
     }
 
     @GetMapping("/files/dnb/cover/available/{isbn}")
-    public boolean dnbHasCover(@ApiParam(required = true) @PathVariable("isbn") String isbn) {
+    public boolean dnbHasCover(@Parameter(required = true) @PathVariable("isbn") String isbn) {
         return _fileService.hasDnbCover(isbn);
     }
 
     @PostMapping("/files/dnb/cover/download")
-    public String downloadDnbCover(@ApiParam(required = true) @RequestParam("comicId") String comicId,
-                                   @ApiParam(required = true) @RequestParam("isbn") String isbn) {
+    public String downloadDnbCover(@Parameter(required = true) @RequestParam("comicId") String comicId,
+                                   @Parameter(required = true) @RequestParam("isbn") String isbn) {
         try {
             return _fileService.saveDnbCover(comicId, isbn);
         } catch (IOException e) {

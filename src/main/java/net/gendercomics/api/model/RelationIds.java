@@ -1,6 +1,6 @@
 package net.gendercomics.api.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,13 +10,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode()
 public class RelationIds {
 
-    @ApiModelProperty(value = "the relation target object id", required = true)
+    @Schema(description = "the relation target object id", required = true)
     private String sourceId;
 
-    @ApiModelProperty(value = "the relation predicate object id", required = true)
+    @Schema(description = "the relation predicate object id", required = true)
     private String predicateId;
 
-    @ApiModelProperty(value = "the relation target object id", required = true)
+    @Schema(description = "the relation target object id", required = true)
     private String targetId;
 
 }

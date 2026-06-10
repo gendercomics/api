@@ -2,8 +2,7 @@ package net.gendercomics.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import net.gendercomics.api.model.jackson.KeywordDeserializer;
 import org.springframework.data.annotation.Transient;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Document(collection = "keywords")
-@ApiModel(description = "keyword")
+@Schema(description = "keyword")
 @JsonDeserialize(using = KeywordDeserializer.class)
 public class Keyword implements DisplayNameI18n, Comparable<Keyword> {
 
@@ -27,25 +26,25 @@ public class Keyword implements DisplayNameI18n, Comparable<Keyword> {
     private String id;
 
     @NonNull
-    @ApiModelProperty(value = "metadata")
+    @Schema(description = "metadata")
     private MetaData metaData;
 
     @NonNull
-    @ApiModelProperty(value = "keyword type (content)", required = true)
+    @Schema(description = "keyword type (content)", required = true)
     private KeywordType type;
 
     @NonNull
-    @ApiModelProperty(value = "list of keywords (one list entry per language)", required = true)
+    @Schema(description = "list of keywords (one list entry per language)", required = true)
     private Map<Language, KeywordValue> values;
 
-    @ApiModelProperty(value = "list of relations")
+    @Schema(description = "list of relations")
     @Transient
     private List<Relation> relations;
 
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private List<RelationIds> relationIds;
 
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     @Transient
     private Language currentLanguage = Language.de;
 

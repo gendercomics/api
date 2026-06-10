@@ -1,7 +1,7 @@
 package net.gendercomics.api.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import net.gendercomics.api.data.service.ComicService;
 import net.gendercomics.api.data.service.KeywordService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = {"common endpoints"})
+@Tag(name = "common endpoints")
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -29,13 +29,13 @@ public class CommonController {
     private final RoleService _roleService;
     private final KeywordService _keywordService;
 
-    @ApiOperation("retrieve API information")
+    @Operation(summary = "retrieve API information")
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_VALUE)
     public BuildProperties getInfo() {
         return _buildProperties;
     }
 
-    @ApiOperation("retrieve API information")
+    @Operation(summary = "retrieve API information")
     @GetMapping(path = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
     public DataCount getDataCount() {
         DataCount dataCount = new DataCount();

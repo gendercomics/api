@@ -1,6 +1,6 @@
 package net.gendercomics.api.model;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "SearchFilter(comic, creator, publisher, keyword")
+@Schema(description = "SearchFilter(comic, creator, publisher, keyword")
 public class SearchFilter {
     private boolean comics;
     private boolean persons;
