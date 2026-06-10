@@ -177,7 +177,7 @@ public class ComicControllerTest {
 
         when(_comicService.save(any(), any())).thenReturn(insertedComic);
 
-        _mockMvc.perform(post("/comics/")
+        _mockMvc.perform(post("/comics")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(_objectMapper.writeValueAsString(comic)))
@@ -194,7 +194,7 @@ public class ComicControllerTest {
         Comic comic = new Comic();
         comic.setTitle("testComic");
 
-        _mockMvc.perform(post("/comics/")
+        _mockMvc.perform(post("/comics")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(_objectMapper.writeValueAsString(comic)))
