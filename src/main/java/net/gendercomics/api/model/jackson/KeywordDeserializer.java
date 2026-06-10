@@ -6,8 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import net.gendercomics.api.model.*;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class KeywordDeserializer extends StdDeserializer<Keyword> {
@@ -61,7 +62,8 @@ public class KeywordDeserializer extends StdDeserializer<Keyword> {
     }
 
     private Date dateFromJson(JsonNode json, String nodeName) {
-        return json.get(nodeName).asText().equals("null") ? null : DatatypeConverter.parseDateTime(json.get(nodeName).asText()).getTime();
+        return json.get(nodeName).asText().equals("null") ? null :
+                Date.from(OffsetDateTime.parse(json.get(nodeName).asText(), DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant());
     }
 
     private String valueFromJson(JsonNode json, String nodeName) {

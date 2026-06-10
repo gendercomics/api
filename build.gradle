@@ -1,6 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '2.4.5'
-    id 'com.palantir.docker' version '0.26.0'
+    id 'com.palantir.docker' version '0.36.0'
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id 'java'
     id 'jacoco'
@@ -11,17 +11,17 @@ version = '2.3.0'
 sourceCompatibility = '11'
 
 ext {
-    jacksonVersion = '2.9.10'
-    junitVersion = '5.7.1'
+    junitVersion = '5.11.4'
     keycloakVersion = '6.0.1'
-    lombokVersion = '1.18.22'
+    lombokVersion = '1.18.38'
     springBootVersion = '2.4.5'
     springSecurityVersion = '5.4.6'
-    testContainersVersion = '1.20.1'
+    testContainersVersion = '1.20.6'
     swaggerVersion = '2.9.2'
 }
 
-ext['log4j2.version'] = '2.16.0'
+ext['jackson.version'] = '2.17.3'
+ext['log4j2.version'] = '2.24.3'
 
 configurations {
     developmentOnly
@@ -30,6 +30,14 @@ configurations {
     }
     compileOnly {
         extendsFrom annotationProcessor
+    }
+    configureEach {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'org.apache.commons' && details.requested.name == 'commons-compress') {
+                details.useVersion '1.27.1'
+                details.because 'CVE-2024-25710, CVE-2024-26308 fixed in 1.26.0'
+            }
+        }
     }
 }
 
@@ -41,24 +49,6 @@ springBoot {
     buildInfo()
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-        }
-        resources {
-            srcDir 'src/main/resources'
-        }
-    }
-    test {
-        java {
-            srcDir 'src/test/java'
-        }
-        resources {
-            srcDir 'src/test/resources'
-        }
-    }
-}
 
 test {
     useJUnitPlatform()
@@ -67,14 +57,14 @@ test {
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.13"
 }
 
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled true
-        html.enabled true
+        xml.required = true
+        html.required = true
     }
 }
 
@@ -92,7 +82,7 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     // Jackson
-    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml"
 
     // Swagger
     implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
@@ -105,7 +95,7 @@ dependencies {
     testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     testImplementation "org.springframework.security:spring-security-test:${springSecurityVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-    testCompile "org.testcontainers:junit-jupiter:${testContainersVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
 }
 
 dependencyManagement {
