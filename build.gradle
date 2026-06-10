@@ -8,7 +8,12 @@ plugins {
 
 group = 'net.gendercomics.api'
 version = '2.3.0'
-sourceCompatibility = '11'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 ext {
     junitVersion = '5.11.4'
