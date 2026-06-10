@@ -6,15 +6,11 @@ spring:
     mongodb:
       uri: mongodb://gendercomics_api:test123@localhost:27017/gendercomics-dev?authSource=admin&authMechanism=SCRAM-SHA-1
       auto-index-creation: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9999/test/jwks.json
 
 images:
   path: /Users/mike/projects/gendercomics/images/
-
-keycloak:
-  realm: test
-  resource: test-client
-  auth-server-url: http://localhost:81/
-  ssl-required: none
-  public-client: true
-  bearer-only: true
-  principal-attribute: preferred_username

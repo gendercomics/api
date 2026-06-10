@@ -1,94 +1,84 @@
 package net.gendercomics.api;
 
-import org.keycloak.adapters.KeycloakConfigResolver;
-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
-import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
-import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
-import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
-
-    /**
-     * Registers the KeycloakAuthenticationProvider with the authentication manager.
-     */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) {
-        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
-        auth.authenticationProvider(keycloakAuthenticationProvider);
-    }
+public class SecurityConfig {
 
     @Bean
-    public KeycloakConfigResolver KeycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
-    }
-
-    /**
-     * Defines the session authentication strategy.
-     */
-    @Bean
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
-                .csrf()
-                .disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/comics*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.PUT, "/comics*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.DELETE, "/comics*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/persons*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.PUT, "/persons*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.DELETE, "/persons*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/publishers*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.PUT, "/publishers*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.DELETE, "/publishers*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/roles*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.PUT, "/roles*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.DELETE, "/roles*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/keywords*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.PUT, "/keywords*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.DELETE, "/keywords*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/texts*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.PUT, "/texts*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.DELETE, "/texts*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/relations*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.PUT, "/relations*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.DELETE, "/relations*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.POST, "/migration*").hasRole("migration")
-                .antMatchers(HttpMethod.POST, "/files*").hasRole("crud_comics")
-                .antMatchers(HttpMethod.GET, "/images*").hasRole("crud_comics")
-                //.antMatchers(HttpMethod.POST, "/predicates*").hasRole("crud_comics")
-                //.antMatchers(HttpMethod.PUT, "/predicates*").hasRole("crud_comics")
-                .anyRequest().permitAll();
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeRequests(auth -> auth
+                        .antMatchers(HttpMethod.POST,   "/comics*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.PUT,    "/comics*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.DELETE, "/comics*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.POST,   "/persons*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.PUT,    "/persons*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.DELETE, "/persons*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.POST,   "/publishers*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.PUT,    "/publishers*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.DELETE, "/publishers*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.POST,   "/roles*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.PUT,    "/roles*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.DELETE, "/roles*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.POST,   "/keywords*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.PUT,    "/keywords*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.DELETE, "/keywords*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.POST,   "/texts*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.PUT,    "/texts*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.DELETE, "/texts*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.POST,   "/relations*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.PUT,    "/relations*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.DELETE, "/relations*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.POST,   "/migration*").hasRole("migration")
+                        .antMatchers(HttpMethod.POST,   "/files*").hasRole("crud_comics")
+                        .antMatchers(HttpMethod.GET,    "/images*").hasRole("crud_comics")
+                        .anyRequest().permitAll())
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
+        return http.build();
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        // Keycloak stores roles in realm_access.roles; prefix with ROLE_ to match hasRole() checks
+        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
+            if (realmAccess == null || !realmAccess.containsKey("roles")) {
+                return Collections.emptyList();
+            }
+            @SuppressWarnings("unchecked")
+            List<String> roles = (List<String>) realmAccess.get("roles");
+            return roles.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .collect(Collectors.toList());
+        });
+        // Preserve existing principal.getName() == preferred_username behaviour
+        converter.setPrincipalClaimName("preferred_username");
+        return converter;
     }
 
     @Bean
