@@ -3,10 +3,8 @@ package net.gendercomics.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.gendercomics.api.data.repository.*;
 import net.gendercomics.api.data.service.*;
-import net.gendercomics.api.model.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import net.gendercomics.api.model.MetaData;
+import net.gendercomics.api.model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,10 +21,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -38,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration")
 @AutoConfigureWebMvc
-public class KeywordControllerTest {
+public class PersonControllerTest {
 
     @Autowired
     private WebApplicationContext _context;
@@ -77,97 +75,74 @@ public class KeywordControllerTest {
         _objectMapper = new ObjectMapper();
     }
 
-    private Keyword buildKeyword(String id) {
-        Map<Language, KeywordValue> values = new HashMap<>();
-        values.put(Language.de, new KeywordValue("test_keyword", "description", Language.de));
-        Keyword keyword = new Keyword();
-        keyword.setId(id);
-        keyword.setType(KeywordType.content);
-        keyword.setValues(values);
-        keyword.setMetaData(new MetaData());
-        return keyword;
-    }
-
     @Test
-    public void whenGetKeywords_thenOK() throws Exception {
-        Keyword keyword = buildKeyword("id");
+    public void whenGetAllPersons_thenOK() throws Exception {
+        Person person = new Person();
+        person.setId("id1");
 
-        when(_keywordService.findAll()).thenReturn(List.of(keyword));
+        when(_personService.findAll()).thenReturn(List.of(person));
 
-        _mockMvc.perform(get("/keywords").contentType(MediaType.APPLICATION_JSON_VALUE))
+        _mockMvc.perform(get("/persons").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[0].id", is("id")));
+                .andExpect(jsonPath("$.[0].id", is("id1")));
     }
 
     @Test
-    public void whenGetKeywordsByType_thenOK() throws Exception {
-        Keyword keyword = buildKeyword("id");
+    public void whenGetPerson_thenOK() throws Exception {
+        Person person = new Person();
+        person.setId("id1");
 
-        when(_keywordService.findByType("content")).thenReturn(List.of(keyword));
+        when(_personService.getPerson("id1")).thenReturn(person);
 
-        _mockMvc.perform(get("/keywords").param("type", "content").contentType(MediaType.APPLICATION_JSON_VALUE))
+        _mockMvc.perform(get("/persons/id1").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)));
-    }
-
-    @Test
-    public void whenGetKeyword_thenOK() throws Exception {
-        Keyword keyword = buildKeyword("id");
-
-        when(_keywordService.getKeyword("id")).thenReturn(keyword);
-
-        _mockMvc.perform(get("/keywords/id").contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is("id")));
+                .andExpect(jsonPath("$.id", is("id1")));
     }
 
     @Test
     @WithMockUser(username = "mock_user", roles = {"crud_comics"})
-    public void givenAuthorizedUser_whenInsertKeyword_thenOK() throws Exception {
-        Keyword saved = buildKeyword("new_id");
+    public void givenAuthorizedUser_whenInsertPerson_thenOK() throws Exception {
+        Person person = new Person();
 
-        when(_keywordService.save(any(), any())).thenReturn(saved);
+        Person inserted = new Person();
+        inserted.setId("new_id");
+        MetaData meta = new MetaData();
+        meta.setCreatedOn(new Date());
+        meta.setCreatedBy("mock_user");
+        inserted.setMetaData(meta);
 
-        String keywordJson = """
-                {
-                  "metaData": {"createdOn": "null", "createdBy": "null", "changedOn": "null", "changedBy": "null", "status": "DRAFT"},
-                  "type": "content",
-                  "values": [{"language": "de", "name": "test", "description": "null"}],
-                  "relations": []
-                }
-                """;
+        when(_personService.insert(any(), any())).thenReturn(inserted);
 
-        _mockMvc.perform(post("/keywords")
+        _mockMvc.perform(post("/persons")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(keywordJson))
+                        .content(_objectMapper.writeValueAsString(person)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is("new_id")));
     }
 
     @Test
     @WithMockUser(username = "mock_user", roles = {"crud_comics"})
-    public void givenAuthorizedUser_whenSaveKeyword_thenOK() throws Exception {
-        Keyword saved = buildKeyword("id");
+    public void givenAuthorizedUser_whenSavePerson_thenOK() throws Exception {
+        Person person = new Person();
+        person.setId("id1");
 
-        when(_keywordService.save(any(), any())).thenReturn(saved);
+        Person saved = new Person();
+        saved.setId("id1");
+        MetaData meta = new MetaData();
+        meta.setChangedOn(new Date());
+        meta.setChangedBy("mock_user");
+        saved.setMetaData(meta);
 
-        String keywordJson = """
-                {
-                  "id": "id",
-                  "metaData": {"createdOn": "null", "createdBy": "null", "changedOn": "null", "changedBy": "null", "status": "DRAFT"},
-                  "type": "content",
-                  "values": [{"language": "de", "name": "test", "description": "null"}],
-                  "relations": []
-                }
-                """;
+        when(_personService.save(any(), any())).thenReturn(saved);
 
-        _mockMvc.perform(put("/keywords/id")
+        _mockMvc.perform(put("/persons/id1")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(keywordJson))
+                        .content(_objectMapper.writeValueAsString(person)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is("id")));
+                .andExpect(jsonPath("$.id", is("id1")))
+                .andExpect(jsonPath("$.metaData.changedBy", is("mock_user")));
     }
 }

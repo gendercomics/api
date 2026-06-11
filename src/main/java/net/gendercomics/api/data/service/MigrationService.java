@@ -35,7 +35,7 @@ public class MigrationService {
                                 source.add(comic);
                             });
                 });
-        migrationResult.setSource(Collections.singletonList(source));
+        migrationResult.setSource(new ArrayList<>(source));
         migrationResult.setStatus(MigrationResult.OK);
         return migrationResult;
     }
