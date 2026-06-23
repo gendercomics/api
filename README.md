@@ -7,6 +7,9 @@ API for accessing the gendercomics.net database
 Documentation: https://api.gendercomics.net/swagger-ui.html
 
 ## Release Notes
+
+Release notes for 2.3.0 and earlier are recorded here manually. Starting with the next release, see [CHANGELOG.md](CHANGELOG.md), generated automatically by release-please.
+
 ---
 ### gendercomics-api-2.3.0
 - new endpoint for downloading search results as txt file
